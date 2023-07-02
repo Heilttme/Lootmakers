@@ -1,14 +1,20 @@
 from django.db import models
 
-def upload_path_item(instance, filename):
-    return "/".join(["media/review_pfps", filename])
+def upload_path_item_3d(instance, filename):
+    return "item_content/item_{0}".format(instance.id)
+
+def upload_path_item_display(instance, filename):
+    return "item_content/item_{0}/display".format(instance.id)
+
+def upload_path_item_all_images(instance, filename):
+    return "item_content/item_{0}".format(instance.id)
 
 
 class Item(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
-    images3D = models.ImageField(default="pfps/default_pfp.jpg")
-    displayImage = models.CharField(max_length=255, null=True, blank=True)
-    images = models.CharField(max_length=255, null=True, blank=True)
+    images3D = models.FileField(default="pfps/default_pfp.jpg", upload_to=upload_path_item_3d)
+    displayImage = models.ImageField(default="pfps/default_pfp.jpg", upload_to=upload_path_item_display)
+    images = models.FileField(default="pfps/default_pfp.jpg", upload_to=upload_path_item_all_images)
     theCollectibleDescription = models.CharField(max_length=255, null=True, blank=True)
     aboutDescription = models.CharField(max_length=255, null=True, blank=True)
     blockInfo = models.CharField(max_length=255, null=True, blank=True)

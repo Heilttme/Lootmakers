@@ -3,14 +3,15 @@
     position: relative;
     overflow: hidden;
 
-    color: aliceblue;
+    color: black;
     letter-spacing: 1.5px;
+    margin-bottom: 2rem;
+    padding-top: 2rem;
 }   
 
 .review-head{
     width: 100%;
-    height: 80px;
-    margin-bottom: 2rem;
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,20 +31,15 @@
         }
     }
 
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 2rem;
-    animation: scroll 6s linear infinite both alternate;
-    // animation-direction: normal;
-
     .review{
-        background-color: #E27D60;
-        clip-path: polygon(0 0,100% 15px,100% 95.5%,5px calc(100% - 10px));
-        padding: 2rem;
+        background-color: white;
+        padding: .3rem;
         transition: all .15s ease-in-out;
+        // outline: 1px solid black;
+
 
         &:hover{
-            scale: 1.04;
+            scale: 1.02;
         }
         
         .top{
@@ -89,10 +85,21 @@
 
         .bot{
             .review-pic{
-                width: 220px;
-                height: 220px;
+                width: 440px;
+                height: 440px;
                 object-fit: cover;
             }
         }
+    }
+
+    .l1{
+        display: flex;
+        animation: scroll 10s linear infinite both alternate;
+    }
+
+    .l2{
+        margin-left: 14rem;
+        display: flex;
+        animation: scroll 10s linear infinite both alternate-reverse;
     }
 }
