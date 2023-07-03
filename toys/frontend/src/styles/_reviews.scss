@@ -6,7 +6,7 @@
     color: black;
     letter-spacing: 1.5px;
     margin-bottom: 2rem;
-    padding-top: 2rem;
+    // padding-top: 2rem;
 }   
 
 .review-head{
@@ -39,10 +39,13 @@
 
 
         &:hover{
-            scale: 1.02;
+            scale: 1.03;
         }
         
         .top{
+            padding-top: 1rem;
+            padding-left: .4rem;
+            padding-right: .4rem;
 
             .name{
                 display: flex;
@@ -53,6 +56,7 @@
                     display: flex;
                     align-items: center;
                     gap: .6rem;
+                    // padding: .2rem;
 
                     h3{
                         font-size: 1.1em;
@@ -98,7 +102,7 @@
     }
 
     .l2{
-        margin-left: 14rem;
+        // margin-left: 14rem;
         display: flex;
         animation: scroll 10s linear infinite both alternate-reverse;
     }

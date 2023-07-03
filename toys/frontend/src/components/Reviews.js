@@ -5,7 +5,23 @@ const Reviews = ({ reviews }) => {
   const [fr1, setFr1] = useState([])
   const [fr2, setFr2] = useState([])
 
+  function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    while (currentIndex != 0) {
+  
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+
   useEffect(() => {
+    let newReviews = shuffle(reviews)
     const reviewsDisplay = reviews.map(item => (
       <div className='review'>
         <div className='top'>
@@ -13,8 +29,8 @@ const Reviews = ({ reviews }) => {
             <div className='f-col'>
               <img className='pfp' src={`http://127.0.0.1:8000${item.pfp}`}></img>
               <div className='text'>
-                <h3>{item.nickname.length > 12 ? `${item.nickname.slice(0, 12)}...` : item.nickname}</h3>
-                <p>{item.username.length > 12 ? `${item.username.slice(0, 12)}...` : item.username}</p>
+                <h3>{item.nickname}</h3>
+                <p>{item.username}</p>
               </div>
             </div>
             <img className='tg' src={tg} />
@@ -37,6 +53,7 @@ const Reviews = ({ reviews }) => {
         o = true
       }
     }
+
   }, [reviews])
 
   return (

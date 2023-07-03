@@ -1,8 +1,13 @@
-from django.shortcuts import render
+from typing import Type
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Review
+from django.views.generic.edit import FormView
+from .models import Review, Item, Image3D, ImageList, DisplayImage
 from .serializers import ReviewSerializer, ItemSerializer
+from .forms import ItemForm
+from django.urls import reverse_lazy
 
 @api_view(["GET"])
 def get_reviews(request):
@@ -14,4 +19,56 @@ def get_reviews(request):
 def get_items(request):
     items = Review.objects.all()
 
-    return Response({"data": ReviewSerializer(items, many=True).data})
+    return Response({"data": ItemSerializer(items, many=True).data})
+
+
+class Admin_Panel(FormView):
+    form_class = ItemForm
+    template_name = 'index.html'
+    success_url = reverse_lazy('/')
+
+    def form_valid(self, form):
+        newForm = form
+        newForm.save()
+
+        return super(Admin_Panel, self).form_valid(form)
+    
+    
+def toy_admin_panel(request):
+    if request.method == "POST": 
+        form = ItemForm(request.POST, request.FILES)
+        if form.is_valid(): 
+
+            name = form.data.get('name')
+            images3D = request.FILES.getlist('images3D')
+            displayImage = request.FILES.getlist('displayImage')
+            images = request.FILES.getlist('images')
+            theCollectibleDescription = form.data.get('theCollectibleDescription')
+            aboutDescription = form.data.get('aboutDescription')
+            blockInfo = form.data.get('blockInfo')
+            isPreorder = form.data.get('isPreorder')
+            isPreorder = isPreorder == 'on'
+            releaseDate = form.data.get('releaseDate')
+            price = form.data.get('price')
+            quantityAvailable = form.data.get('quantityAvailable')
+
+            item = Item(name=name, theCollectibleDescription=theCollectibleDescription, aboutDescription=aboutDescription, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
+            item.save()
+
+            for i in displayImage:
+                i = DisplayImage(image=i, item=item)
+                i.save()
+
+            for i in images3D:
+                i = Image3D(image=i, item=item)
+                i.save()
+
+            for i in images:
+                i = ImageList(image=i, item=item)
+                i.save()
+
+        else:
+            print("error")
+    else: 
+        form = ItemForm() 
+    return render(request, "index.html", {"form": form})
