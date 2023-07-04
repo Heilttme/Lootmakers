@@ -7,16 +7,17 @@
 
 .header{
     height: 60px;
+    width: 100%;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    outline: 3px solid black;
 
     a{
         cursor: pointer;
-        transition: all .2s ease-in-out;
-        padding-left: 2rem;
-        padding-right: 2rem;
+        transition: background-color .2s ease-in-out;
+        transition: outline .05s ease-in-out;
+        padding-left: 4rem;
+        padding-right: 4rem;
         font-size: 1.1em;
         font-weight: 500;
 
@@ -25,29 +26,34 @@
         align-items: center;
 
         &:hover{
-            background-color: #D31450;
-            color: aliceblue;
+            background-color: #ffff00;
+            outline: 3px solid black;
         }
     }
 
     .left-lane{
-        // border-right: 1px solid;
+        grid-area: LEFT;
         height: 100%;
+        width: 33.33%;
         display: flex;
+        // justify-content: center;
         align-items: center;
-        // padding-right: 2rem;
-        // padding-left: 1rem;
     }
 
     .mid-lane{
+        grid-area: MID;
         display: flex;
+        width: 33.33%;
         height: 100%;
-        gap: 3rem;
+        justify-content: center;
+
     }
 
     .right-lane{
+        grid-area: RIGHT;
         display: flex;
-        gap: 1rem;
+        justify-content: flex-end;
+        width: 33.33%;
         height: 100%;
 
         // a{

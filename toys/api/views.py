@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.generic.edit import FormView
 from .models import Review, Item, Image3D, ImageList, DisplayImage
-from .serializers import ReviewSerializer, ItemSerializer
+from .serializers import ReviewSerializer, ItemSerializer, Image3DSerializer, ImageListSerializer, DisplayImageSerializer
 from .forms import ItemForm
 from django.urls import reverse_lazy
 
@@ -17,9 +17,27 @@ def get_reviews(request):
 
 @api_view(["GET"])
 def get_items(request):
-    items = Review.objects.all()
+    items = Item.objects.all()
 
     return Response({"data": ItemSerializer(items, many=True).data})
+
+@api_view(["GET"])
+def get_display_images(request):
+    images = DisplayImage.objects.all()
+
+    return Response({"data": DisplayImageSerializer(images, many=True).data})
+
+@api_view(["GET"])
+def get_3d_images(request):
+    images = Image3D.objects.all()
+
+    return Response({"data": Image3DSerializer(images, many=True).data})
+
+@api_view(["GET"])
+def get_list_images(request):
+    images = ImageList.objects.all()
+
+    return Response({"data": ImageListSerializer(images, many=True).data})
 
 
 class Admin_Panel(FormView):
@@ -66,9 +84,6 @@ def toy_admin_panel(request):
             for i in images:
                 i = ImageList(image=i, item=item)
                 i.save()
-
-        else:
-            print("error")
     else: 
         form = ItemForm() 
     return render(request, "index.html", {"form": form})

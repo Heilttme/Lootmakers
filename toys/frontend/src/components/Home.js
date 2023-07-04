@@ -1,15 +1,15 @@
 import React from 'react'
 import Reviews from "./Reviews"
-import IVAN from "../assets/IVAN.png"
+import BRUT from "../assets/BRUT.png"
 import Store from './Store'
 
-const Home = ({ reviews, items, storeRef }) => {
+const Home = ({ reviews, items, storeRef, displayImages }) => {
   return (
     <div className='home'>
       <div className='gr-image'>
-        <img src={IVAN}/>
+        <img src={BRUT}/>
       </div>
-      <Store items={items} storeRef={storeRef} />
+      <Store items={items} storeRef={storeRef} displayImages={displayImages} />
       <Reviews reviews={reviews}/>
     </div>
   )

@@ -7,12 +7,15 @@ import axios from "axios"
 function App() {
   const [items, setItems] = useState([])
   const [reviews, setReviews] = useState([])
+  const [displayImages, setDisplayImages] = useState([])
+  console.log(displayImages);
 
   const storeRef = useRef(null)
 
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
+    const res3 = axios.get("http://127.0.0.1:8000/api/get_display_images/").then(item => {console.log(item.data.data);setDisplayImages(item.data.data)})
   }, [])
   
   return (
@@ -22,7 +25,7 @@ function App() {
         {/* <ScrollImages3D images={images}/> */}
         <main>
           <Routes>
-            <Route path="/" element={<Home reviews={reviews} storeRef={storeRef} items={items} />}/>
+            <Route path="/" element={<Home reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
             <Route path="/items/:id" element={<Item items={items} />}/>
           </Routes>
         </main>

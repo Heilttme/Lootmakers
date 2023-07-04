@@ -87,8 +87,12 @@
 }
 
 .home .gr-image img {
-  width: 100%;
-  height: 75vh;
+  width: 100vw;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 80vh;
+  -o-object-position: 0% 10%;
+     object-position: 0% 10%;
 }
 
 .h-wrapper {
@@ -100,16 +104,17 @@
 
 .header {
   height: 60px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  outline: 3px solid black;
 }
 .header a {
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  transition: background-color 0.2s ease-in-out;
+  transition: outline 0.05s ease-in-out;
+  padding-left: 4rem;
+  padding-right: 4rem;
   font-size: 1.1em;
   font-weight: 500;
   display: flex;
@@ -117,43 +122,60 @@
   align-items: center;
 }
 .header a:hover {
-  background-color: #D31450;
-  color: aliceblue;
+  background-color: #ffff00;
+  outline: 3px solid black;
 }
 .header .left-lane {
+  grid-area: LEFT;
   height: 100%;
+  width: 33.33%;
   display: flex;
   align-items: center;
 }
 .header .mid-lane {
+  grid-area: MID;
   display: flex;
+  width: 33.33%;
   height: 100%;
-  gap: 3rem;
+  justify-content: center;
 }
 .header .right-lane {
+  grid-area: RIGHT;
   display: flex;
-  gap: 1rem;
+  justify-content: flex-end;
+  width: 33.33%;
   height: 100%;
 }
 
 .store .store-head {
   width: 100%;
-  height: 80px;
-  margin-bottom: 2rem;
+  height: 120px;
+  margin-top: -6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #d31450;
-  color: aliceblue;
+  background-color: #ffff00;
+  outline: 3px solid black;
   letter-spacing: 3px;
   font-size: 1.25em;
+}
+.store .items {
+  display: flex;
+  flex-direction: column;
+}
+.store .items .block {
+  display: flex;
+}
+.store .items .block .item {
+  width: 33.33%;
 }
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Raleway", sans-serif;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 1.07em;
 }
 
 #w {

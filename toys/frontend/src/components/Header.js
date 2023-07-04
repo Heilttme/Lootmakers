@@ -5,7 +5,7 @@ const Header = ({ storeRef }) => {
     <div className='h-wrapper'>
       <div className='header'>
         <div className='left-lane'>
-          <a>NIGGA-BALLS</a>
+          <a>LOOT MAKERS</a>
         </div>
         <div className='mid-lane'>
           <a onClick={() => storeRef.current?.scrollIntoView({behavior: "smooth"})}>STORE</a>
