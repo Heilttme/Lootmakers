@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Store = ({ items, storeRef, displayImages }) => {
+const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
@@ -47,20 +47,21 @@ const Store = ({ items, storeRef, displayImages }) => {
     setOneLineItems(newItems)
   }, [items])
 
+
   const threeItemsDisplay = threeLineItems.map(item => (
     <div className='block'>
-      {item[0] && <div className='item'>
-        <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item[0].id)[0].image}`}/>
-        <h2>{item[0].name}</h2>
-      </div>}
-      {item[1] && <div className='item'>
-        <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item[1].id)[0].image}`}/>
-        <h2>{item[1].name}</h2>
-      </div>}
-      {item[2] && <div className='item'>
-        <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item[2].id)[0].image}`}/>
-        <h2>{item[2].name}</h2>
-      </div>}
+      {item.map(itemNew => 
+      <>
+        <div className='item'>
+          <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+          <h2>{itemNew.collection}</h2>
+          <h2>{itemNew.name}</h2>
+          <button onClick={() => setQuickShop(itemNew.id)} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+          <button onClick={() => setQuickShop(itemNew.id)} className='quick-btn2 quick-btn'>QUICK SHOP</button>
+          <button onClick={() => setQuickShop(itemNew.id)} className='quick-btn3 quick-btn'>QUICK SHOP</button>
+        </div>
+      </>
+      )}
     </div>
   ))
 
@@ -70,14 +71,16 @@ const Store = ({ items, storeRef, displayImages }) => {
     </div> */}
   
   return (
-    <div ref={storeRef} className='store'>
-        <div className='store-head'>
-            <h2>OUR STORE</h2>
-        </div>
-        <div className='items'>
-            {threeItemsDisplay}
-        </div>
-    </div>
+    <>
+      <div ref={storeRef} className='store'>
+          <div className='store-head'>
+              <h2>OUR STORE</h2>
+          </div>
+          <div className='items'>
+              {threeItemsDisplay}
+          </div>
+      </div>
+    </>
   )
 }
 

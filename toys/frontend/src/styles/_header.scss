@@ -1,24 +1,26 @@
 .h-wrapper{
     position: sticky;
+    top: 0;
     margin: 0 auto;
     width: 100%;
     border-bottom: 1px solid ;
+    z-index: 100;
 }
 
 .header{
-    height: 60px;
+    height: 66px;
     width: 100%;
     margin: 0 auto;
     display: flex;
-    outline: 3px solid black;
+    border-bottom: 3px solid black;
+    background-color: #ffff00;
 
     a{
         cursor: pointer;
-        transition: background-color .2s ease-in-out;
-        transition: outline .05s ease-in-out;
+        transition: background-color .2s ease-in-out, outline .05s ease-in-out;
         padding-left: 4rem;
         padding-right: 4rem;
-        font-size: 1.1em;
+        font-size: 1.5em;
         font-weight: 500;
 
         display: flex;
@@ -26,7 +28,7 @@
         align-items: center;
 
         &:hover{
-            background-color: #ffff00;
+            background-color: white;
             outline: 3px solid black;
         }
     }

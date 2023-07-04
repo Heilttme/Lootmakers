@@ -1,6 +1,10 @@
 .home{
     .gr-image{
+        overflow: hidden;
+
         img{
+            position: relative;
+            z-index: 102;
             width: 100vw;
             object-fit: cover;
             height: 80vh;

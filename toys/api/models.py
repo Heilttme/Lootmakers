@@ -12,9 +12,8 @@ def upload_path_item_all_images(instance, filename):
 
 class Item(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
-    theCollectibleDescription = models.CharField(max_length=2555, null=True, blank=True)
-    aboutDescription = models.CharField(max_length=2555, null=True, blank=True)
-    blockInfo = models.CharField(max_length=255, null=True, blank=True)
+    collection = models.CharField(max_length=255, null=True, blank=True)
+    blockInfo = models.CharField(max_length=2555, null=True, blank=True)
     isPreorder = models.BooleanField(null=True, blank=True)
     releaseDate = models.CharField(max_length=255, null=True, blank=True)
     price = models.IntegerField()

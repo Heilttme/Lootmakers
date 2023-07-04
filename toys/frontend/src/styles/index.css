@@ -86,7 +86,12 @@
   animation: scroll 10s linear infinite both alternate-reverse;
 }
 
+.home .gr-image {
+  overflow: hidden;
+}
 .home .gr-image img {
+  position: relative;
+  z-index: 102;
   width: 100vw;
   -o-object-fit: cover;
      object-fit: cover;
@@ -97,32 +102,34 @@
 
 .h-wrapper {
   position: sticky;
+  top: 0;
   margin: 0 auto;
   width: 100%;
   border-bottom: 1px solid;
+  z-index: 100;
 }
 
 .header {
-  height: 60px;
+  height: 66px;
   width: 100%;
   margin: 0 auto;
   display: flex;
-  outline: 3px solid black;
+  border-bottom: 3px solid black;
+  background-color: #ffff00;
 }
 .header a {
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  transition: outline 0.05s ease-in-out;
+  transition: background-color 0.2s ease-in-out, outline 0.05s ease-in-out;
   padding-left: 4rem;
   padding-right: 4rem;
-  font-size: 1.1em;
+  font-size: 1.5em;
   font-weight: 500;
   display: flex;
   height: 100%;
   align-items: center;
 }
 .header a:hover {
-  background-color: #ffff00;
+  background-color: white;
   outline: 3px solid black;
 }
 .header .left-lane {
@@ -149,25 +156,69 @@
 
 .store .store-head {
   width: 100%;
-  height: 120px;
+  height: 126px;
   margin-top: -6px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ffff00;
-  outline: 3px solid black;
-  letter-spacing: 3px;
-  font-size: 1.25em;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+  font-size: 3em;
 }
 .store .items {
   display: flex;
   flex-direction: column;
+  margin-top: 0.6rem;
 }
 .store .items .block {
+  width: 99%;
+  margin: 0 auto;
   display: flex;
+  margin-bottom: 1rem;
 }
 .store .items .block .item {
   width: 33.33%;
+  height: 100%;
+  filter: grayscale(100%);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-size: 1.6em;
+  position: relative;
+}
+.store .items .block .item:hover {
+  filter: unset;
+  scale: 1.01;
+}
+.store .items .block .item:hover .quick-btn {
+  opacity: 1;
+}
+.store .items .block .item img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.store .items .block .item .quick-btn {
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.25s ease-in-out, opacity 0.3s ease-in-out;
+  padding: 0.6rem 1.2rem;
+  background-color: #ffff00;
+  border: 6px solid black;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+.store .items .block .item .quick-btn:hover {
+  background-color: white;
+}
+.store .items .block .item .quick-btn1 {
+  top: 34%;
+}
+.store .items .block .item .quick-btn3 {
+  top: 58%;
 }
 
 * {
@@ -178,10 +229,49 @@
   font-size: 1.07em;
 }
 
+html {
+  position: relative;
+}
+
+.a {
+  background-color: #E6E6E6;
+  z-index: 0;
+}
+
+main {
+  position: relative;
+}
+
 #w {
   color: #E27D60;
   color: #85D1CB;
   color: #E8A87C;
   color: #D31450;
   color: #41B3A3;
+}
+
+.quickshop {
+  position: fixed;
+  z-index: 1000;
+  width: 70vw;
+  height: 85vh;
+  background-color: #ffff00;
+  filter: brightness(0.8);
+  border: 6px solid black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cart {
+  position: fixed;
+  z-index: 1000;
+  width: 70vw;
+  height: 85vh;
+  background-color: #ffff00;
+  filter: brightness(0.8);
+  border: 6px solid black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }/*# sourceMappingURL=index.css.map */

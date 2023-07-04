@@ -13,6 +13,19 @@
     font-size: 1.07em;
 }
 
+html{
+    position: relative;
+}
+
+.a{
+    background-color: #E6E6E6;
+    z-index: 0;
+}
+
+main{
+    position: relative;
+}
+
 #w{
     color: #E27D60; 
     color: #85D1CB; 
@@ -21,3 +34,29 @@
     color: #41B3A3; 
 }
 
+.quickshop{
+    position: fixed;
+    z-index: 1000;
+    width: 70vw;
+    height: 85vh;
+    background-color: #ffff00;
+    filter: brightness(.8);
+    border: 6px solid black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cart{
+    position: fixed;
+
+    z-index: 1000;
+    width: 70vw;
+    height: 85vh;
+    background-color: #ffff00;
+    filter: brightness(.8);
+    border: 6px solid black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
