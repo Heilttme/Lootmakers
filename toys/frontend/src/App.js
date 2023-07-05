@@ -37,7 +37,7 @@ function App() {
           <Footer/>
         </div>
       </div>
-      <QuickShop blockScroll={blockScroll} id={quickShop} items={items}/>
+      <QuickShop setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop} items={items}/>
       {/* <Cart /> */}
     </Router>
   )

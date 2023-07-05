@@ -56,13 +56,11 @@ def toy_admin_panel(request):
     if request.method == "POST": 
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid(): 
-
             name = form.data.get('name')
+            collection = form.data.get('collection')
             images3D = request.FILES.getlist('images3D')
             displayImage = request.FILES.getlist('displayImage')
             images = request.FILES.getlist('images')
-            theCollectibleDescription = form.data.get('theCollectibleDescription')
-            aboutDescription = form.data.get('aboutDescription')
             blockInfo = form.data.get('blockInfo')
             isPreorder = form.data.get('isPreorder')
             isPreorder = isPreorder == 'on'
@@ -70,7 +68,7 @@ def toy_admin_panel(request):
             price = form.data.get('price')
             quantityAvailable = form.data.get('quantityAvailable')
 
-            item = Item(name=name, theCollectibleDescription=theCollectibleDescription, aboutDescription=aboutDescription, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
+            item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
             item.save()
 
             for i in displayImage:

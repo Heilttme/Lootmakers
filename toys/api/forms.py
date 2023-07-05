@@ -9,11 +9,10 @@ def upload_path_item_all_images(instance, filename):
 
 class ItemForm(forms.Form):
     name = forms.CharField()
+    collection = forms.CharField()
     images3D = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple": True}))
     displayImage = forms.ImageField()
     images = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple": True}))
-    theCollectibleDescription = forms.CharField()
-    aboutDescription = forms.CharField()
     blockInfo = forms.CharField()
     isPreorder = forms.BooleanField(required=False)
     releaseDate = forms.CharField()
@@ -26,8 +25,6 @@ class ItemForm(forms.Form):
         images3D = self.cleaned_data.get_list('images3D')
         displayImage = self.cleaned_data.get('displayImage')
         images = self.cleaned_data.getlist('images')
-        theCollectibleDescription = self.cleaned_data.get('theCollectibleDescription')
-        aboutDescription = self.cleaned_data.get('aboutDescription')
         blockInfo = self.cleaned_data.get('blockInfo')
         isPreorder = self.cleaned_data.get('isPreorder')
         releaseDate = self.cleaned_data.get('releaseDate')
