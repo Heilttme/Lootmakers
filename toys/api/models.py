@@ -1,7 +1,10 @@
 from django.db import models
 
 def upload_path_item_3d(instance, filename):
-    return "media/item_content/item_{0}/3d/{0}.png".format(instance.item.id, filename)
+    item = Item.objects.filter(id=instance.item.id)[0]
+    count = len(Image3D.objects.filter(item=item.id))
+    s = "_".join((item.name).split()) + "_" + str(count)
+    return "media/item_content/item_{0}/3d/{1}.png".format(instance.item.id, s)
 
 def upload_path_item_display(instance, filename):
     return "media/item_content/item_{0}/display/{0}.png".format(instance.item.id, filename)
@@ -22,17 +25,14 @@ class Item(models.Model):
 
 class DisplayImage(models.Model):
     image = models.ImageField(upload_to=upload_path_item_display)
-    a = models.CharField(max_length=222, null=True, blank=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 class Image3D(models.Model):
     image = models.ImageField(upload_to=upload_path_item_3d)
-    a = models.CharField(max_length=222, null=True, blank=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 class ImageList(models.Model):
     image = models.ImageField(upload_to=upload_path_item_all_images)
-    a = models.CharField(max_length=222, null=True, blank=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 

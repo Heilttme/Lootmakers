@@ -14,7 +14,7 @@ function App() {
   const storeRef = useRef(null)
 
   useEffect(() => {
-    const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
+    const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => {setItems(item.data.data);console.log(item.data.data);}).catch(er => console.log(er))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
     const res3 = axios.get("http://127.0.0.1:8000/api/get_display_images/").then(item => setDisplayImages(item.data.data))
   }, [])
@@ -37,7 +37,7 @@ function App() {
           <Footer/>
         </div>
       </div>
-      <QuickShop setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop} items={items}/>
+      <QuickShop items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
       {/* <Cart /> */}
     </Router>
   )

@@ -39,19 +39,22 @@ def get_list_images(request):
 
     return Response({"data": ImageListSerializer(images, many=True).data})
 
+@api_view(["POST"])
+def get_item_3d_images(request):
+    id = request.data.get("id")
+    images = Image3D.objects.filter(item=id)
+    images = Image3DSerializer(images, many=True).data
 
-class Admin_Panel(FormView):
-    form_class = ItemForm
-    template_name = 'index.html'
-    success_url = reverse_lazy('/')
+    return Response({"data": images})
 
-    def form_valid(self, form):
-        newForm = form
-        newForm.save()
+@api_view(["POST"])
+def get_item_images(request):
+    id = request.data.get("id")
+    images = ImageList.objects.filter(item=id)
+    images = ImageListSerializer(images, many=True).data
 
-        return super(Admin_Panel, self).form_valid(form)
-    
-    
+    return Response({"data": images})
+
 def toy_admin_panel(request):
     if request.method == "POST": 
         form = ItemForm(request.POST, request.FILES)
