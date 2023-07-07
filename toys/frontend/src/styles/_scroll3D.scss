@@ -1,0 +1,13 @@
+.scroll3D{
+    position: relative;
+
+    input{
+        position: absolute;
+        bottom: 0rem;
+        // right: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        z-index: 10101;
+    }
+}

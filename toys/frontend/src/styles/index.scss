@@ -5,6 +5,7 @@
 @import "footer.scss";
 @import "store.scss";
 @import "slider.scss";
+@import "scroll3D.scss";
 
 *{
     padding: 0;
@@ -47,6 +48,7 @@ main{
     right: 0;
     bottom: 0;
     margin: auto;
+    overflow: hidden;
 
     .quickshop-header{
         background-color: #ffff00;
@@ -59,10 +61,86 @@ main{
         justify-content: space-between;
     }
 
-    svg{
+    .leave{
         width: 50px;
         margin-bottom: .4rem;
         cursor: pointer;
+    }
+
+    .item{
+        display: flex;
+        height: 100%;
+
+        .f-col{
+            width: 40%;
+            height: 100%;
+        }
+
+        .r-col{
+            width: 60%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            font-size: 1.8em;
+
+            h3{
+                font-size: 0.9em;
+                padding-left: .1rem;
+            }
+
+            h2{
+                padding-left: .1rem;
+            }
+
+            h1{
+                margin-top: .6rem;
+                font-size: 2em;
+                padding-left: .1rem;
+            }
+
+            .block-info{
+                border-top: 6px solid #ffff00;
+                border-bottom: 6px solid #ffff00;
+                padding-top: .8rem;
+                padding-bottom: .4rem;
+                padding-left: .6rem;
+                padding-right: .6rem;
+                margin-top: 1rem;
+
+                .line{
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+
+            .quote{
+                margin-top: 3rem;
+                font-size: .9em;
+                margin-left: .4rem;
+
+                .said{
+                    text-align: right;
+                    margin-top: .6rem;
+                    margin-right: .6rem;
+                }
+            }
+
+            button{
+                position: absolute;
+                right: .6rem;
+                bottom: .6rem;
+                transition: background-color .25s ease-in-out, opacity .3s ease-in-out;
+                padding: .4rem .8rem;
+                background-color: #ffff00;
+                border: 6px solid black;
+                font-size: 1em;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: white;
+                }
+            }
+        }
     }
 }
 
