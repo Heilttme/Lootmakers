@@ -7,20 +7,14 @@
 
 .slider-container{
     display: flex;
-    align-items: center;
 }
 
 .im{
-    height: 100%;
     border-radius: 10px;
     background-size: cover;
-    background-position: center
+    background-position: center;
 }
 
-img{
-    width: 300px;
-    height: 500px;
-}
 
 .slider{
     width: 100%;
@@ -30,31 +24,29 @@ img{
     background-position: center;
     overflow: hidden;
     position: relative;
-
+    height: 500px;
 }
 
 .left{
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translate(0, -50%);
     left: 0px;
     font-size: 45px;
     color: #fff;
     z-index: 1;
     cursor: pointer;
-
 }
 
 .right{
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translate(0, -50%);
     right: 0px;
     font-size: 45px;
     color: #fff;
     z-index: 1;
     cursor: pointer;
-
 }
 
 .arrow{

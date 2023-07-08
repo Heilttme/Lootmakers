@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Header = ({ storeRef }) => {
+const Header = ({ setCartOpened, storeRef }) => {
   return (
     <div className='h-wrapper'>
       <div className='header'>
@@ -13,7 +13,7 @@ const Header = ({ storeRef }) => {
           <a>CONTACT</a>
         </div>
         <div className='right-lane'>
-          <a>CART</a>
+          <a onClick={() => setCartOpened(prev => !prev)}>CART</a>
           <a>RU</a>
         </div>
       </div>

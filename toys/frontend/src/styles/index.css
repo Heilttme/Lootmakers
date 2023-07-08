@@ -232,19 +232,12 @@
 
 .slider-container {
   display: flex;
-  align-items: center;
 }
 
 .im {
-  height: 100%;
   border-radius: 10px;
   background-size: cover;
   background-position: center;
-}
-
-img {
-  width: 300px;
-  height: 500px;
 }
 
 .slider {
@@ -255,11 +248,12 @@ img {
   background-position: center;
   overflow: hidden;
   position: relative;
+  height: 500px;
 }
 
 .left {
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translate(0, -50%);
   left: 0px;
   font-size: 45px;
@@ -270,7 +264,7 @@ img {
 
 .right {
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translate(0, -50%);
   right: 0px;
   font-size: 45px;
@@ -299,7 +293,25 @@ img {
   bottom: 0rem;
   left: 50%;
   transform: translateX(-50%);
+  cursor: pointer;
   z-index: 10101;
+  height: 16px;
+  width: 240px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: black;
+  border-radius: 15px;
+  outline: none;
+}
+.scroll3D input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  border: 4px solid black;
+  background-color: #ffff00;
 }
 
 * {
@@ -345,6 +357,12 @@ main {
   margin: auto;
   overflow: hidden;
 }
+.quickshop img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 300px;
+  height: 350px;
+}
 .quickshop .quickshop-header {
   background-color: #ffff00;
   font-size: 2.6em;
@@ -366,7 +384,9 @@ main {
 }
 .quickshop .item .f-col {
   width: 40%;
-  height: 100%;
+  height: 70%;
+  display: flex;
+  align-items: center;
 }
 .quickshop .item .r-col {
   width: 60%;
