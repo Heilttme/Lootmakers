@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import ImageSlider from './ItemsSlider'
 import axios from 'axios'
+import useStore from "../store"
 
 const QuickShop = ({ items, blockScroll, setQuickShop, id }) => {
   const [item, setItem] = useState(items.filter(i => i.id === id)[0])
   const [imageList, setImageList] = useState([])
   const [images3D, setImages3D] = useState([])
   const [mapped3DImages, setMapped3DImages] = useState([])
+  const addToStateCart = useStore(state => state.add)
 
   useEffect(() => {
     setItem(items.filter(i => i.id === id)[0])
@@ -25,6 +27,10 @@ const QuickShop = ({ items, blockScroll, setQuickShop, id }) => {
   useEffect(() => {
     setMapped3DImages(images3D.map(item => item.image))
   }, [images3D])
+
+  const addToCart = (id) => {
+    addToStateCart(items.filter(i => i.id === id)[0])
+  }
 
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
 
@@ -61,7 +67,7 @@ const QuickShop = ({ items, blockScroll, setQuickShop, id }) => {
               <h2>"I think he has something he should say to me."</h2>
               <h2 className='said'>©Craig</h2>
             </div>
-            <button>ADD TO CART</button>
+            <button onClick={() => addToCart(id)}>ADD TO CART</button>
           </div>
         </div>
     </motion.div>

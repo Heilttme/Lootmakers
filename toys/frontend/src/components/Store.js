@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const newItems = []
@@ -52,13 +54,13 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     <div className='block'>
       {item.map(itemNew => 
       <>
-        <div className='item'>
+        <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
           <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
           <h2>{itemNew.collection}</h2>
           <h2>{itemNew.name}</h2>
-          <button onClick={() => setQuickShop(itemNew.id)} className='quick-btn1 quick-btn'>QUICK SHOP</button>
-          <button onClick={() => setQuickShop(itemNew.id)} className='quick-btn2 quick-btn'>QUICK SHOP</button>
-          <button onClick={() => setQuickShop(itemNew.id)} className='quick-btn3 quick-btn'>QUICK SHOP</button>
+          <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+          <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn2 quick-btn'>QUICK SHOP</button>
+          <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn3 quick-btn'>QUICK SHOP</button>
         </div>
       </>
       )}

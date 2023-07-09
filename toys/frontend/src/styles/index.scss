@@ -6,6 +6,7 @@
 @import "store.scss";
 @import "slider.scss";
 @import "scroll3D.scss";
+@import "item.scss";
 
 *{
     padding: 0;
@@ -30,14 +31,6 @@ html{
 
 main{
     position: relative;
-}
-
-#w{
-    color: #E27D60; 
-    color: #85D1CB; 
-    color: #E8A87C; 
-    color: #D31450; 
-    color: #41B3A3; 
 }
 
 .quickshop{
@@ -154,18 +147,4 @@ main{
             }
         }
     }
-}
-
-.cart{
-    position: fixed;
-
-    z-index: 1000;
-    width: 70vw;
-    height: 85vh;
-    background-color: #ffff00;
-    filter: brightness(.8);
-    border: 6px solid black;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
