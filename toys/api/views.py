@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.views.generic.edit import FormView
 from .models import Review, Item, Image3D, ImageList, DisplayImage
 from .serializers import ReviewSerializer, ItemSerializer, Image3DSerializer, ImageListSerializer, DisplayImageSerializer
-from .forms import ItemForm
+from .forms import ItemForm, ReviewForm
 from django.urls import reverse_lazy
 
 @api_view(["GET"])
@@ -87,4 +87,24 @@ def toy_admin_panel(request):
                 i.save()
     else: 
         form = ItemForm() 
+        
+    return render(request, "index.html", {"form": form})
+
+
+def toy_admin_panel_review(request):
+    if request.method == "POST": 
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid(): 
+            nickname = form.data.get('nickname')
+            username = form.data.get('username')
+            content = form.data.get('content')
+            pfp = request.FILES.get('pfp')
+            reviewImage = request.FILES.get('reviewImage')
+
+            item = Review(nickname=nickname, pfp=pfp, reviewImage=reviewImage, username=username, content=content)
+            item.save()
+
+    else: 
+        form = ReviewForm() 
+
     return render(request, "index.html", {"form": form})

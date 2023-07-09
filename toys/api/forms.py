@@ -16,7 +16,7 @@ class ItemForm(forms.Form):
     blockInfo = forms.CharField()
     isPreorder = forms.BooleanField(required=False)
     releaseDate = forms.CharField()
-    price = forms.IntegerField()
+    price = forms.FloatField()
     quantityAvailable = forms.IntegerField()
 
     def save(self, commit=True):
@@ -43,3 +43,11 @@ class ItemForm(forms.Form):
             i.save()
 
         return 
+    
+
+class ReviewForm(forms.Form):
+    nickname = forms.CharField()
+    username = forms.CharField()
+    content = forms.CharField()
+    pfp = forms.ImageField()
+    reviewImage = forms.ImageField()

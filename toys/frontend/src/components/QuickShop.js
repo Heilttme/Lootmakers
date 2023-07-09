@@ -54,7 +54,7 @@ const QuickShop = ({ items, blockScroll, setQuickShop, id }) => {
           <div className='r-col'>
             <h3>{item.collection}</h3>
             <h2>{item.name}</h2>
-            <h1>${item.price}.99</h1>
+            <h1>${item.price}</h1>
             <div className='block-info'>
               {item.blockInfo.split(";").map(bl => (
                 <div className='line'>

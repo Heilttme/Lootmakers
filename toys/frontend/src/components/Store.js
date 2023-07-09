@@ -50,6 +50,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   }, [items])
 
 
+
   const threeItemsDisplay = threeLineItems.map(item => (
     <div className='block'>
       {item.map(itemNew => 

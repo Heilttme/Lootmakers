@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import ScrollImages3D from "./ScrollImages3D";
+import { useHorizontalScroll } from "./useHorScroll";
 
 
 const ImageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
@@ -16,6 +17,19 @@ const ImageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
     transform: `translateX(${-(currentIndex * parentWidth)}px)`,
   })
 
+  const scrollRef = useHorizontalScroll()
+
+  // useEffect(() => {
+    const imagesContainer = document.getElementsByClassName("bot-images")[0]
+    const sub = imagesContainer && imagesContainer.getElementsByTagName("div")
+    if (sub){
+      for (let i = 0; i < sub.length; i++){
+        console.log(sub[i])
+        sub[i] && sub[i].addEventListener("click", () => sub[i].scrollTo({left: sub[i].scrollLeft + sub[i].deltaY, behavior: "smooth"}))
+      }
+    }
+  // }, [mapped3DImages])
+
   return (
     <div className="slider">
       <div onClick={() => goToSlide(currentIndex - 1 >= 0 ? currentIndex - 1 : slides.length - 1)} className="arrow left">
@@ -29,6 +43,7 @@ const ImageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
           {slides.map((_, slideIndex) => (
             slideIndex !== 0 ? 
             (<img
+              id="in"
               className="im"
               key={slideIndex}
               src={`http://127.0.0.1:8000${slides[slideIndex]}`}
@@ -38,16 +53,16 @@ const ImageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
           ))}
         </div>
       </div>
-      {/* <div>
-        {slides.map((slide, slideIndex) => (
-          <div
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-          >
-            ●
+      <div ref={scrollRef} className="bot-images">
+        <div onClick={() => goToSlide(0)}>
+          <img id="in" className={`img-nav${currentIndex === 0 ? " chosen" : ""}`} src={`http://127.0.0.1:8000${slides[0][0]}`}/>
+        </div>
+        {slides.slice(1).map((slide, slideIndex) => (
+          <div onClick={() => goToSlide(slideIndex + 1)}>
+            {slideIndex + 1 <= slides.length && <img src={`http://127.0.0.1:8000${slides[slideIndex + 1]}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === slideIndex + 1 ? " chosen" : ""}`}/>}
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };
