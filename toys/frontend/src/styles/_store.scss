@@ -2,28 +2,30 @@
     
     .store-head{
         width: 100%;
-        height: 126px;
-        margin-top: -6px;
+        height: 66px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #ffff00;
+        background-color: black;
+        color: white;
         border-top: 3px solid black;
         border-bottom: 3px solid black;
-        // letter-spacing: px;
-        font-size: 2.7em;
+        font-size: 1.1em;
+        font-weight: 200;
     }
 
     .items{
+        margin: 0 auto;
+        width: 78%;
         display: flex;
         flex-direction: column;
-        margin-top: .6rem;
 
         .block{
             width: 99%;
             margin: 0 auto;
             display: flex;
-            margin-bottom: 1rem;
+            border-left: 1px solid black;
+            border-top: 1px solid black;
 
             .item{
                 width: 33.33%;
@@ -33,18 +35,33 @@
                 cursor: pointer;
                 font-size: 1.6em;
                 position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border-right: 1px solid black;
+                padding: 1rem;
                 
                 &:hover{
                     filter: unset;
-                    scale: 1.01;
 
                     .quick-btn{
-                        opacity: 1;
+                        opacity: .4;
                     }
                 }
 
+                .col{
+                    margin-top: .8rem;
+                    opacity: .5;
+                    font-size: 1em;
+                }
+
+                .name{
+                    font-size: 1.2em;
+                }
+
                 img{
-                    width: 100%;
+                    width: 80%;
                     object-fit: cover;
                 }
 
@@ -52,27 +69,24 @@
                     opacity: 0;
                     position: absolute;
                     left: 50%;
-                    top: 46%;
+                    top: 45%;
+                    width: 60%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     transform: translate(-50%, -50%);
                     transition: background-color .25s ease-in-out, opacity .3s ease-in-out;
                     padding: .6rem 1.2rem;
-                    background-color: #ffff00;
-                    border: 6px solid black;
-                    font-size: 1.4em;
+                    font-size: 1.2em;
+                    border: 2px solid black;
                     cursor: pointer;
+                    background-color: white;
 
                     &:hover{
-                        background-color: white;
+                        opacity: 1;
                     }
                 }
 
-                .quick-btn1{
-                    top: 34%;
-                }
-
-                .quick-btn3{
-                    top: 58%;
-                }
             }
         }
     }

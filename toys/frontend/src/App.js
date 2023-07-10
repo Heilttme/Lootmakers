@@ -31,7 +31,6 @@ function App() {
         }} className="wrapper">
         <div className="a" style={{filter: (quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (quickShop || cartOpened) ? "none" : "unset"}}>
           <Header setCartOpened={setCartOpened} storeRef={storeRef} />
-          {/* <ScrollImages3D images={images}/> */}
           <main>
             <Routes>
               <Route path="/" element={<Home quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
@@ -41,8 +40,8 @@ function App() {
           <Footer/>
         </div>
       </div>
-      <QuickShop items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
-      <Cart displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
+      <QuickShop allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
+      <Cart allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
     </Router>
   )
 }

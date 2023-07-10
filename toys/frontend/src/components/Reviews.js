@@ -30,7 +30,7 @@ const Reviews = ({ reviews }) => {
               <img className='pfp' src={`http://127.0.0.1:8000${item.pfp}`}></img>
               <div className='text'>
                 <h3>{item.nickname}</h3>
-                <p>{item.username}</p>
+                <p><span>@</span>{item.username}</p>
               </div>
             </div>
             <img className='tg' src={tg} />

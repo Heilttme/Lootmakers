@@ -5,23 +5,22 @@
 
     background-color: black;
     color: white;
-    letter-spacing: 3px;
     margin-bottom: 2rem;
     // padding-top: 2rem;
 }   
 
 .review-head{
     width: 100%;
-    height: 126px;
-    margin-top: -6px;
+    height: 66px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffff00;
+    background-color: black;
+    color: white;
     border-top: 3px solid black;
     border-bottom: 3px solid black;
-    // letter-spacing: px;
-    font-size: 2.7em;
+    font-size: 1.1em;
+    font-weight: 200;
 }
 
 .reviews{
@@ -36,6 +35,7 @@
 
     .review{
         padding: .3rem;
+        margin-bottom: 1rem;
         transition: all .15s ease-in-out;
         // outline: 1px solid black;
 
@@ -60,18 +60,22 @@
                     gap: .6rem;
                     // padding: .2rem;
 
+                    .text span{
+                        color: #ffff00;
+                    }
+
                     h3{
-                        font-size: 1em;
+                        font-size: 1.2em;
                         font-weight: 600;
                     }
 
                     p{
-                        font-size: .7em;
+                        font-size: .9em;
                     }
 
                     .pfp{
-                        width: 80px;
-                        height: 80px;
+                        width: 60px;
+                        height: 60px;
                         border-radius: 50%;
                     }
                 }
@@ -83,7 +87,7 @@
             }
 
             .content{
-                font-size: .8em;
+                font-size: 1em;
                 margin-bottom: 1rem;
                 margin-top: .6rem;
             }

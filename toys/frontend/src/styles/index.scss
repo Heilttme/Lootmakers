@@ -12,8 +12,12 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Yanone Kaffeesatz', sans-serif;
-    font-size: 1.07em;
+    font-family: 'Montserrat', sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: black;
 }
 
 html{
@@ -39,7 +43,7 @@ main{
     width: 50vw;
     height: 85vh;
     background-color: white;
-    border: 6px solid black;
+    border: 2px solid black;
     top: 0;
     left: 0;
     right: 0;
@@ -50,15 +54,20 @@ main{
     img{
         object-fit: cover;
         width: 300px;
-        height: 350px;
+        height: 500px;
     }
 
     .quickshop-header{
-        background-color: #ffff00;
-        font-size: 2.6em;
+        background-color: #E6E6E6;
+        position: fixed;
+        height: 65px;
+        width: calc(50vw - 4px);
+        z-index: 123123;
+        font-size: 2em;
+        font-weight: 500;
         padding-top: .4rem;
-        padding-left: .2rem;
-        border-bottom: 6px solid black;
+        padding-left: 1rem;
+        border-bottom: 2px solid black;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -70,23 +79,32 @@ main{
         cursor: pointer;
     }
 
+    .item-wrapper{
+        height: 100%;
+        padding-top: 65px;
+    }
+
     .item{
+        
         display: flex;
         height: 100%;
 
         .f-col{
+            user-select: none;
             width: 40%;
-            height: 70%;
+            height: 100%;
             display: flex;
             align-items: center;
         }
 
         .r-col{
+            padding-top: 1rem;
+            padding-left: .6rem;
             width: 60%;
             height: 100%;
             background-color: black;
             color: white;
-            font-size: 1.8em;
+            font-size: 1.1em;
 
             h3{
                 font-size: 0.9em;
@@ -113,8 +131,10 @@ main{
                 margin-top: 1rem;
 
                 .line{
+                    font-size: 1.1em;
                     display: flex;
                     justify-content: space-between;
+                    margin-bottom: .6rem;
                 }
             }
 
@@ -138,7 +158,8 @@ main{
                 padding: .4rem .8rem;
                 background-color: #ffff00;
                 border: 6px solid black;
-                font-size: 1em;
+                font-size: 1.1em;
+                font-weight: 400;
                 cursor: pointer;
 
                 &:hover{
