@@ -19,10 +19,12 @@
     a{
         cursor: pointer;
         transition: background-color .2s ease-in-out;
+        user-select: none;
         padding-left: 4rem;
         padding-right: 4rem;
         font-size: 1.5em;
         font-weight: 500;
+        position: relative;
 
         display: flex;
         height: 100%;
@@ -31,31 +33,19 @@
         &:hover{
             background-color: white;
             outline: 1px solid black;
-        }
 
-
-        .more{
-            position: relative;
-            margin-left: .3rem;
-
-            .wing-1{
-                width: 12px;
-                height: 2px;
-                background-color: black;
-                transform: rotate(45deg);
-                position: absolute;
-            }
-
-            .wing-2{
-                width: 12px;
-                height: 2px;
-                background-color: black;
-                transform: rotate(-45deg);
-                margin-left: 8px;
-                margin-bottom: 2px;
-                position: absolute
+            svg{
+                transform: rotate(-90deg);
             }
         }
+
+        svg{
+            width: 16px;
+            transform: rotate(90deg);
+            margin-left: .4rem;
+            transition: all .2s ease-in-out;
+        }
+
     }
 
     .left-lane{

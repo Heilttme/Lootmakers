@@ -1,9 +1,10 @@
 import "./styles/index.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll } from "./components"
+import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact } from "./components"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios"
 import useStore from "./store";
+import { useTranslation } from "react-i18next"
 
 function App() {
   const [items, setItems] = useState([])
@@ -11,15 +12,33 @@ function App() {
   const [displayImages, setDisplayImages] = useState([])
   const [quickShop, setQuickShop] = useState(false)
   const [cartOpened, setCartOpened] = useState(false)
+  const [contactOpened, setContactOpened] = useState(false)
   const [blockScroll, allowScroll] = useBlockScroll()
   const cart = useStore(state => state.cart)
-
+  const addToCartState = useStore(state => state.add)
+  
   const storeRef = useRef(null)
 
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
     const res3 = axios.get("http://127.0.0.1:8000/api/get_display_images/").then(item => setDisplayImages(item.data.data))
+  }, [])
+
+  const {t, i18n} = useTranslation()
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang)
+  }
+
+  useEffect(() => {
+    cart.length && localStorage.setItem("i", JSON.stringify(cart))
+  }, [cart])
+
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem("i"))
+    console.log(items);
+    items.map(item => addToCartState(item))
   }, [])
 
   return (
@@ -30,11 +49,12 @@ function App() {
           allowScroll()
         }} className="wrapper">
         <div className="a" style={{filter: (quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (quickShop || cartOpened) ? "none" : "unset"}}>
-          <Header setCartOpened={setCartOpened} storeRef={storeRef} />
+          <Header changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <main>
             <Routes>
               <Route path="/" element={<Home quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
               <Route path="/items/:id" element={<Item items={items} />}/>
+              <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
             </Routes>
           </main>
           <Footer/>

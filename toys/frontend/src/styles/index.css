@@ -232,10 +232,14 @@
 .header a {
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   padding-left: 4rem;
   padding-right: 4rem;
   font-size: 1.5em;
   font-weight: 500;
+  position: relative;
   display: flex;
   height: 100%;
   align-items: center;
@@ -244,25 +248,14 @@
   background-color: white;
   outline: 1px solid black;
 }
-.header a .more {
-  position: relative;
-  margin-left: 0.3rem;
+.header a:hover svg {
+  transform: rotate(-90deg);
 }
-.header a .more .wing-1 {
-  width: 12px;
-  height: 2px;
-  background-color: black;
-  transform: rotate(45deg);
-  position: absolute;
-}
-.header a .more .wing-2 {
-  width: 12px;
-  height: 2px;
-  background-color: black;
-  transform: rotate(-45deg);
-  margin-left: 8px;
-  margin-bottom: 2px;
-  position: absolute;
+.header a svg {
+  width: 16px;
+  transform: rotate(90deg);
+  margin-left: 0.4rem;
+  transition: all 0.2s ease-in-out;
 }
 .header .left-lane {
   grid-area: LEFT;
@@ -489,7 +482,35 @@
   width: 24px;
   border-radius: 50%;
   border: 2px solid black;
-  background-color: #ffff00;
+  background-color: #e6e600;
+}
+
+.contact .pre {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.contact .pre h1 {
+  font-size: 2.2em;
+}
+.contact .pre p {
+  margin-top: 0.6rem;
+  font-size: 1.6em;
+}
+.contact .pre button {
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: black;
+  color: white;
+  outline: none;
+}
+.contact .pre button:hover {
+  background-color: rgb(54, 54, 54);
 }
 
 * {

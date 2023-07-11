@@ -1,0 +1,34 @@
+.contact{
+
+    .pre{
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        h1{
+            font-size: 2.2em;
+        }
+
+        p{
+            margin-top: .6rem;
+            font-size: 1.6em;
+        }
+
+        button{
+            margin-top: 1rem;
+            padding: .6rem 1rem;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+            background-color: black;
+            color: white;
+            outline: none;
+
+            &:hover{
+                background-color: rgb(54, 54, 54);
+            }
+        }
+    }
+}

@@ -1,7 +1,8 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import i18next, { t } from 'i18next'
 
-const Header = ({ setCartOpened, storeRef }) => {
+const Header = ({ changeLanguage, setCartOpened, storeRef }) => {
   const location = useLocation().pathname
   const navigate = useNavigate()
   
@@ -19,14 +20,14 @@ const Header = ({ setCartOpened, storeRef }) => {
               navigate("/")
               setTimeout(() => storeRef.current?.scrollIntoView({behavior: "smooth"}), 100)
           }}>
-            STORE
+            {t("STORE")}
           </a>
-          <a>ABOUT<div className='more'><div className='wing-1'></div><div className='wing-2'></div></div></a>
-          <a>CONTACT</a>
+          <a>{t("ABOUT")}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg></a>
+          <a href='/contact'>{t("CONTACT")}</a>
         </div>
         <div className='right-lane'>
-          <a onClick={() => setCartOpened(prev => !prev)}>CART</a>
-          <a>RU</a>
+          <a onClick={() => setCartOpened(prev => !prev)}>{t("CART")}</a>
+          <a onClick={() => changeLanguage(i18next.language === "ru" ? "en" : "ru")}>{i18next.language === "ru" ? "RU" : "EN"}</a>
         </div>
       </div>
     </div>

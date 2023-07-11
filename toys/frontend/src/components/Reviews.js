@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
 import tg from "../assets/b-tg.png"
 
@@ -59,7 +60,7 @@ const Reviews = ({ reviews }) => {
   return (
     <>
       <div className='review-head'>
-        <h2>OUR REVIEWS</h2>
+        <h2>{t("OUR REVIEWS")}</h2>
       </div>
       <div className='reviews-wrapper'>
         <div className='reviews'>

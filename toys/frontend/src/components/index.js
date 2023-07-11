@@ -6,5 +6,6 @@ import Item from "./Item";
 import QuickShop from "./QuickShop";
 import ScrollImages3D from "./ScrollImages3D";
 import useBlockScroll from "./useBlockScroll";
+import Contact from "./Contact";
 
-export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll }
+export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact }

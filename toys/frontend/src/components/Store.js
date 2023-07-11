@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { t } from 'i18next'
 
 const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
@@ -75,7 +76,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     <>
       <div ref={storeRef} className='store'>
           <div className='store-head'>
-              <h2>OUR STORE</h2>
+              <h2>{t("OUR STORE")}</h2>
           </div>
           <div className='items'>
               {threeItemsDisplay}
