@@ -7,5 +7,6 @@ import QuickShop from "./QuickShop";
 import ScrollImages3D from "./ScrollImages3D";
 import useBlockScroll from "./useBlockScroll";
 import Contact from "./Contact";
+import ContactForm from "./ContactForm";
 
-export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact }
+export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm }

@@ -52,13 +52,14 @@
     svg{
         width: 52px;
         padding: .6rem;
-        background-color: #ffff00;
+        background-color: black;
         border: 2px solid black;
-        color: black;
+        color: white;
         transition: all .3s ease-in-out;
 
         &:hover{
             background-color: white;
+            color: black;
         }
     }
 }
@@ -67,9 +68,7 @@
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
-    // background-image: -webkit-gradient(linear, right top, right bottom, from(rgba(255,255,255,1)), to(rgba(0,0,0,.3)));
     &::-webkit-scrollbar{
-        // width: 100%;
         background: transparent;
         height: 4px;
         border-radius: 50%;

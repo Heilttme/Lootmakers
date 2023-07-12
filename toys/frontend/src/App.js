@@ -1,6 +1,6 @@
 import "./styles/index.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact } from "./components"
+import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm } from "./components"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios"
 import useStore from "./store";
@@ -37,8 +37,7 @@ function App() {
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("i"))
-    console.log(items);
-    items.map(item => addToCartState(item))
+    items.map(item => !cart.map(cartItem => cartItem.id).includes(item.id) && addToCartState(item))
   }, [])
 
   return (
@@ -46,9 +45,10 @@ function App() {
       <div onClick={() => {
           quickShop && setQuickShop(false)
           cartOpened && setCartOpened(false)
+          contactOpened && setContactOpened(false)
           allowScroll()
         }} className="wrapper">
-        <div className="a" style={{filter: (quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (quickShop || cartOpened) ? "none" : "unset"}}>
+        <div className="a" style={{filter: (contactOpened || quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened) ? "none" : "unset"}}>
           <Header changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <main>
             <Routes>
@@ -62,6 +62,7 @@ function App() {
       </div>
       <QuickShop allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
       <Cart allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
+      <ContactForm allowScroll={allowScroll} blockScroll={blockScroll} setContactOpened={setContactOpened} contactOpened={contactOpened} />
     </Router>
   )
 }
