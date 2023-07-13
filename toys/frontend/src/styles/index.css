@@ -515,6 +515,10 @@
   background-color: rgb(70, 69, 69);
 }
 
+.contact-form-wrapper {
+  position: relative;
+}
+
 .contact-form {
   position: fixed;
   z-index: 1000;
@@ -522,11 +526,23 @@
   background-color: #E6E6E6;
   border: 1px solid black;
   top: 2rem;
+  padding-bottom: 1rem;
   left: 0;
   right: 0;
   bottom: 4rem;
   margin: auto;
+  margin-bottom: 1rem;
   overflow: auto;
+  display: flex;
+  justify-content: space-between;
+}
+.contact-form::-webkit-scrollbar {
+  background-color: #333333;
+  width: 12px;
+}
+.contact-form::-webkit-scrollbar-thumb {
+  border: 1px solid black;
+  background-color: white;
 }
 .contact-form .contact-header {
   width: calc(50vw - 2px);
@@ -557,23 +573,52 @@
   display: flex;
   justify-content: center;
   padding: 0.6rem 1.2rem;
-  margin-top: 0.6rem;
   font-size: 1.2em;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   background-color: #3f3f3f;
   color: white;
   outline: none;
+  margin-bottom: 0.6rem;
   border: none;
 }
 .contact-form .blocks .block button:hover {
   background-color: rgb(85, 85, 85);
 }
+.contact-form .blocks .block:last-child {
+  padding-bottom: 1.6rem;
+}
 .contact-form .blocks .block .field {
   margin-top: 2rem;
   position: relative;
 }
-.contact-form .blocks .block .field label, .contact-form .blocks .block .field input[type=text] {
+.contact-form .blocks .block .field .question-mark {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  right: -16px;
+}
+.contact-form .blocks .block .field .question-mark::before {
+  content: attr(data-hover);
+  visibility: hidden;
+  opacity: 0;
+  background-color: #333333;
+  min-width: 200px;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 0.4rem 1rem;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  z-index: 1;
+  left: 1.6rem;
+  top: -1rem;
+}
+.contact-form .blocks .block .field .question-mark:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+.contact-form .blocks .block .field label, .contact-form .blocks .block .field textarea input[type=text] {
   display: block;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -593,7 +638,7 @@
 .contact-form .blocks .block .field .error {
   color: rgb(247, 61, 61);
 }
-.contact-form .blocks .block .field input {
+.contact-form .blocks .block .field input, .contact-form .blocks .block .field textarea {
   width: 350px;
   height: 1rem;
   padding: 1.2rem;
@@ -602,9 +647,15 @@
   outline: none;
   transition: all 0.2s ease-in-out;
   color: white;
+  border-radius: 4px;
+  resize: none;
 }
-.contact-form .blocks .block .field input:focus {
+.contact-form .blocks .block .field input:focus, .contact-form .blocks .block .field textarea:focus {
   background-color: #333333;
+}
+.contact-form .blocks .block .radio-field {
+  margin-top: 1rem;
+  padding-bottom: unset;
 }
 .contact-form .blocks .block .content-wrapper {
   padding-top: 1.3rem;
@@ -684,10 +735,15 @@
 .contact-form .blocks .block .social-wrapper .social-other input:focus {
   background-color: #333333;
 }
-.contact-form .proceed-block {
-  position: absolute;
-  bottom: 1rem;
+.contact-form .proceed-wrapper {
+  position: sticky;
+  top: 0;
   right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.contact-form .proceed-block {
   display: flex;
   gap: 0.6rem;
   justify-content: center;
@@ -703,6 +759,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
+  cursor: pointer;
 }
 .contact-form .proceed-block .steps .current-step {
   position: absolute;
@@ -809,6 +866,10 @@
 }
 .contact-form .socials li {
   list-style: none;
+}
+.contact-form h3 {
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 .quickshop {
