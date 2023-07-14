@@ -36,9 +36,11 @@ function App() {
   }, [cart])
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("i"))
-    items.map(item => !cart.map(cartItem => cartItem.id).includes(item.id) && addToCartState(item))
+    const Citems = JSON.parse(localStorage.getItem("i"))
+    Citems.map(item => !cart.map(cartItem => cartItem.id).includes(item.id) && addToCartState(item))
   }, [])
+
+  console.log(items);
 
   return (
     <Router>

@@ -24,7 +24,6 @@ const ImageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
     const sub = imagesContainer && imagesContainer.getElementsByTagName("div")
     if (sub){
       for (let i = 0; i < sub.length; i++){
-        console.log(sub[i])
         sub[i] && sub[i].addEventListener("click", () => sub[i].scrollTo({left: sub[i].scrollLeft + sub[i].deltaY, behavior: "smooth"}))
       }
     }

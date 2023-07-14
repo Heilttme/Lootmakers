@@ -37,8 +37,6 @@
 
 .contact-form-wrapper{
     position: relative;
-
-    
 }
 
 .contact-form{
@@ -54,7 +52,7 @@
     position: fixed;
     z-index: 1000;
     width: 50vw;
-    background-color: #E6E6E6;
+    background-color: white;
     border: 1px solid black;
     top: 2rem;
     padding-bottom: 1rem;
@@ -70,7 +68,7 @@
 
     .contact-header{
         width: calc(50vw - 2px);
-        background-color: #E6E6E6;
+        background-color: white;
         font-size: 1.2em;
         z-index: 1991;
         font-weight: 500;
@@ -91,7 +89,7 @@
 
     .blocks{
         padding-top: calc(65px);
-
+        
         .block{
             margin-left: 2rem;
 
@@ -117,16 +115,22 @@
                 padding-bottom: 1.6rem;
             }
 
+            .flex{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: .6rem;
+            }
+
             .field{
                 margin-top: 2rem;
                 // padding-bottom: 2rem;
                 position: relative;
 
                 .question-mark{
-                    position: absolute;
-                    top: 55%;
-                    transform: translateY(-50%);
-                    right: -16px;
+                    top: 2px;
+                    position: relative;
+
 
                     &::before {
                         content: attr(data-hover);
@@ -143,7 +147,7 @@
                         position: absolute;
                         z-index: 1;
                         left: 1.6rem;
-                        top: -1rem;
+                        top: -.6rem;
 
                       }
                       
@@ -176,7 +180,7 @@
                 }
         
                 input, textarea{
-                    width: 350px;
+                    width: 550px;
                     height: 1rem;
                     padding: 1.2rem;
                     background-color: #3f3f3f;
@@ -192,6 +196,10 @@
                     }
                 }
 
+                textarea{
+                    height: 6rem;
+                    padding: .6rem 1rem;
+                }
                 
             }
 

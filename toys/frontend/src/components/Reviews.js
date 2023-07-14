@@ -64,8 +64,8 @@ const Reviews = ({ reviews }) => {
       </div>
       <div className='reviews-wrapper'>
         <div className='reviews'>
-          <div className='l1'>{fr1}</div>
-          <div className='l2'>{fr2}</div>
+          <div className='l1 l'>{fr1}</div>
+          <div className='l2 l'>{fr2}</div>
         </div>
       </div>
     </>

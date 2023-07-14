@@ -29,29 +29,31 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
   const [nameFocus, setNameFocus] = useState(false)
   const [emailFocus, setEmailFocus] = useState(false)
   const [personFocus, setPersonFocus] = useState(false)
-  
 /////////////
   const [nameError, setNameError] = useState(false)
   const [emailError, setEmailError] = useState(false)
   const [personError, setPersonError] = useState(false)
-  
   /////////////
 
   const submitForm = () => {
+    if (person === "Creator") {
+      
+    } else if (person === "Fan") {
 
+    } else {
+
+    }
   }
 
   const nextStep = () => {
-    if (formData.email && formData.name && (formData.person || person)) {
+    if (formData.email && formData.name && ((formData.person.length && person !== "Other") || person !== "Other")) {
       setCurStep(1)
     } else {
       !formData.name && setNameError(true)
       !formData.email && setEmailError(true)
-      !(formData.person || person) && setPersonError(true)
+      !((formData.person.length && person !== "Other") || person !== "Other") && setPersonError(true)
     }
   }
-
-  console.log(person);
 
   return (
     <motion.div 
@@ -63,7 +65,7 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
       <div>
         <div className='contact-header'>
           <h1>Contact Form</h1>
-          <svg className='leave' onClick={() => {setContactOpened(false);allowScroll()}} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-8.503 6.437 2.219-2.22c.146-.146.338-.219.53-.219.404 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.22 2.22 2.222 2.222c.147.147.22.339.22.53 0 .427-.349.751-.75.751-.192 0-.385-.073-.531-.219l-2.222-2.223-2.223 2.223c-.146.146-.338.219-.53.219-.401 0-.751-.324-.751-.751 0-.191.073-.383.22-.53l2.222-2.222-2.219-2.22c-.146-.147-.219-.338-.219-.531 0-.425.346-.75.75-.75.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
+          <svg className='leave' onClick={() => {setContactOpened(false);allowScroll()}} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
         </div>
         <div className='blocks'>
           {
@@ -99,10 +101,12 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
                       name='input'
                       id='inp1'
                       type="radio"
+                      checked={person === "Creator" && true}
                       onClick={(e) => {
                         if (e.target.checked) {
                           setPerson("Creator")
                           setFormData(prev => ({...prev, person: ""}))
+                          setPersonError(false)
                         }
                       }}
                     />
@@ -113,10 +117,12 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
                       name='input'
                       id='inp2'
                       type="radio"
+                      checked={person === "Fan" && true}
                       onClick={(e) => {
                         if (e.target.checked) {
                           setPerson("Fan")
                           setFormData(prev => ({...prev, person: ""}))
+                          setPersonError(false)
                         }
                       }}
                     />
@@ -127,7 +133,11 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
                       name='input'
                       id='inp3'
                       type="radio"
-                      onClick={(e) => e.target.checked && setPerson("Other")}
+                      checked={person === "Other" && true}
+                      onClick={(e) => {
+                        e.target.checked && setPerson("Other")
+                        e.target.checked && setPersonError(false)
+                      }}
                     />
                     <label className={personError ? "error" : ""} htmlFor='inp3'>Other</label>
                   </li>
@@ -367,7 +377,7 @@ const FanForm = ({ formData, setFormData, changeFormData }) => {
           />
         <motion.label animate={(formData.channel || channelFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ channelError ? " error" : ""}`} htmlFor="channel">Their channel link</motion.label>
       </div>
-      <div className='field'>
+      <div className='field flex'>
         <input 
             name='merch'
             onChange={e => changeFormData(e)}
@@ -393,7 +403,7 @@ const OtherPersonForm = ({ formData, setFormData, changeFormData }) => {
   
   return (
     <div className='block'>
-      <div className='field'>
+      <div className='field flex'>
         <textarea 
             name='about'
             onChange={e => changeFormData(e)}
@@ -606,18 +616,16 @@ const ContentCreatorForm = ({ formData, setFormData, changeFormData }) => {
         <motion.label animate={(formData.channel || channelFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ channelError ? " error" : ""}`} htmlFor="channel">Channel link</motion.label>
       </div>
         {[...Array(linkQuantity)].map((_, i) => 
-        <div className='social-'>
-          <div className='field'>
-            <NewSocialNetworkLink q={i} formData={formData} changeFormData={changeFormData} linkQuantity={linkQuantity} setLinkQuantity={setLinkQuantity}/>
-            <div data-hover="Other social networks links" className='question-mark'>
-              <div className='question-wrapper'>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1.25 17c0 .69-.559 1.25-1.25 1.25-.689 0-1.25-.56-1.25-1.25s.561-1.25 1.25-1.25c.691 0 1.25.56 1.25 1.25zm1.393-9.998c-.608-.616-1.515-.955-2.551-.955-2.18 0-3.59 1.55-3.59 3.95h2.011c0-1.486.829-2.013 1.538-2.013.634 0 1.307.421 1.364 1.226.062.847-.39 1.277-.962 1.821-1.412 1.343-1.438 1.993-1.432 3.468h2.005c-.013-.664.03-1.203.935-2.178.677-.73 1.519-1.638 1.536-3.022.011-.924-.284-1.719-.854-2.297z"/></svg>
-              </div>
+        <div className='field flex'>
+          <NewSocialNetworkLink q={i} formData={formData} changeFormData={changeFormData} linkQuantity={linkQuantity} setLinkQuantity={setLinkQuantity}/>
+          <div data-hover="Other social networks links (Boosty, etc)" className='question-mark'>
+            <div className='question-wrapper'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1.25 17c0 .69-.559 1.25-1.25 1.25-.689 0-1.25-.56-1.25-1.25s.561-1.25 1.25-1.25c.691 0 1.25.56 1.25 1.25zm1.393-9.998c-.608-.616-1.515-.955-2.551-.955-2.18 0-3.59 1.55-3.59 3.95h2.011c0-1.486.829-2.013 1.538-2.013.634 0 1.307.421 1.364 1.226.062.847-.39 1.277-.962 1.821-1.412 1.343-1.438 1.993-1.432 3.468h2.005c-.013-.664.03-1.203.935-2.178.677-.73 1.519-1.638 1.536-3.022.011-.924-.284-1.719-.854-2.297z"/></svg>
             </div>
           </div>
         </div>
         )}
-      <div className='field'>
+      <div className='field flex'>
         <input 
             name='product'
             onChange={e => changeFormData(e)}
@@ -633,7 +641,7 @@ const ContentCreatorForm = ({ formData, setFormData, changeFormData }) => {
           </div>
         </div>
       </div>
-      <div className='field'>
+      <div className='field flex'>
         <input 
             name='merch'
             onChange={e => changeFormData(e)}
@@ -654,7 +662,7 @@ const ContentCreatorForm = ({ formData, setFormData, changeFormData }) => {
             name='contact'
             onChange={e => changeFormData(e)}
             id="contact"
-            value={formData.channel}
+            value={formData.contact}
             onFocus={() => {setContactFocus(true);setContactError(false)}}
             onBlur={() => setContactFocus(false)}
           />

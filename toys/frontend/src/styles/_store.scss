@@ -40,18 +40,36 @@
                 align-items: center;
                 justify-content: center;
                 border-right: 1px solid black;
-                padding: 1rem;
                 
                 &:hover{
                     filter: unset;
 
                     .quick-btn{
-                        opacity: .4;
+                        transform: translateY(-60px);
                     }
                 }
 
+                .text-wrapper{
+                    width: 100%;
+                    position: relative;
+
+                }
+
+                .text{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: sticky;
+                    width: 100%;    
+
+                    padding-top: .6rem;
+                    padding-bottom: .6rem;
+                    border-top: 1px solid #000;
+                    z-index: 104;
+                    background-color: #e6e6e6;
+                }
+
                 .col{
-                    margin-top: .8rem;
                     opacity: .5;
                     font-size: 1em;
                 }
@@ -61,30 +79,27 @@
                 }
 
                 img{
+                    padding: 1rem;
                     width: 80%;
                     object-fit: cover;
                 }
 
                 .quick-btn{
-                    opacity: 0;
                     position: absolute;
-                    left: 50%;
-                    top: 45%;
-                    width: 60%;
+                    top: 0;
+                    width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    transform: translate(-50%, -50%);
-                    transition: background-color .25s ease-in-out, opacity .3s ease-in-out;
+                    transition: all .25s ease-in-out;
                     padding: .6rem 1.2rem;
                     font-size: 1.2em;
-                    border: 2px solid black;
+                    border: none;
+                    border-top: 1px solid black;
+                    z-index: 0;
                     cursor: pointer;
-                    background-color: white;
+                    background-color: #e6e6e6;
 
-                    &:hover{
-                        opacity: 1;
-                    }
                 }
 
             }
