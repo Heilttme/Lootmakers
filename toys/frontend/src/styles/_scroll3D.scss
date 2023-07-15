@@ -4,20 +4,17 @@
     input{
         position: absolute;
         bottom: 2rem;
-        // right: 2rem;
         left: 50%;
         transform: translateX(-50%);
         cursor: pointer;
-        
         z-index: 10101;
-
+ 
         height: 16px;
         width: 220px;
         appearance: none;
         background-color: black;
         border-radius: 15px;
         outline: none;
-        // box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
 
         &::-webkit-slider-thumb{
             appearance: none;

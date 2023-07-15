@@ -40,19 +40,19 @@
                 align-items: center;
                 justify-content: center;
                 border-right: 1px solid black;
+                --quick-height: 50px;
                 
                 &:hover{
                     filter: unset;
 
                     .quick-btn{
-                        transform: translateY(-60px);
+                        transform: translateY(calc(var(--quick-height) * -1));
                     }
                 }
 
                 .text-wrapper{
                     width: 100%;
                     position: relative;
-
                 }
 
                 .text{
@@ -86,6 +86,7 @@
 
                 .quick-btn{
                     position: absolute;
+                    height: var(--quick-height);
                     top: 0;
                     width: 100%;
                     display: flex;

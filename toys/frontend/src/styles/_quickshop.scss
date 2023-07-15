@@ -204,6 +204,7 @@
         display: flex;
         overflow-x: auto;
         overflow-y: hidden;
+
         &::-webkit-scrollbar{
             background: transparent;
             height: 4px;

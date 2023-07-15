@@ -15,6 +15,7 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
   })
 
   const [curStep, setCurStep] = useState(0)
+  const [checkFormSubmit, setCheckFormSubmit] = useState(false)
 
   const changeFormData = (e) => {
     const {name, value} = e.target
@@ -23,8 +24,8 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
       [name]: value
     }))
   }
-  
-  const [person, setPerson] = useState("")
+
+  const [person, setPerson] = useState("BEMS")
 /////////////
   const [nameFocus, setNameFocus] = useState(false)
   const [emailFocus, setEmailFocus] = useState(false)
@@ -35,23 +36,13 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
   const [personError, setPersonError] = useState(false)
   /////////////
 
-  const submitForm = () => {
-    if (person === "Creator") {
-      
-    } else if (person === "Fan") {
-
-    } else {
-
-    }
-  }
-
   const nextStep = () => {
-    if (formData.email && formData.name && ((formData.person.length && person !== "Other") || person !== "Other")) {
+    if (formData.email && formData.name && ((formData.person.length) || (person && person !== "Other"))) {
       setCurStep(1)
     } else {
       !formData.name && setNameError(true)
       !formData.email && setEmailError(true)
-      !((formData.person.length && person !== "Other") || person !== "Other") && setPersonError(true)
+      !((formData.person.length && person !== "Other") || (person && person !== "Other")) && setPersonError(true)
     }
   }
 
@@ -164,13 +155,18 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
               </div>
             </div>
             
-            :
+            : curStep === 1 ?
 
               person === "Creator" ?
-                <ContentCreatorForm setFormData={setFormData} formData={formData} changeFormData={changeFormData} />
+                <ContentCreatorForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData} />
               : person === "Fan" ?
-                <FanForm setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
-              : <OtherPersonForm setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
+                <FanForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
+              : <OtherPersonForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
+
+            :
+            <div className='submitted-form'>
+              
+            </div>
           }
         </div>
       </div>
@@ -181,14 +177,14 @@ const ContactForm = ({ contactOpened, allowScroll, setContactOpened }) => {
             <div onClick={nextStep} className='step'/>
             <motion.div animate={{x: `${curStep * 21}px`}} className='current-step'/>
           </div>
-          <button onClick={curStep === 0 ? nextStep : submitForm}>{curStep === 0 ? "PROCEED" : "SUBMIT"}</button>
+          <button onClick={curStep === 0 ? nextStep : () => setCheckFormSubmit(prev => prev === "BEMS" ? true : !prev)}>{curStep === 0 ? "PROCEED" : "SUBMIT"}</button>
         </div>
       </div>
     </motion.div>
   )
 }
 
-const FanForm = ({ formData, setFormData, changeFormData }) => {
+const FanForm = ({ checkFormSubmit, formData, setFormData, changeFormData, setCurStep }) => {
   const [social, setSocial] = useState("")
   const [linkQuantity, setLinkQuantity] = useState(1)
   
@@ -204,6 +200,19 @@ const FanForm = ({ formData, setFormData, changeFormData }) => {
   const [productError, setProductError] = useState(false)
   const [merchError, setMerchError] = useState(false)
   const [contactError, setContactError] = useState(false)
+  
+  useEffect(() => {
+    if (formData.social && formData.channel && formData.product && formData.contact && formData.subscribers) {
+      setCurStep(2)
+    } else if (checkFormSubmit !== "BEMS") {
+      !formData.social && setSocialError(true)
+      !formData.channel && setChannelError(true)
+      !formData.product && setProductError(true)
+      !formData.contact && setContactError(true)
+      !formData.subscribers && setNumberError(true)
+    }
+  }, [checkFormSubmit])
+  
   
   return (
     <div className='block'>
@@ -397,9 +406,17 @@ const FanForm = ({ formData, setFormData, changeFormData }) => {
   )
 }
 
-const OtherPersonForm = ({ formData, setFormData, changeFormData }) => {
+const OtherPersonForm = ({ checkFormSubmit, formData, setFormData, changeFormData, setCurStep }) => {
   const [aboutFocus, setAboutFocus] = useState(false)
   const [aboutError, setAboutError] = useState(false)
+
+  useEffect(() => {
+    if (formData.about) {
+      setCurStep(2)
+    } else if (checkFormSubmit !== "BEMS") {
+      !formData.about && setAboutError(true)
+    }
+  }, [checkFormSubmit])
   
   return (
     <div className='block'>
@@ -425,10 +442,9 @@ const OtherPersonForm = ({ formData, setFormData, changeFormData }) => {
 
 
 
-const ContentCreatorForm = ({ formData, setFormData, changeFormData }) => {
+const ContentCreatorForm = ({ checkFormSubmit, formData, setFormData, changeFormData, setCurStep }) => {
   const [social, setSocial] = useState("")
   const [linkQuantity, setLinkQuantity] = useState(1)
-
   
   const [socialFocus, setSocialFocus] = useState(false)
   const [channelFocus, setChannelFocus] = useState(false)
@@ -442,6 +458,18 @@ const ContentCreatorForm = ({ formData, setFormData, changeFormData }) => {
   const [productError, setProductError] = useState(false)
   const [merchError, setMerchError] = useState(false)
   const [contactError, setContactError] = useState(false)
+
+  useEffect(() => {
+    if (formData.social && formData.channel && formData.product && formData.contact && formData.subscribers) {
+      setCurStep(2)
+    } else if (checkFormSubmit !== "BEMS") {
+      !formData.social && setSocialError(true)
+      !formData.channel && setChannelError(true)
+      !formData.product && setProductError(true)
+      !formData.contact && setContactError(true)
+      !formData.subscribers && setNumberError(true)
+    }
+  }, [checkFormSubmit])
   
   return (
     <div className='block'>

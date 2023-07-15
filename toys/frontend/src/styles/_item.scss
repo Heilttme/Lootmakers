@@ -1,50 +1,71 @@
 .item-page{
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
     margin-top: 3rem;
     display: flex;
     justify-content: center;
     gap: 2rem;
+    --item-width: 600px;
 
-    img{
-        object-fit: cover;
-        width: 500px;
-        height: 500px;
-        user-select: none;
+    .scroll3D{
+    
+        input{
+            width: 300px;
+            height: 14px;
+
+            &::-webkit-slider-thumb{
+                height: 20px;
+                width: 20px;
+            }
+        }
     }
 
     .image-slider-container{
-        width: 500px;
-        height: 900px;
+        max-height: var(--item-width);
+        display: flex;
+        gap: .3rem;
         user-select: none;
     }
+    
+    .slider-wrapper{
+        display: flex;
+        width: var(--item-width);
+    }
+
+    img{
+        object-fit: cover;
+        width: var(--item-width);
+        height: var(--item-width);
+        user-select: none;
+        // border: 1px solid black;
+    }
+
     
     .slider-container{
         display: flex;
     }
     
     .im{
-        border-radius: 10px;
         background-size: cover;
         background-position: center;
     }
     
-    
     .slider{
-        // width: 100%;
-        // height: 100%;
-        border-radius: 10px;
+        width: var(--item-width);
+        height: 100%;
+        // border-radius: 10px;
         background-size: cover;
         background-position: center;
         overflow: hidden;
         position: relative;
+        display: flex;
     }
     
     .left{
         position: absolute;
-        top: 40%;
+        top: 50%;
         transform: translate(0, -50%);
-        left: 0px;
+        left: 5px;
         font-size: 45px;
         color: #fff;
         z-index: 1;
@@ -53,9 +74,9 @@
     
     .right{
         position: absolute;
-        top: 40%;
+        top: 50%;
         transform: translate(0, -50%);
-        right: 0px;
+        right: 5px;
         font-size: 45px;
         color: #fff;
         z-index: 1;
@@ -70,7 +91,7 @@
             border: 2px solid black;
             color: white;
             transition: all .3s ease-in-out;
-    
+            
             &:hover{
                 background-color: white;
                 color: black;
@@ -80,12 +101,15 @@
     
     .bot-images{
         display: flex;
-        overflow-x: auto;
-        overflow-y: hidden;
+        flex-direction: column;
+        height: 100%;
+        overflow-x: hidden;
+
         &::-webkit-scrollbar{
             background: transparent;
             height: 4px;
             border-radius: 50%;
+            width: 2px;
         }
     
         &::-webkit-scrollbar-thumb{
@@ -97,22 +121,82 @@
             height: 120px;
             transition: all .2s ease-in-out;
             cursor: pointer;
-            opacity: .7;
+            opacity: .6;
+            border-left: 2px solid white;
             
             &:hover{
-                scale: 1.05;
                 opacity: 1;
-        }
+            }
         }
     
         .chosen{
-            scale: 1.2;
             opacity: 1;
             transition: all .2s ease-in-out;
-    
-            &:hover{
-                scale: 1.2;
-            }
+            border-left: 2px solid #000;
+        }
+    }
+
+    .s-col{
+        h3{
+            font-size: 1.3em;
+            opacity: .5;
+        }
+
+        h2{
+            font-size: 2em;
+        }
+
+        h1{
+            margin-top: .6rem;
+            font-size: 2.6em;
+        }
+    }
+
+    .block-info{
+        border-top: 6px solid #333333;
+        border-bottom: 6px solid #333333;
+        padding-top: .8rem;
+        padding-bottom: .4rem;
+        padding-left: .6rem;
+        margin-top: 1rem;
+        margin-right: .6rem;
+
+        .line{
+            font-size: 1.4em;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: .6rem;
+            margin-right: .6rem;
+        }
+    }
+
+    .quote{
+        margin-top: 3rem;
+        font-size: .9em;
+        margin-left: .4rem;
+
+        .said{
+            text-align: right;
+            margin-top: .6rem;
+            margin-right: .6rem;
+        }
+    }
+
+    button{
+        transition: background-color .25s ease-in-out, opacity .3s ease-in-out;
+        padding: .8rem 1.2rem;
+        background-color: #333333;
+        color: white;
+        margin-top: 1rem;
+        float: right;
+        outline: none;
+        border: none;
+        font-size: 1.1em;
+        font-weight: 400;
+        cursor: pointer;
+
+        &:hover{
+            background-color: rgb(189, 186, 186);
         }
     }
 }

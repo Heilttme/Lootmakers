@@ -1,5 +1,5 @@
 import "./styles/index.css"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom"
 import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm } from "./components"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios"
@@ -59,7 +59,7 @@ function App() {
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
             </Routes>
           </main>
-          <Footer/>
+          <Footer storeRef={storeRef}/>
         </div>
       </div>
       <QuickShop allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>

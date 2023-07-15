@@ -3,7 +3,7 @@ import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useStore from '../store'
-import ImageSlider from "./ItemsSlider"
+import ItemPageSlider from "./ItemPageSlider"
 
 const Item = ({ items }) => {
   const { id } = useParams()
@@ -35,7 +35,7 @@ const Item = ({ items }) => {
   return curItem && (
     <div className='item-page'>
       <div className='image-slider-container'>
-        <ImageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={500} />
+        <ItemPageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={600} />
       </div>
       <div className='s-col'>
         <h3>{curItem.collection}</h3>
