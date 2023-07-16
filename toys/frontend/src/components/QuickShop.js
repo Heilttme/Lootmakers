@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from "framer-motion"
 import ImageSlider from './ItemsSlider'
 import axios from 'axios'
 import useStore from "../store"
 import { t } from "i18next"
 
-const QuickShop = ({ items, blockScroll, allowScroll, setQuickShop, id }) => {
+const QuickShop = ({ cart, items, blockScroll, allowScroll, setQuickShop, id }) => {
   const [item, setItem] = useState(items.filter(i => i.id === id)[0])
   const [imageList, setImageList] = useState([])
   const [images3D, setImages3D] = useState([])
   const [mapped3DImages, setMapped3DImages] = useState([])
   const addToStateCart = useStore(state => state.add)
+  const buttonRef = useRef(null)
 
   useEffect(() => {
     setItem(items.filter(i => i.id === id)[0])
@@ -29,8 +30,24 @@ const QuickShop = ({ items, blockScroll, allowScroll, setQuickShop, id }) => {
     setMapped3DImages(images3D.map(item => item.image))
   }, [images3D])
 
-  const addToCart = (id) => {
-    addToStateCart(items.filter(i => i.id === id)[0])
+  // const addToCart = (id) => {
+  //    if (!cart.filter(i => i.id === id).length) {
+  //     addToStateCart(items.filter(i => i.id === id)[0])
+  //   }
+  // }
+
+  const addToCart = () => {
+    console.log(cart);
+    if (!cart.filter(i => i.id === item.id).length) {
+      addToStateCart(items.filter(i => i.id === item.id)[0])
+      const Citems = JSON.parse(localStorage.getItem("i"))
+      localStorage.setItem("i", JSON.stringify([...Citems, items.filter(i => parseInt(i.id) === parseInt(item.id))[0]]))
+    } else {
+      buttonRef.current.className = "shaking"
+      setTimeout(() => {
+        buttonRef.current.className = ""
+      }, 500)
+    }
   }
 
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
@@ -69,7 +86,7 @@ const QuickShop = ({ items, blockScroll, allowScroll, setQuickShop, id }) => {
                 <h2>"I think he has something he should say to me."</h2>
                 <h2 className='said'>©Craig</h2>
               </div>
-              <button onClick={() => addToCart(id)}>{t("ADD TO CART")}</button>
+              <button ref={buttonRef} onClick={addToCart}>{t("ADD TO CART")}</button>
             </div>
           </div>
         </div>

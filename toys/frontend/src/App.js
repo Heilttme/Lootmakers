@@ -31,16 +31,14 @@ function App() {
     i18n.changeLanguage(lang)
   }
 
-  useEffect(() => {
-    cart.length && localStorage.setItem("i", JSON.stringify(cart))
-  }, [cart])
+  // useEffect(() => {
+  //   cart && localStorage.setItem("i", JSON.stringify(cart))
+  // }, [])
 
   useEffect(() => {
     const Citems = JSON.parse(localStorage.getItem("i"))
-    Citems.map(item => !cart.map(cartItem => cartItem.id).includes(item.id) && addToCartState(item))
+    Citems && Citems.map(item => !cart.map(cartItem => cartItem.id).includes(item.id) && addToCartState(item))
   }, [])
-
-  console.log(items);
 
   return (
     <Router>
@@ -55,15 +53,15 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
-              <Route path="/items/:id" element={<Item items={items} />}/>
+              <Route path="/items/:id" element={<Item cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
             </Routes>
           </main>
           <Footer storeRef={storeRef}/>
         </div>
       </div>
-      <QuickShop allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
-      <Cart allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
+      <QuickShop cart={cart} allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
+      <Cart items={items} allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
       <div className="contact-form-wrapper">
         <ContactForm allowScroll={allowScroll} blockScroll={blockScroll} setContactOpened={setContactOpened} contactOpened={contactOpened} />
       </div>

@@ -2,6 +2,7 @@
     width: 80%;
     margin: 0 auto;
     margin-top: 3rem;
+    margin-bottom: 5rem;
     display: flex;
     justify-content: center;
     gap: 2rem;
@@ -196,7 +197,24 @@
         cursor: pointer;
 
         &:hover{
-            background-color: rgb(189, 186, 186);
+            background-color: #464646;
         }
+    }
+
+    .shaking{
+        @keyframes shake {
+            25%{
+                transform: translateX(3px);
+            }
+            50%{
+                transform: translateX(-3px);
+                color: rgb(247, 61, 61);
+            }
+            75%{
+                transform: translateX(3px);
+            }
+        }
+        
+        animation: shake .4s;
     }
 }

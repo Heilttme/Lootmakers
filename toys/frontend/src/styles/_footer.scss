@@ -27,6 +27,11 @@
                 font-size: 1.1em;
                 color: white;
                 cursor: pointer;
+                transition: all .1s ease-in-out;
+
+                &:hover{
+                    color: #cfcfcf;
+                }
             }
         }
     }

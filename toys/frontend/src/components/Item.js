@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { t } from 'i18next'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useStore from '../store'
 import ItemPageSlider from "./ItemPageSlider"
+import { motion } from "framer-motion"
 
-const Item = ({ items }) => {
+const Item = ({ cart, items }) => {
   const { id } = useParams()
   const [curItem, setCurItem] = useState(items.filter(i => i.id === id)[0])
   const [mapped3DImages, setMapped3DImages] = useState([])
@@ -14,6 +15,8 @@ const Item = ({ items }) => {
   const addToStateCart = useStore(state => state.add)
   
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
+  
+  const buttonRef = useRef(null)
   
   useEffect(() => {
     setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])
@@ -29,7 +32,16 @@ const Item = ({ items }) => {
   }, [id])
 
   const addToCart = (id) => {
-    addToStateCart(items.filter(i => i.id === id)[0])
+    if (!cart.filter(i => i.id === curItem.id).length) {
+      addToStateCart(items.filter(i => i.id === curItem.id)[0])
+      const Citems = JSON.parse(localStorage.getItem("i"))
+      localStorage.setItem("i", JSON.stringify([...Citems, items.filter(i => parseInt(i.id) === parseInt(id))[0]]))
+    } else {
+      buttonRef.current.className = "shaking"
+      setTimeout(() => {
+        buttonRef.current.className = ""
+      }, 500)
+    }
   }
 
   return curItem && (
@@ -53,7 +65,7 @@ const Item = ({ items }) => {
           <h2>"I think he has something he should say to me."</h2>
           <h2 className='said'>©Craig</h2>
         </div>
-        <button onClick={() => addToCart(id)}>{t("ADD TO CART")}</button>
+        <button ref={buttonRef} onClick={() => addToCart(id)}>{t("ADD TO CART")}</button>
       </div>
     </div>
   )
