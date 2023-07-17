@@ -21,7 +21,6 @@ class ItemForm(forms.Form):
 
     def save(self, commit=True):
         name = self.cleaned_data.get('name')
-        print(self.cleaned_data)
         images3D = self.cleaned_data.get_list('images3D')
         displayImage = self.cleaned_data.get('displayImage')
         images = self.cleaned_data.getlist('images')

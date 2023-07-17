@@ -1,6 +1,14 @@
 from rest_framework import serializers
 from .models import Review, Item, DisplayImage, ImageList, Image3D
+from djoser.serializers import UserCreateSerializer
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
+
+class UserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ("id", "username", "email", "password")
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:

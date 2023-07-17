@@ -9,4 +9,6 @@ urlpatterns = [
     path('api/', include("api.urls")),
     path('email/', include("email_app.urls")),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 ]

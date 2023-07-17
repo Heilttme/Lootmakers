@@ -138,6 +138,10 @@
     }
 
     .s-col{
+        position: sticky;
+        height: 100%;
+        // top: 10rem;
+        
         h3{
             font-size: 1.3em;
             opacity: .5;

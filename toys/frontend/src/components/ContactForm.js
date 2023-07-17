@@ -667,13 +667,13 @@ const FanForm = ({ checkFormSubmit, formData, setFormData, changeFormData, setCu
       </div>
       <div className='field flex'>
         <input 
-            name='merch'
-            onChange={e => changeFormData(e)}
-            id="merch"
-            value={formData.merch}
-            onFocus={() => {setMerchFocus(true);setMerchError(false)}}
-            onBlur={() => setMerchFocus(false)}
-          />
+          name='merch'
+          onChange={e => changeFormData(e)}
+          id="merch"
+          value={formData.merch}
+          onFocus={() => {setMerchFocus(true);setMerchError(false)}}
+          onBlur={() => setMerchFocus(false)}
+        />
         <motion.label animate={(formData.merch || merchFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ merchError ? " error" : ""}`} htmlFor="merch">Merch link</motion.label>
         <div data-hover="If they already have any merch leave a link on it" className='question-mark'>
           <div className='question-wrapper'>

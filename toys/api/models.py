@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 def upload_path_item_3d(instance, filename):
     item = Item.objects.filter(id=instance.item.id)[0]
@@ -48,3 +49,44 @@ class Review(models.Model):
     content = models.CharField(max_length=255, null=True, blank=True)
     pfp = models.ImageField(default="pfps/default_pfp.jpg", upload_to=upload_path_review_pfp)
     reviewImage = models.ImageField(default="pfps/default_pfp.jpg", upload_to=upload_path_review_image)
+
+
+class UserAccountManager(BaseUserManager):
+    def create_user(self, email, username, password=None):
+        if not email:
+            raise ValueError("users must have an email adress")
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username)
+
+        user.set_password(password)
+        user.save()
+
+        return user
+
+class UserAccount(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=255, unique=True)
+    username = models.CharField(max_length=255, unique=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserAccountManager()
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["email"]
+
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='user_accounts_groups', 
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to.',
+    )
+
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='user_accounts_permissions',  # Choose a unique related_name
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.',
+    )

@@ -9,19 +9,20 @@
 @import "item.scss";
 @import "contact.scss";
 @import "quickshop.scss";
+@import "404.scss";
 
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-
 }
 
 
 a{
     text-decoration: none;
     color: black;
+    position: relative;
 }
 
 html{
@@ -46,8 +47,20 @@ html{
 .a{
     background-color: #E6E6E6;
     z-index: 0;
+    position: relative;
+    
+    &::after {
+        content: '';
+        display: block;
+        height: 15rem; /* Set same as footer's height */
+    }
+}
+
+
+.wrapper, html, #root, body{
 }
 
 main{
     position: relative;
+    min-height: calc(100vh - 18rem);
 }

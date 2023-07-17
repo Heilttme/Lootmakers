@@ -1,6 +1,6 @@
 import "./styles/index.css"
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom"
-import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm } from "./components"
+import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound } from "./components"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios"
 import useStore from "./store";
@@ -55,6 +55,9 @@ function App() {
               <Route path="/" element={<Home quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
               <Route path="/items/:id" element={<Item cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
+              <Route path="/admin/cms" element={<ALogin />}/>
+              <Route path="/admin/cms" element={<CAP />}/>
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </main>
           <Footer storeRef={storeRef}/>
