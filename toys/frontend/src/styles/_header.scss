@@ -73,20 +73,78 @@
         width: 33.33%;
         height: 100%;
 
-        // a{
-        //     padding-left: 1rem;
-        //     padding-right: 1rem;
+        .cart-container{
+            padding-left: 4rem;
+            padding-right: 4rem;
+            font-size: 1.5em;
+            font-weight: 500;
+            transition: all .2s ease-in-out;
+            cursor: pointer;
 
-        //     // &:first-child{
-        //     //     padding-right: unset;
-        //     //     padding-right: 1rem;
-        //     // }
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
 
-        //     // &:last-child{
-        //     //     border-left: 1px solid;
-        //     //     padding-left: 1.5rem;
-        //     // }
-        // }
+            &:hover{
+                background-color: white;
+                outline: 1px solid black;
+    
+                svg{
+                    transform: rotate(-90deg);
+                }
+            }
 
+            a{
+                padding-left: unset;
+                padding-right: unset;
+                font-size: unset;
+                font-weight: unset;
+                position: relative;
+
+                display: unset;
+                height: unset;
+                align-items: unset;
+
+                &:hover{
+                    background-color: unset;
+                    outline: unset;
+                }
+            }
+
+            .count{
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                right: -20px;
+                top: -5px;
+                font-size: .55em;
+                background-color: #333;
+                padding: .2rem;
+                border-radius: 50%;
+                color: white;
+            }
+
+            .scaled{
+                @keyframes scale {
+                    25%{
+                        transform: scale(1.1);
+                    }
+                    50%{
+                        transform: scale(1.2);
+                    }
+                    75%{
+                        transform: scale(1.1);
+                    }
+                    100%{
+                        transform: scale(1);
+                    }
+                }
+                animation: scale .3s ease-in-out;
+            }
+        }
     }
 }

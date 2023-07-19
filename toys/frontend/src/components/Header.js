@@ -2,7 +2,7 @@ import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import i18next, { t } from 'i18next'
 
-const Header = ({ changeLanguage, setCartOpened, storeRef }) => {
+const Header = ({ cart, changeLanguage, setCartOpened, storeRef, cartCounterRef }) => {
   const location = useLocation().pathname
   const navigate = useNavigate()
   
@@ -26,7 +26,15 @@ const Header = ({ changeLanguage, setCartOpened, storeRef }) => {
           <a href='/contact'>{t("CONTACT")}</a>
         </div>
         <div className='right-lane'>
-          <a onClick={() => setCartOpened(prev => !prev)}>{t("CART")}</a>
+          <div onClick={() => setCartOpened(prev => !prev)} className='cart-container'>
+            <a>
+              {t("CART")}
+              {
+              cart.length !== 0 &&
+              <p ref={cartCounterRef} className='count'>{cart.reduce((c, i) => c + i.quantity, 0)}</p>
+              }
+            </a>
+          </div>
           <a onClick={() => changeLanguage(i18next.language === "ru" ? "en" : "ru")}>{i18next.language === "ru" ? "RU" : "EN"}</a>
         </div>
       </div>

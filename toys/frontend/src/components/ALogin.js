@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion"
+import { useNavigate } from 'react-router-dom'
 
 const ALogin = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ const ALogin = () => {
       [name]: value
     }))
   }
+
+  const navigate = useNavigate()
   
   const [loginFocus, setLoginFocus] = useState(false)
   const [passwordFocus, setPasswordFocus] = useState(false)
@@ -22,12 +25,12 @@ const ALogin = () => {
   const [passwordError, setPasswordError] = useState(false)
 
   const submit = () => {
-
+    navigate("/admin/cms")
   }
   
   return (
     <div className='login-form'>
-      <div>
+      <div className='form'>
         <div className="field">
           <input 
             name='login'
@@ -49,6 +52,9 @@ const ALogin = () => {
             onBlur={() => setPasswordFocus(false)}
           />
           <motion.label animate={(formData.password || passwordFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ passwordError ? " error" : ""}`} htmlFor="password">Password</motion.label>
+        </div>
+        <div className='btn-container'>
+          <button onClick={submit}>Submit</button>
         </div>
       </div>
     </div>

@@ -1,0 +1,82 @@
+.login-form{
+    margin: 0 auto;
+    // display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    width: 80%;
+
+    .form{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .btn-container{
+            margin-top: 1.4rem;
+            display: flex;
+            // width: 100%;
+            justify-content: flex-end;
+
+            button{
+                display: flex;
+                justify-content: center;
+                padding: .6rem 1.2rem;
+                border-radius: 4px;
+                font-size: 1.2em;
+                cursor: pointer;
+                transition: all .2s ease-in-out;
+                background-color: #3f3f3f;
+                color: white;
+                outline: none;
+                border: none;
+    
+                &:hover{
+                    background-color: #464646;
+                }
+            }
+        }
+    }
+
+    .field{
+        margin-top: 2rem;
+        position: relative;
+
+        label, input[type=text]{
+            display: block;
+            user-select: none;
+        }
+
+        .text-label{
+            position: absolute;
+            top: 0rem;
+            left: .5rem;
+            font-size: 1.2em;
+            cursor: text;
+            opacity: 1;
+            padding: .4rem;
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .error{
+            color: rgb(247, 61, 61);
+        }
+
+        input{
+            width: 550px;
+            height: 1rem;
+            padding: 1.2rem;
+            background-color: #3f3f3f;
+            border: none;
+            outline: none;
+            transition: all .2s ease-in-out;
+            color: white;
+            border-radius: 4px;
+            resize: none;
+
+            &:focus{
+                background-color: #333333;
+            }
+        }
+
+    }
+}

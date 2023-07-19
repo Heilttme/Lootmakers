@@ -37,6 +37,20 @@
         padding-top: 65px;
         height: 100%;
     }
+    
+    .empty{
+        padding-top: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: .6rem;
+
+        .cart-ic{
+            width: 46px;
+            height: 46px;
+        }
+    }
 
     .cart-items{
         height: 100%;

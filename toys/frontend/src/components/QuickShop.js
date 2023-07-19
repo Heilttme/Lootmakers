@@ -5,13 +5,12 @@ import axios from 'axios'
 import useStore from "../store"
 import { t } from "i18next"
 
-const QuickShop = ({ cart, items, blockScroll, allowScroll, setQuickShop, id }) => {
+const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll, setQuickShop, id }) => {
   const [item, setItem] = useState(items.filter(i => i.id === id)[0])
   const [imageList, setImageList] = useState([])
   const [images3D, setImages3D] = useState([])
   const [mapped3DImages, setMapped3DImages] = useState([])
   const addToStateCart = useStore(state => state.add)
-  const buttonRef = useRef(null)
 
   useEffect(() => {
     setItem(items.filter(i => i.id === id)[0])
@@ -30,26 +29,6 @@ const QuickShop = ({ cart, items, blockScroll, allowScroll, setQuickShop, id }) 
     setMapped3DImages(images3D.map(item => item.image))
   }, [images3D])
 
-  // const addToCart = (id) => {
-  //    if (!cart.filter(i => i.id === id).length) {
-  //     addToStateCart(items.filter(i => i.id === id)[0])
-  //   }
-  // }
-
-  const addToCart = () => {
-    console.log(cart);
-    if (!cart.filter(i => i.id === item.id).length) {
-      addToStateCart(items.filter(i => i.id === item.id)[0])
-      const Citems = JSON.parse(localStorage.getItem("i"))
-      localStorage.setItem("i", JSON.stringify([...Citems, items.filter(i => parseInt(i.id) === parseInt(item.id))[0]]))
-    } else {
-      buttonRef.current.className = "shaking"
-      setTimeout(() => {
-        buttonRef.current.className = ""
-      }, 500)
-    }
-  }
-
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
 
   return item && (
@@ -61,7 +40,7 @@ const QuickShop = ({ cart, items, blockScroll, allowScroll, setQuickShop, id }) 
     >
         <div className='quickshop-header'>
           <p>{t("QUICK SHOP")}</p>
-          <svg className='leave' onClick={() => {setQuickShop(false);allowScroll()}} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
+          <svg className='leave' onClick={() => {setQuickShop(null);allowScroll()}} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
         </div>
         <div className='item-wrapper'>
           <div className='item'>
@@ -86,7 +65,7 @@ const QuickShop = ({ cart, items, blockScroll, allowScroll, setQuickShop, id }) 
                 <h2>"I think he has something he should say to me."</h2>
                 <h2 className='said'>©Craig</h2>
               </div>
-              <button ref={buttonRef} onClick={addToCart}>{t("ADD TO CART")}</button>
+              <button ref={buttonRef} onClick={() => addToCart(item)}>{t("ADD TO CART")}</button>
             </div>
           </div>
         </div>

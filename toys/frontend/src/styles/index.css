@@ -141,6 +141,18 @@
   padding-top: 65px;
   height: 100%;
 }
+.cart .empty {
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.cart .empty .cart-ic {
+  width: 46px;
+  height: 46px;
+}
 .cart .cart-items {
   height: 100%;
   display: flex;
@@ -342,6 +354,71 @@
   justify-content: flex-end;
   width: 33.33%;
   height: 100%;
+}
+.header .right-lane .cart-container {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  font-size: 1.5em;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.header .right-lane .cart-container:hover {
+  background-color: white;
+  outline: 1px solid black;
+}
+.header .right-lane .cart-container:hover svg {
+  transform: rotate(-90deg);
+}
+.header .right-lane .cart-container a {
+  padding-left: unset;
+  padding-right: unset;
+  font-size: unset;
+  font-weight: unset;
+  position: relative;
+  display: unset;
+  height: unset;
+  align-items: unset;
+}
+.header .right-lane .cart-container a:hover {
+  background-color: unset;
+  outline: unset;
+}
+.header .right-lane .cart-container .count {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: -20px;
+  top: -5px;
+  font-size: 0.55em;
+  background-color: #333;
+  padding: 0.2rem;
+  border-radius: 50%;
+  color: white;
+}
+.header .right-lane .cart-container .scaled {
+  animation: scale 0.3s ease-in-out;
+}
+@keyframes scale {
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .footer {
@@ -1374,6 +1451,133 @@
   font-size: 3em;
 }
 
+.login-form {
+  margin: 0 auto;
+  justify-content: center;
+  margin-top: 2rem;
+  width: 80%;
+}
+.login-form .form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.login-form .form .btn-container {
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.login-form .form .btn-container button {
+  display: flex;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: #3f3f3f;
+  color: white;
+  outline: none;
+  border: none;
+}
+.login-form .form .btn-container button:hover {
+  background-color: #464646;
+}
+.login-form .field {
+  margin-top: 2rem;
+  position: relative;
+}
+.login-form .field label, .login-form .field input[type=text] {
+  display: block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.login-form .field .text-label {
+  position: absolute;
+  top: 0rem;
+  left: 0.5rem;
+  font-size: 1.2em;
+  cursor: text;
+  opacity: 1;
+  padding: 0.4rem;
+  border-radius: 8px;
+  color: white;
+}
+.login-form .field .error {
+  color: rgb(247, 61, 61);
+}
+.login-form .field input {
+  width: 550px;
+  height: 1rem;
+  padding: 1.2rem;
+  background-color: #3f3f3f;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  border-radius: 4px;
+  resize: none;
+}
+.login-form .field input:focus {
+  background-color: #333333;
+}
+
+.CAP .navigation {
+  position: fixed;
+  left: 0;
+  width: 200px;
+  background-color: #e6e6e6;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid #000;
+}
+.CAP .navigation .block {
+  width: 100%;
+}
+.CAP .navigation .block a {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  width: 100%;
+  font-size: 1.5em;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+.CAP .navigation .block a:hover {
+  background-color: white;
+  outline: 1px solid black;
+}
+.CAP .panel {
+  padding-left: 200px;
+  width: 100%;
+  padding-top: 1rem;
+}
+.CAP .panel .add {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.CAP .panel .form-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.CAP .panel .form-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 * {
   padding: 0;
   margin: 0;
