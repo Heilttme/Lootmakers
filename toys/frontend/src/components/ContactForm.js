@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { t } from 'i18next'
+import Input from "./Input"
 
 const ContactForm = ({ contactOpened, allowScroll, blockScroll, setContactOpened }) => {
   const [formData, setFormData] = useState({
@@ -31,8 +32,6 @@ const ContactForm = ({ contactOpened, allowScroll, blockScroll, setContactOpened
 
   const [person, setPerson] = useState("")
 /////////////
-  const [nameFocus, setNameFocus] = useState(false)
-  const [emailFocus, setEmailFocus] = useState(false)
   const [personFocus, setPersonFocus] = useState(false)
 /////////////
   const [nameError, setNameError] = useState(false)
@@ -66,28 +65,8 @@ const ContactForm = ({ contactOpened, allowScroll, blockScroll, setContactOpened
           {
             curStep === 0 ? 
             <div className='block'>
-              <div className='field'>
-                <input 
-                    name='name'
-                    onChange={e => changeFormData(e)}
-                    id="name"
-                    value={formData.name}
-                    onFocus={() => {setNameFocus(true);setNameError(false)}}
-                    onBlur={() => setNameFocus(false)}
-                  />
-                <motion.label animate={(formData.name || nameFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ nameError ? " error" : ""}`} htmlFor="name">Name</motion.label>
-              </div>
-              <div className='field'>
-                <input 
-                    name='email'
-                    onChange={e => changeFormData(e)}
-                    id="email"
-                    value={formData.email}
-                    onFocus={() => {setEmailFocus(true);setEmailError(false)}}
-                    onBlur={() => setEmailFocus(false)}
-                  />
-                <motion.label animate={(formData.email || emailFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ emailError ? " error" : ""}`} htmlFor="email">E-mail</motion.label>
-              </div>
+              <Input question={""} label={"name"} onChange={(e) => changeFormData(e)} value={formData.name} error={nameError} setError={setNameError} />
+              <Input question={""} label={"email"} onChange={(e) => changeFormData(e)} value={formData.email} error={emailError} setError={setEmailError} />
               <div className='field'>
                 <ul className='socials'>
                   <h2>Who are you?</h2>
@@ -392,17 +371,7 @@ const ContentCreatorForm = ({ checkFormSubmit, formData, setFormData, changeForm
           </li>
         </ul>
       </div>
-      <div className='field'>
-        <input 
-            name='channel'
-            onChange={e => changeFormData(e)}
-            id="channel"
-            value={formData.channel}
-            onFocus={() => {setChannelFocus(true);setChannelError(false)}}
-            onBlur={() => setChannelFocus(false)}
-          />
-        <motion.label animate={(formData.channel || channelFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ channelError ? " error" : ""}`} htmlFor="channel">Channel link</motion.label>
-      </div>
+      <Input question={""} label={"channel"} onChange={(e) => changeFormData(e)} value={formData.channel} error={channelError} setError={setChannelError} />
         {[...Array(linkQuantity)].map((_, i) => 
         <div className='field flex'>
           <NewSocialNetworkLink q={i} formData={formData} changeFormData={changeFormData} linkQuantity={linkQuantity} setLinkQuantity={setLinkQuantity}/>
@@ -413,49 +382,9 @@ const ContentCreatorForm = ({ checkFormSubmit, formData, setFormData, changeForm
           </div>
         </div>
         )}
-      <div className='field flex'>
-        <input 
-            name='product'
-            onChange={e => changeFormData(e)}
-            id="product"
-            value={formData.product}
-            onFocus={() => {setProductFocus(true);setProductError(false)}}
-            onBlur={() => setProductFocus(false)}
-          />
-        <motion.label animate={(formData.product || productFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ productError ? " error" : ""}`} htmlFor="product">Product</motion.label>
-        <div data-hover="What would you like to make with LootMakers" className='question-mark'>
-          <div className='question-wrapper'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1.25 17c0 .69-.559 1.25-1.25 1.25-.689 0-1.25-.56-1.25-1.25s.561-1.25 1.25-1.25c.691 0 1.25.56 1.25 1.25zm1.393-9.998c-.608-.616-1.515-.955-2.551-.955-2.18 0-3.59 1.55-3.59 3.95h2.011c0-1.486.829-2.013 1.538-2.013.634 0 1.307.421 1.364 1.226.062.847-.39 1.277-.962 1.821-1.412 1.343-1.438 1.993-1.432 3.468h2.005c-.013-.664.03-1.203.935-2.178.677-.73 1.519-1.638 1.536-3.022.011-.924-.284-1.719-.854-2.297z"/></svg>
-          </div>
-        </div>
-      </div>
-      <div className='field flex'>
-        <input 
-            name='merch'
-            onChange={e => changeFormData(e)}
-            id="merch"
-            value={formData.merch}
-            onFocus={() => {setMerchFocus(true);setMerchError(false)}}
-            onBlur={() => setMerchFocus(false)}
-          />
-        <motion.label animate={(formData.merch || merchFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ merchError ? " error" : ""}`} htmlFor="merch">Merch link</motion.label>
-        <div data-hover="If you already have any merch leave a link on it" className='question-mark'>
-          <div className='question-wrapper'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1.25 17c0 .69-.559 1.25-1.25 1.25-.689 0-1.25-.56-1.25-1.25s.561-1.25 1.25-1.25c.691 0 1.25.56 1.25 1.25zm1.393-9.998c-.608-.616-1.515-.955-2.551-.955-2.18 0-3.59 1.55-3.59 3.95h2.011c0-1.486.829-2.013 1.538-2.013.634 0 1.307.421 1.364 1.226.062.847-.39 1.277-.962 1.821-1.412 1.343-1.438 1.993-1.432 3.468h2.005c-.013-.664.03-1.203.935-2.178.677-.73 1.519-1.638 1.536-3.022.011-.924-.284-1.719-.854-2.297z"/></svg>
-          </div>
-        </div>
-      </div>
-      <div className='field'>
-        <input 
-            name='contact'
-            onChange={e => changeFormData(e)}
-            id="contact"
-            value={formData.contact}
-            onFocus={() => {setContactFocus(true);setContactError(false)}}
-            onBlur={() => setContactFocus(false)}
-          />
-        <motion.label animate={(formData.contact || contactFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ contactError ? " error" : ""}`} htmlFor="contact">Contact link</motion.label>
-      </div>
+      <Input question={"What would you like to make with LootMakers"} label={"product"} onChange={(e) => changeFormData(e)} value={formData.product} error={productError} setError={setProductError} />
+      <Input question={"If you already have any merch leave a link on it"} label={"merch"} onChange={(e) => changeFormData(e)} value={formData.merch} error={merchError} setError={setMerchError} />
+      <Input question={""} label={"contact"} onChange={(e) => changeFormData(e)} value={formData.contact} error={contactError} setError={setContactError} />
     </div>
   )
 }
@@ -654,33 +583,8 @@ const FanForm = ({ checkFormSubmit, formData, setFormData, changeFormData, setCu
           </li>
         </ul>
       </div>
-      <div className='field'>
-        <input 
-            name='channel'
-            onChange={e => changeFormData(e)}
-            id="channel"
-            value={formData.channel}
-            onFocus={() => {setChannelFocus(true);setChannelError(false)}}
-            onBlur={() => setChannelFocus(false)}
-          />
-        <motion.label animate={(formData.channel || channelFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ channelError ? " error" : ""}`} htmlFor="channel">Their channel link</motion.label>
-      </div>
-      <div className='field flex'>
-        <input 
-          name='merch'
-          onChange={e => changeFormData(e)}
-          id="merch"
-          value={formData.merch}
-          onFocus={() => {setMerchFocus(true);setMerchError(false)}}
-          onBlur={() => setMerchFocus(false)}
-        />
-        <motion.label animate={(formData.merch || merchFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ merchError ? " error" : ""}`} htmlFor="merch">Merch link</motion.label>
-        <div data-hover="If they already have any merch leave a link on it" className='question-mark'>
-          <div className='question-wrapper'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1.25 17c0 .69-.559 1.25-1.25 1.25-.689 0-1.25-.56-1.25-1.25s.561-1.25 1.25-1.25c.691 0 1.25.56 1.25 1.25zm1.393-9.998c-.608-.616-1.515-.955-2.551-.955-2.18 0-3.59 1.55-3.59 3.95h2.011c0-1.486.829-2.013 1.538-2.013.634 0 1.307.421 1.364 1.226.062.847-.39 1.277-.962 1.821-1.412 1.343-1.438 1.993-1.432 3.468h2.005c-.013-.664.03-1.203.935-2.178.677-.73 1.519-1.638 1.536-3.022.011-.924-.284-1.719-.854-2.297z"/></svg>
-          </div>
-        </div>
-      </div>
+      <Input question ={""} label={"channel"} onChange={(e) => changeFormData(e)} value={formData.channel} error={channelError} setError={setChannelError} />
+      <Input question={"If they already have any merch leave a link on it"} label={"merch"} onChange={(e) => changeFormData(e)} value={formData.merch} error={merchError} setError={setMerchError} />
     </div>
   )
 }

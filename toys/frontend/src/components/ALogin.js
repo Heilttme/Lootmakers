@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion"
 import { useNavigate } from 'react-router-dom'
+import Input from "./Input"
 
 const ALogin = () => {
   const [formData, setFormData] = useState({
@@ -18,9 +19,6 @@ const ALogin = () => {
 
   const navigate = useNavigate()
   
-  const [loginFocus, setLoginFocus] = useState(false)
-  const [passwordFocus, setPasswordFocus] = useState(false)
-
   const [loginError, setLoginError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
 
@@ -31,28 +29,8 @@ const ALogin = () => {
   return (
     <div className='login-form'>
       <div className='form'>
-        <div className="field">
-          <input 
-            name='login'
-            onChange={e => changeFormData(e)}
-            id="login"
-            value={formData.login}
-            onFocus={() => {setLoginFocus(true);setLoginError(false)}}
-            onBlur={() => setLoginFocus(false)}
-          />
-          <motion.label animate={(formData.login || loginFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ loginError ? " error" : ""}`} htmlFor="login">Login</motion.label>
-        </div>
-        <div className="field">
-          <input 
-            name='password'
-            onChange={e => changeFormData(e)}
-            id="password"
-            value={formData.password}
-            onFocus={() => {setPasswordFocus(true);setPasswordError(false)}}
-            onBlur={() => setPasswordFocus(false)}
-          />
-          <motion.label animate={(formData.password || passwordFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ passwordError ? " error" : ""}`} htmlFor="password">Password</motion.label>
-        </div>
+        <Input question={""} label={"login"} onChange={(e) => changeFormData(e)} value={formData.login} error={loginError} setError={setLoginError} />
+        <Input question={""} label={"password"} onChange={(e) => changeFormData(e)} value={formData.password} error={passwordError} setError={setPasswordError} />
         <div className='btn-container'>
           <button onClick={submit}>Submit</button>
         </div>

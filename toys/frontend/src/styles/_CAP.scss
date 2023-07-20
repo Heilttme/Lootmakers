@@ -1,4 +1,6 @@
 .CAP{
+    margin-bottom: 2rem;
+    
     .navigation{
         position: fixed;
         left: 0;
@@ -21,6 +23,7 @@
                 font-size: 1.5em;
                 font-weight: 500;
                 position: relative;
+                border: 1px solid #e6e6e6;
 
                 display: flex;
                 align-items: center;
@@ -30,10 +33,16 @@
 
                 &:hover{
                     background-color: white;
-                    outline: 1px solid black;
+                    border-bottom: 1px solid black;
                 }
             }
+
+            .current{
+                // border-top: 1px solid black;
+                border-bottom: 1px solid black;
+            }
         }
+
     }
 
     .panel{
@@ -54,9 +63,6 @@
             flex-direction: column;
             align-items: center;
 
-            .form{
-
-            }
         }
 
         .form-review{
@@ -64,9 +70,94 @@
             flex-direction: column;
             align-items: center;
 
-            .form{
+        }
+
+        .form{
+
+            .field{
+                margin-top: 2rem;
+                position: relative;
+
+                label, input[type=text]{
+                    display: block;
+                    user-select: none;
+                }
+        
+                .text-label{
+                    position: absolute;
+                    top: 0rem;
+                    left: .5rem;
+                    font-size: 1.2em;
+                    cursor: text;
+                    opacity: 1;
+                    padding: .4rem;
+                    border-radius: 8px;
+                    color: white;
+                }
+                
+                input{
+                    width: 400px;
+                    height: 1rem;
+                    padding: 1.2rem;
+                    background-color: #3f3f3f;
+                    border: none;
+                    outline: none;
+                    transition: all .2s ease-in-out;
+                    color: white;
+                    border-radius: 4px;
+                    resize: none;
+    
+                    &:focus{
+                        background-color: #333333;
+                    }
+                }
+            }
+            
+            input[type=file]{
+                display: none;
 
             }
+
+            .file_label{
+                margin-top: 2rem;
+                height: 1rem;
+                padding: 1.2rem .8rem;
+                border-radius: 4px;
+                width: 400px;
+                background-color: #3f3f3f;
+                color: white;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+
+                p{
+                    &:last-child{
+                        font-size: 1.6em;
+                    }
+                }
+            }
+
+            button{
+                margin-top: 2rem;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                padding: .6rem 1.2rem;
+                border-radius: 4px;
+                font-size: 1.2em;
+                cursor: pointer;
+                transition: all .2s ease-in-out;
+                background-color: #3f3f3f;
+                color: white;
+                outline: none;
+                border: none;
+    
+                &:hover{
+                    background-color: #464646;
+                }
+            }
+
         }
     }
 }

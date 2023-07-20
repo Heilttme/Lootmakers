@@ -941,9 +941,6 @@
   border-radius: 8px;
   color: white;
 }
-.contact-form .blocks .block .field .error {
-  color: rgb(247, 61, 61);
-}
 .contact-form .blocks .block .field input, .contact-form .blocks .block .field textarea {
   width: 550px;
   height: 1rem;
@@ -1523,6 +1520,9 @@
   background-color: #333333;
 }
 
+.CAP {
+  margin-bottom: 2rem;
+}
 .CAP .navigation {
   position: fixed;
   left: 0;
@@ -1547,6 +1547,7 @@
   font-size: 1.5em;
   font-weight: 500;
   position: relative;
+  border: 1px solid #e6e6e6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1555,7 +1556,10 @@
 }
 .CAP .navigation .block a:hover {
   background-color: white;
-  outline: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.CAP .navigation .block .current {
+  border-bottom: 1px solid black;
 }
 .CAP .panel {
   padding-left: 200px;
@@ -1578,6 +1582,80 @@
   flex-direction: column;
   align-items: center;
 }
+.CAP .panel .form .field {
+  margin-top: 2rem;
+  position: relative;
+}
+.CAP .panel .form .field label, .CAP .panel .form .field input[type=text] {
+  display: block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.CAP .panel .form .field .text-label {
+  position: absolute;
+  top: 0rem;
+  left: 0.5rem;
+  font-size: 1.2em;
+  cursor: text;
+  opacity: 1;
+  padding: 0.4rem;
+  border-radius: 8px;
+  color: white;
+}
+.CAP .panel .form .field input {
+  width: 400px;
+  height: 1rem;
+  padding: 1.2rem;
+  background-color: #3f3f3f;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  border-radius: 4px;
+  resize: none;
+}
+.CAP .panel .form .field input:focus {
+  background-color: #333333;
+}
+.CAP .panel .form input[type=file] {
+  display: none;
+}
+.CAP .panel .form .file_label {
+  margin-top: 2rem;
+  height: 1rem;
+  padding: 1.2rem 0.8rem;
+  border-radius: 4px;
+  width: 400px;
+  background-color: #3f3f3f;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.CAP .panel .form .file_label p:last-child {
+  font-size: 1.6em;
+}
+.CAP .panel .form button {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: #3f3f3f;
+  color: white;
+  outline: none;
+  border: none;
+}
+.CAP .panel .form button:hover {
+  background-color: #464646;
+}
+
 * {
   padding: 0;
   margin: 0;

@@ -14,6 +14,10 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   const [images3D, setImages3D] = useState([])
   
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
   
   useEffect(() => {
     setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])

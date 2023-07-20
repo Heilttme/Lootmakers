@@ -52,35 +52,30 @@ const CartItem = ({ items, item, displayImages, setCartOpened, incQuantity, decQ
   const [removedShadow, setRemovedShadow] = useState(false)
   const [removedItem, setRemovedItem] = useState(false)
   const removeFromCart = useStore(state => state.remove)
-
-  // const startRemoving = (item) => {
-  //   setRemovedShadow(true)
-  //   setRemovedShadow(false)
-  //   setRemovedItem(true)
-  //   setTimeout(() => setRemovedItem(true), 200)
-  //   setTimeout(() => {
-  //     let Citems = JSON.parse(localStorage.getItem("i"))
-  //     Citems = Citems.filter(i => parseInt(i.id) !== parseInt(item.id))
-  //     localStorage.setItem("i", JSON.stringify([...Citems]))
-  //     removeFromCart(items.filter(i => i.id === item.id)[0])
-  //   }, 450)
-  // }
+  const [timeout, addTimeout] = useState("")
 
   const startRemoving = (item) => {
     setRemovedShadow(true)
-    setTimeout(() => {
-      setRemovedShadow(false)
-      setRemovedItem(true)
-      // setTimeout(() => setRemovedItem(true), 200)
+    addTimeout(
       setTimeout(() => {
-        let Citems = JSON.parse(localStorage.getItem("i"))
-        Citems = Citems.filter(i => parseInt(i.id) !== parseInt(item.id))
-        localStorage.setItem("i", JSON.stringify([...Citems]))
-        removeFromCart(items.filter(i => i.id === item.id)[0])
-      }, 450)
-    }, 5000)
+        setRemovedShadow(false)
+        setRemovedItem(true)
+        setTimeout(() => setRemovedItem(true), 200)
+        setTimeout(() => {
+          let Citems = JSON.parse(localStorage.getItem("i"))
+          Citems = Citems.filter(i => parseInt(i.id) !== parseInt(item.id))
+          localStorage.setItem("i", JSON.stringify([...Citems]))
+          removeFromCart(items.filter(i => i.id === item.id)[0])
+        }, 450)
+      }, 5000)
+    )
   }
-  
+
+  const cancelRemove = () => {
+    setRemovedShadow(false)
+    clearTimeout(timeout)
+  }
+
   return (
     <motion.div
       animate={{height: removedItem ? "0" : "auto"}}
@@ -117,7 +112,7 @@ const CartItem = ({ items, item, displayImages, setCartOpened, incQuantity, decQ
             <div></div>
             <h2>You sure you want to remove this item?</h2>
             <div className='buttons'>
-              <button onClick={() => setRemovedShadow(false)}>Undo</button>
+              <button onClick={cancelRemove}>Undo</button>
             </div>
           </div>
       }

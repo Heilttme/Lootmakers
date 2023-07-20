@@ -11,5 +11,6 @@ import ContactForm from "./ContactForm";
 import CAP from "./CAP";
 import ALogin from "./ALogin";
 import PageNotFound from "./PageNotFound";
+import Input from "./Input";
 
-export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound }
+export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, Input }
