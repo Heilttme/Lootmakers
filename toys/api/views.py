@@ -55,6 +55,47 @@ def get_item_images(request):
 
     return Response({"data": images})
 
+    
+@api_view(["POST"])
+def toy_admin_panel_add_item(request):
+    name = request.data.get('name')
+    collection = request.data.get('collection')
+    images3D = request.FILES.getlist('images3D')
+    displayImage = request.FILES.getlist('displayImage')
+    images = request.FILES.getlist('images')
+    blockInfo = request.data.get('blockInfo')
+    isPreorder = request.data.get('isPreorder') == "on"
+    releaseDate = request.data.get('releaseDate')
+    price = request.data.get('price')
+    quantityAvailable = request.data.get('quantityAvailable')
+
+    item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
+    item.save()
+
+    for i in displayImage:
+        i = DisplayImage(image=i, item=item)
+        i.save()
+
+    for i in images3D:
+        i = Image3D(image=i, item=item)
+        i.save()
+
+    for i in images:
+        i = ImageList(image=i, item=item)
+        i.save()
+
+@api_view(["POST"])
+def toy_admin_panel_add_review(request):
+    nickname = request.data.get('nickname')
+    username = request.data.get('username')
+    content = request.data.get('content')
+    pfp = request.request.get('pfp')
+    reviewImage = request.FILES.get('reviewImage')
+
+    item = Review(nickname=nickname, pfp=pfp, reviewImage=reviewImage, username=username, content=content)
+    item.save()
+
+
 def toy_admin_panel(request):
     if request.method == "POST": 
         form = ItemForm(request.POST, request.FILES)

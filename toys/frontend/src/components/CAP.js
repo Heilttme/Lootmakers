@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import Input from './Input'
+import { v4 as uuidv4 } from 'uuid';
+import axios from "axios"
 
 const CAP = ({  }) => {
   const [block, setBlock] = useState("Add")
@@ -14,6 +16,8 @@ const CAP = ({  }) => {
   
   const [pfp, setPfp] = useState({})
   const [reviewImage, setReviewImage] = useState({})
+
+  const [blockQuantity, setBlockQuantity] = useState(1)
 
   const changeFormData = (e) => {
     const {name, value} = e.target
@@ -29,8 +33,13 @@ const CAP = ({  }) => {
   const [priceError, setPriceError] = useState(false)
   const [releaseDateError, setReleaseDateError] = useState(false)
   const [quantityError, setQuantityError] = useState(false)
+  const [nicknameError, setNicknameError] = useState(false)
+  const [usernameError, setUsernameError] = useState(false)
+  const [contentError, setContentError] = useState(false)
 
   const onItemSubmit = () => {
+    console.log(Object.fromEntries(Object.entries(formData).filter(([_, v]) => v != "")))
+    const res = axios.post("http://127.0.0.1:8000/api/")
   }
 
   const onReviewSubmit = () => {
@@ -98,7 +107,16 @@ const CAP = ({  }) => {
                         </>
                     }
                   </label>
-                  <Input question={""} label={"blockInfo"} onChange={(e) => changeFormData(e)} value={formData.blockInfo} error={blockInfoError} setError={setBlockInfoError} />
+                  {/* <Input question={""} label={"blockInfo"} onChange={(e) => changeFormData(e)} value={formData.blockInfo} error={blockInfoError} setError={setBlockInfoError} /> */}
+                  <div className='field'>
+                    <div className='block-info-block'>
+                    {[...Array(blockQuantity)].map((_, i) => 
+                      <div className='field' id={uuidv4()}>
+                        <BlockInfoDoubleInput q={i} formData={formData} setFormData={setFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
+                      </div>
+                    )}
+                    </div>
+                  </div>
 
                   <Input question={""} label={"releaseDate"} onChange={(e) => changeFormData(e)} value={formData.releaseDate} error={releaseDateError} setError={setReleaseDateError} />
                   <Input question={""} label={"price"} onChange={(e) => changeFormData(e)} value={formData.price} error={priceError} setError={setPriceError} />
@@ -113,14 +131,25 @@ const CAP = ({  }) => {
                   <Input question={""} label={"nickname"} onChange={(e) => changeFormData(e)} value={formData.nickname} error={nicknameError} setError={setNicknameError} />
                   <Input question={""} label={"username"} onChange={(e) => changeFormData(e)} value={formData.username} error={usernameError} setError={setUsernameError} />
                   <Input question={""} label={"content"} onChange={(e) => changeFormData(e)} value={formData.content} error={contentError} setError={setContentError} />
-                  <input type="file" onChange={(e) => setDisplayFile(e.target.files)} accept='image/*' id="file4"/>
+                  <input type="file" onChange={(e) => setPfp(e.target.files)} accept='image/*' id="file4"/>
                   <label className='file_label' for="file4">
                     {
-                      displayFile.length ? 
-                        `${displayFile.length} file selected`
+                      pfp.length ? 
+                        `${pfp.length} file selected`
                       :
                         <>
                           <p>Choose profile picture</p><p>+</p>
+                        </>
+                    }
+                  </label>
+                  <input type="file" onChange={(e) => setReviewImage(e.target.files)} accept='image/*' id="file5"/>
+                  <label className='file_label' for="file5">
+                    {
+                      reviewImage.length ? 
+                        `${reviewImage.length} file selected`
+                      :
+                        <>
+                          <p>Choose review picture</p><p>+</p>
                         </>
                     }
                   </label>
@@ -138,5 +167,69 @@ const CAP = ({  }) => {
     </div>
   )
 }
+
+
+export const BlockInfoDoubleInput = ({ q, setFormData, formData, blockQuantity, setBlockQuantity }) => {
+  const [input1Focus, setInput1Focus] = useState(false)
+  const [input2Focus, setInput2Focus] = useState(false)
+
+  const [error1, setError1] = useState(false)
+  const [error2, setError2] = useState(false)
+
+  const [fieldName, setFieldName] = useState("")
+
+  const changeFormData1 = (e) => {
+    // setFormData(prev => {
+    //   let newDict = ({...prev})
+    //   // delete newDict[e.target.value.split(0, e.target.value.length - 1)[0]]
+    //   // console.log(e.target.value.split(0, e.target.value.length - 1)[0])
+    //   return newDict
+    // })
+    setFormData(prev => ({...prev, [e.target.value]: ""}))
+    setFieldName(e.target.value)
+  }
+
+  const changeFormData2 = (e) => {
+    setFormData(prev => ({...prev, [fieldName]: e.target.value}))
+  }
+
+  const [changed1, setChanged1] = useState(false)
+  const [changed2, setChanged2] = useState(false)
+
+  useEffect(() => {
+    if ((changed1 + changed2) === 2) {
+      blockQuantity === (q + 1) && setBlockQuantity(prev => prev + 1)
+    }
+  }, [changed1, changed2])
+
+  return (
+    <div className='block-info'>
+      <div className='block-1'>
+        <input 
+          name={`block-${q}-1`}
+          onChange={(e) => {changeFormData1(e);setChanged1(true)}}
+          id={`block-${q}-1`}
+          value={fieldName}
+          onFocus={() => {setInput1Focus(true);setError1(false)}}
+          onBlur={() => setInput1Focus(false)}
+        />
+        <label animate={((formData[fieldName] === "") || input1Focus) ? {y: -30, x: -15, fontSize: "16px", color: !error1 ? "rgb(0, 0, 0)" : "rgb(247, 61, 61)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ error1 ? " error" : ""}`} htmlFor={`block-${q}-1`}>Column 1</label>
+      </div>
+      <div className='block-2'>
+        <input 
+          disabled={fieldName.length ? false : true}
+          name={`block-${q}-2`}
+          onChange={(e) => {changeFormData2(e);setChanged2(true)}}
+          id={`block-${q}-2`}
+          value={formData[fieldName]}
+          onFocus={() => {setInput2Focus(true);setError2(false)}}
+          onBlur={() => setInput2Focus(false)}
+        />
+        <label animate={(formData[fieldName] || input2Focus) ? {y: -30, x: -15, fontSize: "16px", color: !error2 ? "rgb(0, 0, 0)" : "rgb(247, 61, 61)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ error2 ? " error" : ""}`} htmlFor={`block-${q}-2`}>Column 2</label>
+      </div>
+    </div>
+  )
+}
+
 
 export default CAP

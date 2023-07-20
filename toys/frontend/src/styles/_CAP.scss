@@ -111,6 +111,27 @@
                         background-color: #333333;
                     }
                 }
+
+                .block-info{
+                    display: flex;
+                    justify-content: space-between;
+                    
+                    .block-1, .block-2{
+                        position: relative;
+
+                        input{
+                            width: 180px;
+                        }
+
+                        .text-label{
+                            top: -30px;
+                            left: -5px;
+                            color: black;
+                            font-size: 16px;
+                        }
+                    }
+
+                }
             }
             
             input[type=file]{

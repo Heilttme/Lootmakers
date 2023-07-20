@@ -1618,6 +1618,22 @@
 .CAP .panel .form .field input:focus {
   background-color: #333333;
 }
+.CAP .panel .form .field .block-info {
+  display: flex;
+  justify-content: space-between;
+}
+.CAP .panel .form .field .block-info .block-1, .CAP .panel .form .field .block-info .block-2 {
+  position: relative;
+}
+.CAP .panel .form .field .block-info .block-1 input, .CAP .panel .form .field .block-info .block-2 input {
+  width: 180px;
+}
+.CAP .panel .form .field .block-info .block-1 .text-label, .CAP .panel .form .field .block-info .block-2 .text-label {
+  top: -30px;
+  left: -5px;
+  color: black;
+  font-size: 16px;
+}
 .CAP .panel .form input[type=file] {
   display: none;
 }
