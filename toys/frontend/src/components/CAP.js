@@ -7,8 +7,11 @@ import axios from "axios"
 const CAP = ({  }) => {
   const [block, setBlock] = useState("Add")
   const [formData, setFormData] = useState({
-    login: "",
-    password: ""
+    name: "",
+    collection: "",
+    releaseDate: "",
+    price: "",
+    quantityAvailable: "",
   })
   const [item3dFiles, setItem3dFiles] = useState({})
   const [itemFiles, setItemFiles] = useState({})
@@ -36,16 +39,66 @@ const CAP = ({  }) => {
   const [nicknameError, setNicknameError] = useState(false)
   const [usernameError, setUsernameError] = useState(false)
   const [contentError, setContentError] = useState(false)
+  const [d3Error, set3dError] = useState(false)
+  const [displayError, setDisplayError] = useState(false)
+  const [itemFilesError, setItemFilesError] = useState(false)
 
   const onItemSubmit = () => {
-    console.log(Object.fromEntries(Object.entries(formData).filter(([_, v]) => v != "")))
-    const res = axios.post("http://127.0.0.1:8000/api/")
+    if (formData.name && formData.collection && formData.price && formData.releaseDate && formData.quantityAvailable && item3dFiles.length && displayFile.length && itemFiles.length) {
+      if (Object.keys(formData).length >= 6) {
+        const data = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v != ""))
+        const uploadData = new FormData()
+        uploadData.append("name", data.name)
+        uploadData.append("collection", data.collection)
+        const item3dFilesArray = Array.from(item3dFiles);
+        item3dFilesArray.forEach((file, index) => {
+          uploadData.append(`images3D_${index}`, file);
+        });
+        uploadData.append("displayImage", displayFile[0])
+        
+        const itemFilesArray = Array.from(itemFiles);
+        itemFilesArray.forEach((file, index) => {
+          uploadData.append(`images_${index}`, file);
+        });
+
+        let blockInfoData = {}
+        for (let i = 0; i < Object.keys(data).length; i++ ){
+          console.log(Object.keys(data)[i]);
+          if (Object.keys(data)[i] !== "name" && Object.keys(data)[i] !== "collection" && Object.keys(data)[i] !== "price" && Object.keys(data)[i] !== "quantityAvailable" && Object.keys(data)[i] !== "releaseDate") {
+            blockInfoData = {...blockInfoData, [Object.keys(data)[i]]: data[Object.keys(data)[i]]}
+          }
+        }
+        
+        blockInfoData = Object.keys(blockInfoData).map(item => `${item}:${blockInfoData[item]}`).join(";")
+        
+        uploadData.append("blockInfo", blockInfoData)
+        uploadData.append("releaseDate", data.releaseDate)
+        uploadData.append("price", data.price)
+        uploadData.append("quantityAvailable", data.quantityAvailable)
+    
+        const res = axios.post("http://127.0.0.1:8000/api/toy_admin_add_item/", uploadData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+      }
+    } else {
+      !formData.name.length && setNameError(true)
+      !formData.collection && setCollectionError(true)
+      !formData.price && setPriceError(true)
+      !formData.releaseDate && setReleaseDateError(true)
+      !formData.quantityAvailable && setQuantityError(true)
+      !(Object.keys(formData).length >= 6) && setBlockInfoError(true)
+      !item3dFiles.length && set3dError(true)
+      !displayFile.length && setDisplayError(true)
+      !itemFiles.length && setItemFilesError(true)
+    }
   }
 
   const onReviewSubmit = () => {
 
   }
-  
+
   return (
     <div className='CAP'>
       <div className='navigation'>
@@ -71,11 +124,11 @@ const CAP = ({  }) => {
               <div className='form-item'>
                 <h2>Add item</h2>
                 <div className='form'>
-                  <Input question={""} label={"name"} onChange={(e) => changeFormData(e)} value={formData.name} error={nameError} setError={setNameError} />
-                  <Input question={""} label={"collection"} onChange={(e) => changeFormData(e)} value={formData.collection} error={collectionError} setError={setCollectionError} />
+                  <Input question="" label={"name"} onChange={(e) => changeFormData(e)} value={formData.name} error={nameError} setError={setNameError} />
+                  <Input question="" label={"collection"} onChange={(e) => changeFormData(e)} value={formData.collection} error={collectionError} setError={setCollectionError} />
                   <input type="file" onChange={(e) => setItem3dFiles(e.target.files)} multiple accept='image/*' id="file1"/>
-                  <label className='file_label' for="file1">
-                    {
+                  <label onClick={() => set3dError(false)} style={{color: d3Error ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file1">
+                    { 
                       item3dFiles.length ? 
                         `${item3dFiles.length} files selected`
                       :
@@ -86,7 +139,7 @@ const CAP = ({  }) => {
                   </label>
 
                   <input type="file" onChange={(e) => setItemFiles(e.target.files)} multiple accept='image/*' id="file2"/>
-                  <label className='file_label' for="file2">
+                  <label onClick={() => setItemFilesError(false)} style={{color: itemFilesError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file2">
                     {
                       itemFiles.length ? 
                         `${itemFiles.length} files selected`
@@ -97,7 +150,7 @@ const CAP = ({  }) => {
                     }
                   </label>
                   <input type="file" onChange={(e) => setDisplayFile(e.target.files)} accept='image/*' id="file3"/>
-                  <label className='file_label' for="file3">
+                  <label onClick={() => setDisplayError(false)} style={{color: displayError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file3">
                     {
                       displayFile.length ? 
                         `${displayFile.length} file selected`
@@ -112,15 +165,15 @@ const CAP = ({  }) => {
                     <div className='block-info-block'>
                     {[...Array(blockQuantity)].map((_, i) => 
                       <div className='field' id={uuidv4()}>
-                        <BlockInfoDoubleInput q={i} formData={formData} setFormData={setFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
+                        <BlockInfoDoubleInput setError={setBlockInfoError} error={blockInfoError} q={i} formData={formData} setFormData={setFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
                       </div>
                     )}
                     </div>
                   </div>
 
-                  <Input question={""} label={"releaseDate"} onChange={(e) => changeFormData(e)} value={formData.releaseDate} error={releaseDateError} setError={setReleaseDateError} />
-                  <Input question={""} label={"price"} onChange={(e) => changeFormData(e)} value={formData.price} error={priceError} setError={setPriceError} />
-                  <Input question={""} label={"QuantityAvailable"} onChange={(e) => changeFormData(e)} value={formData.quantityAvailable} error={quantityError} setError={setQuantityError} />
+                  <Input question="" label={"releaseDate"} onChange={(e) => changeFormData(e)} value={formData.releaseDate} error={releaseDateError} setError={setReleaseDateError} />
+                  <Input question="" label={"price"} onChange={(e) => changeFormData(e)} value={formData.price} error={priceError} setError={setPriceError} />
+                  <Input question="" label={"quantityAvailable"} onChange={(e) => changeFormData(e)} value={formData.quantityAvailable} error={quantityError} setError={setQuantityError} />
                   <button onClick={onItemSubmit}>Submit</button>
                 </div>
               </div>
@@ -169,12 +222,9 @@ const CAP = ({  }) => {
 }
 
 
-export const BlockInfoDoubleInput = ({ q, setFormData, formData, blockQuantity, setBlockQuantity }) => {
+export const BlockInfoDoubleInput = ({ error, setError, q, setFormData, formData, blockQuantity, setBlockQuantity }) => {
   const [input1Focus, setInput1Focus] = useState(false)
   const [input2Focus, setInput2Focus] = useState(false)
-
-  const [error1, setError1] = useState(false)
-  const [error2, setError2] = useState(false)
 
   const [fieldName, setFieldName] = useState("")
 
@@ -210,10 +260,10 @@ export const BlockInfoDoubleInput = ({ q, setFormData, formData, blockQuantity, 
           onChange={(e) => {changeFormData1(e);setChanged1(true)}}
           id={`block-${q}-1`}
           value={fieldName}
-          onFocus={() => {setInput1Focus(true);setError1(false)}}
+          onFocus={() => {setInput1Focus(true);setError(false)}}
           onBlur={() => setInput1Focus(false)}
         />
-        <label animate={((formData[fieldName] === "") || input1Focus) ? {y: -30, x: -15, fontSize: "16px", color: !error1 ? "rgb(0, 0, 0)" : "rgb(247, 61, 61)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ error1 ? " error" : ""}`} htmlFor={`block-${q}-1`}>Column 1</label>
+        <label className={`text-label${ error ? " error" : ""}`} htmlFor={`block-${q}-1`}>Column 1</label>
       </div>
       <div className='block-2'>
         <input 
@@ -222,10 +272,10 @@ export const BlockInfoDoubleInput = ({ q, setFormData, formData, blockQuantity, 
           onChange={(e) => {changeFormData2(e);setChanged2(true)}}
           id={`block-${q}-2`}
           value={formData[fieldName]}
-          onFocus={() => {setInput2Focus(true);setError2(false)}}
+          onFocus={() => {setInput2Focus(true);setError(false)}}
           onBlur={() => setInput2Focus(false)}
         />
-        <label animate={(formData[fieldName] || input2Focus) ? {y: -30, x: -15, fontSize: "16px", color: !error2 ? "rgb(0, 0, 0)" : "rgb(247, 61, 61)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ error2 ? " error" : ""}`} htmlFor={`block-${q}-2`}>Column 2</label>
+        <label className={`text-label${ error ? " error" : ""}`} htmlFor={`block-${q}-2`}>Column 2</label>
       </div>
     </div>
   )

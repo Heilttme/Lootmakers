@@ -465,7 +465,6 @@
   display: flex;
   justify-content: space-between;
   opacity: 0.7;
-  padding-bottom: 2rem;
 }
 .footer .bottom .col {
   font-size: 1.2em;
@@ -1603,6 +1602,9 @@
   border-radius: 8px;
   color: white;
 }
+.CAP .panel .form .field .error {
+  color: rgb(247, 61, 61);
+}
 .CAP .panel .form .field input {
   width: 400px;
   height: 1rem;
@@ -1633,6 +1635,9 @@
   left: -5px;
   color: black;
   font-size: 16px;
+}
+.CAP .panel .form .field .block-info .block-1 .error, .CAP .panel .form .field .block-info .block-2 .error {
+  color: rgb(247, 61, 61);
 }
 .CAP .panel .form input[type=file] {
   display: none;

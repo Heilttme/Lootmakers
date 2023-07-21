@@ -11,6 +11,7 @@ const Input = ({ label, onChange, value, error, setError, question }) => {
         onChange={onChange}
         id={label}
         value={value}
+        type={(label === "price" || label === "quantityAvailable") ? "number" : "text"}
         onFocus={() => {setInputFocus(true);setError(false)}}
         onBlur={() => setInputFocus(false)}
       />

@@ -70,7 +70,7 @@ const ItemsSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
               src={`http://127.0.0.1:8000${slides[slideIndex]}`}
             />) 
             :
-            (<ScrollImages3D mapped3DImages={mapped3DImages} item={item}/>)
+            (<ScrollImages3D setStopped={setStopped} mapped3DImages={mapped3DImages} item={item}/>)
           ))}
         </div>
       </div>

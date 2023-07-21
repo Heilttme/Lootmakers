@@ -94,6 +94,10 @@
                     border-radius: 8px;
                     color: white;
                 }
+
+                .error{
+                    color: rgb(247, 61, 61)
+                }
                 
                 input{
                     width: 400px;
@@ -128,6 +132,10 @@
                             left: -5px;
                             color: black;
                             font-size: 16px;
+                        }
+
+                        .error{
+                            color: rgb(247, 61, 61)
                         }
                     }
 

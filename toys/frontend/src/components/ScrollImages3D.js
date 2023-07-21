@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const ScrollImages3D = ({ mapped3DImages, item }) => {
+const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
   const [curIndex, setCurIndex] = useState(0)
+
+  useEffect(() => {
+    curIndex !== 0 && setStopped(true)
+  }, [curIndex])
 
   return (
     <div className='scroll3D'>

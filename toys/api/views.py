@@ -2,6 +2,7 @@ from typing import Type
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
+from rest_framework.status import HTTP_200_OK
 from rest_framework.response import Response
 from django.views.generic.edit import FormView
 from .models import Review, Item, Image3D, ImageList, DisplayImage
@@ -58,31 +59,36 @@ def get_item_images(request):
     
 @api_view(["POST"])
 def toy_admin_panel_add_item(request):
+    print(request.FILES)
+    
     name = request.data.get('name')
     collection = request.data.get('collection')
-    images3D = request.FILES.getlist('images3D')
-    displayImage = request.FILES.getlist('displayImage')
-    images = request.FILES.getlist('images')
+    # images3D = request.data.get("images3D")
+    # displayImage = request.data.get("displayImage")
+    # images = request.data.get("images")
     blockInfo = request.data.get('blockInfo')
     isPreorder = request.data.get('isPreorder') == "on"
     releaseDate = request.data.get('releaseDate')
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
+
     item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
     item.save()
 
-    for i in displayImage:
-        i = DisplayImage(image=i, item=item)
-        i.save()
+    
+    for i in request.FILES:
+        if i.startswith("images3D"):
+            im = Image3D(image=request.FILES[i], item=item)
+            im.save()
+        elif i.startswith("images"):
+            im = ImageList(image=request.FILES[i], item=item)
+            im.save()
+        elif i.startswith("displayImage"):
+            im = DisplayImage(image=request.FILES[i], item=item)
+            im.save()
 
-    for i in images3D:
-        i = Image3D(image=i, item=item)
-        i.save()
-
-    for i in images:
-        i = ImageList(image=i, item=item)
-        i.save()
+    return Response(status=HTTP_200_OK)
 
 @api_view(["POST"])
 def toy_admin_panel_add_review(request):
@@ -94,6 +100,8 @@ def toy_admin_panel_add_review(request):
 
     item = Review(nickname=nickname, pfp=pfp, reviewImage=reviewImage, username=username, content=content)
     item.save()
+
+    return Response(status=HTTP_200_OK)
 
 
 def toy_admin_panel(request):
@@ -111,6 +119,9 @@ def toy_admin_panel(request):
             releaseDate = form.data.get('releaseDate')
             price = form.data.get('price')
             quantityAvailable = form.data.get('quantityAvailable')
+            print(images3D)
+            print(displayImage)
+            print(images)
 
             item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
             item.save()
