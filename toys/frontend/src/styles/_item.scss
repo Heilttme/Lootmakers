@@ -222,3 +222,69 @@
         animation: shake .4s;
     }
 }
+
+@media (max-width: 1680px) {
+    .item-page {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1500px) {
+    .item-page {
+        --item-width: 500px;
+    }
+}
+
+@media (max-width: 1300px) {
+    .item-page {
+        --item-width: 400px;
+        font-size: .7em;
+    }
+
+    .item-page .bot-images .img-nav {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .item-page {
+        width: 95%;
+        --item-width: 330px;
+    }
+
+    .item-page .quote {
+        margin-top: 1.2rem;
+    }
+
+    .item-page .quote .said {
+        margin-top: 0;
+    }
+    
+    .item-page .arrow svg {
+        width: 42px;
+    }
+}
+
+@media (max-width: 900px) {
+    .item-page {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .image-slider-container{
+        display: flex;
+        justify-content: center;
+    }
+
+    .item-page .slider {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .item-page .bot-images {
+        height: 100px;
+    }
+}
+

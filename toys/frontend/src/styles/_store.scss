@@ -108,3 +108,87 @@
     }
 
 }
+
+
+@media (max-width: 1680px) {
+    .store .items {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1440px) {
+    .store .items {
+        width: 98%;
+        font-size: .9em;
+    }
+}
+
+@media (max-width: 1200px) {
+    .store .items {
+        font-size: .75em;
+    }
+}
+
+@media (max-width: 1000px) {
+    .store .items .block .item {
+        width: 50%;
+    }
+
+    .store .items {
+        width: 90%;
+        font-size: .8em;
+    }
+}
+
+@media (max-width: 775px) {
+    .store .items {
+        width: 95%;
+        font-size: .7em;
+    }
+}
+
+@media (max-width: 650px) {
+    .store .items {
+        width: 95%;
+        font-size: .64em;
+    }
+}
+
+@media (max-width: 600px) {
+    .store .items .block .item {
+        width: 100%;
+    }
+    
+    .store .items {
+        width: 85%;
+        font-size: .95em;
+    }
+}
+
+@media (max-width: 520px) {
+    .store .items {
+        width: 90%;
+        font-size: .85em;
+    }
+}
+
+@media (max-width: 450px) {
+    .store .items {
+        font-size: .75em;
+        width: 95%;
+    }
+}
+
+@media (max-width: 370px) {
+    .store .items {
+        font-size: .64em;
+        width: 95%;
+    }
+}
+
+@media (max-width: 370px) {
+    .store .items {
+        font-size: .6em;
+        width: 97%;
+    }
+}

@@ -12,5 +12,6 @@ import CAP from "./CAP";
 import ALogin from "./ALogin";
 import PageNotFound from "./PageNotFound";
 import Input from "./Input";
+import MobileNav from "./MobileNav";
 
-export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, Input }
+export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, Input, MobileNav }

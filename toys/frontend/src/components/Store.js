@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { t } from 'i18next'
+import useWindowDimensions from "./useWindowDimensions"
 
 const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
+  const { height, width } = useWindowDimensions()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,7 +52,45 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     setOneLineItems(newItems)
   }, [items])
 
-  const threeItemsDisplay = threeLineItems.map(item => (
+  const threeItemsDisplay = width > 1000 ? threeLineItems.map(item => (
+    <div className='block'>
+      {item.map(itemNew => 
+      <>
+        <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
+          <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+          <div className='text-wrapper'>
+            <div className='text'>
+              <h2 className='col'>{itemNew.collection}</h2>
+              <h2 className='name'>{itemNew.name}</h2>
+            </div>
+            <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+          </div>
+        </div>
+      </>
+      )}
+    </div>
+  )) 
+  : width > 600 ?
+    twoLineItems.map(item => (
+      <div className='block'>
+        {item.map(itemNew => 
+        <>
+          <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
+            <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+            <div className='text-wrapper'>
+              <div className='text'>
+                <h2 className='col'>{itemNew.collection}</h2>
+                <h2 className='name'>{itemNew.name}</h2>
+              </div>
+              <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+            </div>
+          </div>
+        </>
+        )}
+      </div>
+    ))
+  : 
+  oneLineItems.map(item => (
     <div className='block'>
       {item.map(itemNew => 
       <>

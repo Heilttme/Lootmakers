@@ -3,50 +3,49 @@ import { motion } from "framer-motion"
 import Input from './Input'
 import { v4 as uuidv4 } from 'uuid';
 import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const CAP = ({  }) => {
   const [block, setBlock] = useState("Add")
-  const [formData, setFormData] = useState({
+
+  // ITEMFORMDATA ACTIONS //
+  const [itemFormData, setItemFormData] = useState({
     name: "",
     collection: "",
     releaseDate: "",
     price: "",
     quantityAvailable: "",
   })
-  const [item3dFiles, setItem3dFiles] = useState({})
-  const [itemFiles, setItemFiles] = useState({})
-  const [displayFile, setDisplayFile] = useState({})
-  
-  const [pfp, setPfp] = useState({})
-  const [reviewImage, setReviewImage] = useState({})
 
-  const [blockQuantity, setBlockQuantity] = useState(1)
-
-  const changeFormData = (e) => {
+  const changeItemFormData = (e) => {
     const {name, value} = e.target
-    setFormData(prev => ({
+    setItemFormData(prev => ({
       ...prev,
       [name]: value
     }))
   }
 
+  const [blockQuantity, setBlockQuantity] = useState(1)
   const [nameError, setNameError] = useState(false)
   const [collectionError, setCollectionError] = useState(false)
   const [blockInfoError, setBlockInfoError] = useState(false)
   const [priceError, setPriceError] = useState(false)
   const [releaseDateError, setReleaseDateError] = useState(false)
   const [quantityError, setQuantityError] = useState(false)
-  const [nicknameError, setNicknameError] = useState(false)
-  const [usernameError, setUsernameError] = useState(false)
-  const [contentError, setContentError] = useState(false)
+  
+  const [item3dFiles, setItem3dFiles] = useState({})
+  const [itemFiles, setItemFiles] = useState({})
+  const [displayFile, setDisplayFile] = useState({})
+
   const [d3Error, set3dError] = useState(false)
   const [displayError, setDisplayError] = useState(false)
   const [itemFilesError, setItemFilesError] = useState(false)
 
   const onItemSubmit = () => {
-    if (formData.name && formData.collection && formData.price && formData.releaseDate && formData.quantityAvailable && item3dFiles.length && displayFile.length && itemFiles.length) {
-      if (Object.keys(formData).length >= 6) {
-        const data = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v != ""))
+    if (itemFormData.name && itemFormData.collection && itemFormData.price && itemFormData.releaseDate && itemFormData.quantityAvailable && item3dFiles.length && displayFile.length && itemFiles.length) {
+      if (Object.keys(itemFormData).length >= 6) {
+        const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => v != ""))
         const uploadData = new FormData()
         uploadData.append("name", data.name)
         uploadData.append("collection", data.collection)
@@ -80,24 +79,119 @@ const CAP = ({  }) => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        })
+        }).then(() => 
+          toast.success('Successfully added', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            })
+        ).catch(() => 
+          toast.error('An error occured', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            })
+        )
       }
     } else {
-      !formData.name.length && setNameError(true)
-      !formData.collection && setCollectionError(true)
-      !formData.price && setPriceError(true)
-      !formData.releaseDate && setReleaseDateError(true)
-      !formData.quantityAvailable && setQuantityError(true)
-      !(Object.keys(formData).length >= 6) && setBlockInfoError(true)
+      !itemFormData.name.length && setNameError(true)
+      !itemFormData.collection && setCollectionError(true)
+      !itemFormData.price && setPriceError(true)
+      !itemFormData.releaseDate && setReleaseDateError(true)
+      !itemFormData.quantityAvailable && setQuantityError(true)
+      !(Object.keys(itemFormData).length >= 6) && setBlockInfoError(true)
       !item3dFiles.length && set3dError(true)
       !displayFile.length && setDisplayError(true)
       !itemFiles.length && setItemFilesError(true)
     }
   }
 
-  const onReviewSubmit = () => {
-
+  // ITEMFORMDATA ACTIONS //
+  
+  // REVIEW FORMDATA ACTIONS //
+  const [reviewFormData, setReviewFormData] = useState({
+    name: "",
+    collection: "",
+    releaseDate: "",
+    price: "",
+    quantityAvailable: "",
+  })
+  
+  const changeReviewFormData = (e) => {
+    const {name, value} = e.target
+    setReviewFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
+  
+  const [nicknameError, setNicknameError] = useState(false)
+  const [usernameError, setUsernameError] = useState(false)
+  const [contentError, setContentError] = useState(false)
+  const [pfpError, setPfpError] = useState(false)
+  const [reviewImageError, setReviewImageError] = useState(false)
+
+  const [pfp, setPfp] = useState({})
+  const [reviewImage, setReviewImage] = useState({})
+
+  const onReviewSubmit = () => {
+    if (reviewFormData.nickname && reviewFormData.username && reviewFormData.content && pfp.length && reviewImage.length) {
+      const uploadData = new FormData()
+      console.log(pfp);
+      uploadData.append("nickname", reviewFormData.nickname)
+      uploadData.append("username", reviewFormData.username)
+      uploadData.append("content", reviewFormData.content)
+      uploadData.append("pfp", pfp[0])
+      uploadData.append("reviewImage", reviewImage[0])
+
+      const res = axios.post("http://127.0.0.1:8000/api/toy_admin_add_review/", uploadData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }).then(() => 
+        toast.success('Successfully added', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          })
+      ).catch(() => 
+        toast.error('An error occured', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          })
+      )
+    } else {
+      !reviewFormData.nickname && setNicknameError(true)
+      !reviewFormData.username && setUsernameError(true)
+      !reviewFormData.content && setContentError(true)
+      !pfp.length && setPfpError(true)
+      !reviewImage.length && setReviewImageError(true)
+    }
+  }
+  // REVIEW FORMDATA ACTIONS //
+
+
 
   return (
     <div className='CAP'>
@@ -124,8 +218,8 @@ const CAP = ({  }) => {
               <div className='form-item'>
                 <h2>Add item</h2>
                 <div className='form'>
-                  <Input question="" label={"name"} onChange={(e) => changeFormData(e)} value={formData.name} error={nameError} setError={setNameError} />
-                  <Input question="" label={"collection"} onChange={(e) => changeFormData(e)} value={formData.collection} error={collectionError} setError={setCollectionError} />
+                  <Input question="" label={"name"} onChange={(e) => changeItemFormData(e)} value={itemFormData.name} error={nameError} setError={setNameError} />
+                  <Input question="" label={"collection"} onChange={(e) => changeItemFormData(e)} value={itemFormData.collection} error={collectionError} setError={setCollectionError} />
                   <input type="file" onChange={(e) => setItem3dFiles(e.target.files)} multiple accept='image/*' id="file1"/>
                   <label onClick={() => set3dError(false)} style={{color: d3Error ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file1">
                     { 
@@ -165,15 +259,15 @@ const CAP = ({  }) => {
                     <div className='block-info-block'>
                     {[...Array(blockQuantity)].map((_, i) => 
                       <div className='field' id={uuidv4()}>
-                        <BlockInfoDoubleInput setError={setBlockInfoError} error={blockInfoError} q={i} formData={formData} setFormData={setFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
+                        <BlockInfoDoubleInput setError={setBlockInfoError} error={blockInfoError} q={i} formData={itemFormData} setFormData={setItemFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
                       </div>
                     )}
                     </div>
                   </div>
 
-                  <Input question="" label={"releaseDate"} onChange={(e) => changeFormData(e)} value={formData.releaseDate} error={releaseDateError} setError={setReleaseDateError} />
-                  <Input question="" label={"price"} onChange={(e) => changeFormData(e)} value={formData.price} error={priceError} setError={setPriceError} />
-                  <Input question="" label={"quantityAvailable"} onChange={(e) => changeFormData(e)} value={formData.quantityAvailable} error={quantityError} setError={setQuantityError} />
+                  <Input question="" label={"releaseDate"} onChange={(e) => changeItemFormData(e)} value={itemFormData.releaseDate} error={releaseDateError} setError={setReleaseDateError} />
+                  <Input question="" label={"price"} onChange={(e) => changeItemFormData(e)} value={itemFormData.price} error={priceError} setError={setPriceError} />
+                  <Input question="" label={"quantityAvailable"} onChange={(e) => changeItemFormData(e)} value={itemFormData.quantityAvailable} error={quantityError} setError={setQuantityError} />
                   <button onClick={onItemSubmit}>Submit</button>
                 </div>
               </div>
@@ -181,11 +275,11 @@ const CAP = ({  }) => {
               <div className='form-review'>
                 <h2>Add review</h2>
                 <div className='form'>
-                  <Input question={""} label={"nickname"} onChange={(e) => changeFormData(e)} value={formData.nickname} error={nicknameError} setError={setNicknameError} />
-                  <Input question={""} label={"username"} onChange={(e) => changeFormData(e)} value={formData.username} error={usernameError} setError={setUsernameError} />
-                  <Input question={""} label={"content"} onChange={(e) => changeFormData(e)} value={formData.content} error={contentError} setError={setContentError} />
+                  <Input question="" label={"nickname"} onChange={(e) => changeReviewFormData(e)} value={reviewFormData.nickname} error={nicknameError} setError={setNicknameError} />
+                  <Input question="" label={"username"} onChange={(e) => changeReviewFormData(e)} value={reviewFormData.username} error={usernameError} setError={setUsernameError} />
+                  <Input question="" label={"content"} onChange={(e) => changeReviewFormData(e)} value={reviewFormData.content} error={contentError} setError={setContentError} />
                   <input type="file" onChange={(e) => setPfp(e.target.files)} accept='image/*' id="file4"/>
-                  <label className='file_label' for="file4">
+                  <label onClick={() => setPfpError(false)} style={{color: pfpError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file4">
                     {
                       pfp.length ? 
                         `${pfp.length} file selected`
@@ -196,7 +290,7 @@ const CAP = ({  }) => {
                     }
                   </label>
                   <input type="file" onChange={(e) => setReviewImage(e.target.files)} accept='image/*' id="file5"/>
-                  <label className='file_label' for="file5">
+                  <label onClick={() => setReviewImageError(false)} style={{color: reviewImageError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file5">
                     {
                       reviewImage.length ? 
                         `${reviewImage.length} file selected`
@@ -217,6 +311,7 @@ const CAP = ({  }) => {
         }
         
       </div>
+      <ToastContainer/>
     </div>
   )
 }

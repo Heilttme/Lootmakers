@@ -59,8 +59,6 @@ def get_item_images(request):
     
 @api_view(["POST"])
 def toy_admin_panel_add_item(request):
-    print(request.FILES)
-    
     name = request.data.get('name')
     collection = request.data.get('collection')
     # images3D = request.data.get("images3D")
@@ -72,11 +70,9 @@ def toy_admin_panel_add_item(request):
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
-
     item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
     item.save()
 
-    
     for i in request.FILES:
         if i.startswith("images3D"):
             im = Image3D(image=request.FILES[i], item=item)
@@ -95,11 +91,11 @@ def toy_admin_panel_add_review(request):
     nickname = request.data.get('nickname')
     username = request.data.get('username')
     content = request.data.get('content')
-    pfp = request.request.get('pfp')
+    pfp = request.FILES.get('pfp')
     reviewImage = request.FILES.get('reviewImage')
 
-    item = Review(nickname=nickname, pfp=pfp, reviewImage=reviewImage, username=username, content=content)
-    item.save()
+    review = Review(nickname=nickname, username=username, content=content, pfp=pfp, reviewImage=reviewImage)
+    review.save()
 
     return Response(status=HTTP_200_OK)
 

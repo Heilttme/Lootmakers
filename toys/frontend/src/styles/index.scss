@@ -12,6 +12,7 @@
 @import "404.scss";
 @import "ALogin.scss";
 @import "CAP.scss";
+@import "mobile.scss";
 
 *{
     padding: 0;
@@ -29,6 +30,7 @@ a{
 
 html{
     position: relative;
+    // overflow-x: hidden;
 
     &::-webkit-scrollbar{
         background-color: black;
@@ -58,9 +60,6 @@ html{
     }
 }
 
-
-.wrapper, html, #root, body{
-}
 
 main{
     position: relative;

@@ -4,7 +4,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useStore from '../store'
 import ItemPageSlider from "./ItemPageSlider"
+import ItemsSlider from "./ItemsSlider"
 import { motion } from "framer-motion"
+import useWindowDimensions from "./useWindowDimensions"
 
 const Item = ({ buttonRef, addToCart, cart, items }) => {
   const { id } = useParams()
@@ -12,6 +14,7 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   const [mapped3DImages, setMapped3DImages] = useState([])
   const [imageList, setImageList] = useState([])
   const [images3D, setImages3D] = useState([])
+  const { height, width } = useWindowDimensions()
   
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
 
@@ -35,7 +38,12 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   return curItem && (
     <div className='item-page'>
       <div className='image-slider-container'>
-        <ItemPageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={600} />
+        {
+          width > 900 ?
+            <ItemPageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={width >= 1500 ? 600 : width >= 1100 ? 400 : 330} />
+          :
+            <ItemsSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={width >= 1500 ? 600 : width >= 1100 ? 400 : 330} />
+        }
       </div>
       <div className='s-col'>
         <h3>{curItem.collection}</h3>
