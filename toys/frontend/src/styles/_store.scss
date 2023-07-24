@@ -21,7 +21,7 @@
         flex-direction: column;
 
         .block{
-            width: 99%;
+            width: 100%;
             margin: 0 auto;
             display: flex;
             border-left: 1px solid black;
@@ -105,8 +105,25 @@
 
             }
         }
-    }
 
+        .more{
+            width: 100%;
+            
+            button{
+                width: 100%;
+                padding-top: .8rem;
+                padding-bottom: .8rem;
+                font-size: 1.6em;
+                outline: none;
+                border: 1px solid black;
+                border-top: none;
+                cursor: pointer;
+                margin-bottom: 1rem;
+                background-color: #333;
+                color: white;
+            }
+        }
+    }
 }
 
 

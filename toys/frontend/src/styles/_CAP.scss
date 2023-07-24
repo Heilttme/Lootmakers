@@ -188,5 +188,113 @@
             }
 
         }
+
+        .delete-store{
+            margin: 0 auto;
+            margin-top: 1rem;
+            width: 78%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            .filter{
+                // display: flex;
+            }
+
+            .wrapper-item{
+                position: relative;
+                z-index: 123;
+                border-left: 1px solid black;
+                border-top: 1px solid black;
+                overflow: hidden;
+
+                .removed{
+                    position: absolute;
+                    z-index: 10;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+    
+            .item{
+                overflow: hidden;
+                // width: 33.33%;
+                // height: 100%;
+                filter: grayscale(100%);
+                transition: filter .2s ease-in-out;
+                cursor: pointer;
+                font-size: 1.6em;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border-right: 1px solid black;
+                --quick-height: 50px;
+                z-index: 123;
+                
+                &:hover{
+                    filter: unset;
+
+                    .quick-btn{
+                        transform: translateY(calc(var(--quick-height) * -1));
+                    }
+                }
+
+                .text-wrapper{
+                    width: 100%;
+                    position: relative;
+                }
+
+                .text{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: sticky;
+                    width: 100%;    
+
+                    padding-top: .6rem;
+                    padding-bottom: .6rem;
+                    border-top: 1px solid #000;
+                    z-index: 104;
+                    background-color: #e6e6e6;
+                }
+
+                .col{
+                    opacity: .5;
+                    font-size: 1em;
+                }
+
+                .name{
+                    font-size: 1.2em;
+                }
+
+                img{
+                    padding: 1rem;
+                    width: 80%;
+                    object-fit: cover;
+                }
+
+                .quick-btn{
+                    position: absolute;
+                    height: var(--quick-height);
+                    top: 0;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all .25s ease-in-out;
+                    padding: .6rem 1.2rem;
+                    font-size: 1.2em;
+                    border: none;
+                    border-top: 1px solid black;
+                    z-index: 0;
+                    cursor: pointer;
+                    background-color: #e6e6e6;
+
+                }
+
+            }
+        }
     }
 }

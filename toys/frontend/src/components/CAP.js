@@ -5,8 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import DeleteStore from './DeleteStore';
 
-const CAP = ({  }) => {
+const CAP = ({ items, displayImages }) => {
   const [block, setBlock] = useState("Add")
 
   // ITEMFORMDATA ACTIONS //
@@ -348,9 +349,7 @@ const CAP = ({  }) => {
               </div>
             </div>
           :
-            <div>
-
-            </div>
+            <DeleteStore items={items} displayImages={displayImages}/>
         }
         
       </div>

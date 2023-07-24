@@ -46,7 +46,7 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
         <div className='item'>
           <div className='f-col'>
             <div className='image-slider-container'>
-              <ImageSlider mapped3DImages={mapped3DImages} item={item} slides={slides} parentWidth={300} />
+              <ImageSlider mapped3DImages={mapped3DImages} item={item} slides={slides} parentWidth={380} />
             </div>
           </div>
           <div className='r-col'>

@@ -79,7 +79,7 @@ function App() {
               <Route path="/items/:id" element={<Item buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin />}/>
-              <Route path="/admin/cms" element={<CAP />}/>
+              <Route path="/admin/cms" element={<CAP displayImages={displayImages} items={items} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </main>

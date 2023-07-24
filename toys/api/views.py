@@ -156,3 +156,11 @@ def toy_admin_panel_review(request):
         form = ReviewForm() 
 
     return render(request, "index.html", {"form": form})
+
+
+@api_view(["POST"])
+def remove_item(request):
+    items = Item.objects.filter(id=request.data.get("id"))[0].delete()
+    # items = items.filter(key=lambda x: x.id == request.data.get("id"))[0].delete()
+
+    return Response(status=HTTP_200_OK)

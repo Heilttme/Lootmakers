@@ -8,6 +8,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
   const { height, width } = useWindowDimensions()
+  const [shownItems, setShownItems] = useState(3)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     setOneLineItems(newItems)
   }, [items])
 
-  const threeItemsDisplay = width > 1000 ? threeLineItems.map(item => (
+  const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block'>
       {item.map(itemNew => 
       <>
@@ -71,7 +72,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     </div>
   )) 
   : width > 600 ?
-    twoLineItems.map(item => (
+    twoLineItems.slice(0, shownItems).map(item => (
       <div className='block'>
         {item.map(itemNew => 
         <>
@@ -90,7 +91,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
       </div>
     ))
   : 
-  oneLineItems.map(item => (
+  oneLineItems.slice(0, shownItems).map(item => (
     <div className='block'>
       {item.map(itemNew => 
       <>
@@ -116,7 +117,10 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
               <h2>{t("OUR STORE")}</h2>
           </div>
           <div className='items'>
-              {threeItemsDisplay}
+            {threeItemsDisplay}
+            <div className='more'>
+              <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
+            </div>
           </div>
       </div>
     </>
