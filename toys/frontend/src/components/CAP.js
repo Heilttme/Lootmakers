@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from "framer-motion"
 import Input from './Input'
 import { v4 as uuidv4 } from 'uuid';
@@ -26,6 +26,8 @@ const CAP = ({  }) => {
     }))
   }
 
+  const [formSubmitted, setFormSubmitted] = useState(0)
+
   const [blockQuantity, setBlockQuantity] = useState(1)
   const [nameError, setNameError] = useState(false)
   const [collectionError, setCollectionError] = useState(false)
@@ -42,10 +44,26 @@ const CAP = ({  }) => {
   const [displayError, setDisplayError] = useState(false)
   const [itemFilesError, setItemFilesError] = useState(false)
 
+  const d3InputRef = useRef(null)
+  const itemFilesRef = useRef(null)
+  const displayFilesRef = useRef(null)
+
+  useEffect(() => {
+    !item3dFiles.length && d3InputRef.current && (() => d3InputRef.current.value = "")()
+  }, [item3dFiles])
+
+  useEffect(() => {
+    !itemFiles.length && itemFilesRef.current && (() => itemFilesRef.current.value = "")()
+  }, [itemFiles])
+
+  useEffect(() => {
+    !displayFile.length && displayFilesRef.current && (() => displayFilesRef.current.value = "")()
+  }, [displayFile])
+  
   const onItemSubmit = () => {
     if (itemFormData.name && itemFormData.collection && itemFormData.price && itemFormData.releaseDate && itemFormData.quantityAvailable && item3dFiles.length && displayFile.length && itemFiles.length) {
-      if (Object.keys(itemFormData).length >= 6) {
-        const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => v != ""))
+      const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => v != ""))
+      if (Object.keys(data).length >= 6) {
         const uploadData = new FormData()
         uploadData.append("name", data.name)
         uploadData.append("collection", data.collection)
@@ -61,8 +79,7 @@ const CAP = ({  }) => {
         });
 
         let blockInfoData = {}
-        for (let i = 0; i < Object.keys(data).length; i++ ){
-          console.log(Object.keys(data)[i]);
+        for (let i = 0; i < Object.keys(data).length; i++){
           if (Object.keys(data)[i] !== "name" && Object.keys(data)[i] !== "collection" && Object.keys(data)[i] !== "price" && Object.keys(data)[i] !== "quantityAvailable" && Object.keys(data)[i] !== "releaseDate") {
             blockInfoData = {...blockInfoData, [Object.keys(data)[i]]: data[Object.keys(data)[i]]}
           }
@@ -79,7 +96,7 @@ const CAP = ({  }) => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        }).then(() => 
+        }).then(() => {
           toast.success('Successfully added', {
             position: "bottom-right",
             autoClose: 5000,
@@ -90,7 +107,19 @@ const CAP = ({  }) => {
             progress: undefined,
             theme: "light",
             })
-        ).catch(() => 
+          setItemFormData({
+            name: "",
+            collection: "",
+            releaseDate: "",
+            price: "",
+            quantityAvailable: "",
+          })
+          setItem3dFiles({})
+          setItemFiles({})
+          setDisplayFile({})
+          setBlockQuantity(1)
+          setFormSubmitted(prev => prev + 1)
+        }).catch(() => 
           toast.error('An error occured', {
             position: "bottom-right",
             autoClose: 5000,
@@ -120,11 +149,9 @@ const CAP = ({  }) => {
   
   // REVIEW FORMDATA ACTIONS //
   const [reviewFormData, setReviewFormData] = useState({
-    name: "",
-    collection: "",
-    releaseDate: "",
-    price: "",
-    quantityAvailable: "",
+    nickname: "",
+    username: "",
+    content: "",
   })
   
   const changeReviewFormData = (e) => {
@@ -144,10 +171,20 @@ const CAP = ({  }) => {
   const [pfp, setPfp] = useState({})
   const [reviewImage, setReviewImage] = useState({})
 
+  const pfpRef = useRef(null)
+  const reviewImageRef = useRef(null)
+
+  useEffect(() => {
+    !pfp.length && pfpRef.current && (() => pfpRef.current.value = "")()
+  }, [displayFile])
+
+  useEffect(() => {
+    !reviewImage.length && reviewImageRef.current && (() => reviewImageRef.current.value = "")()
+  }, [displayFile])
+
   const onReviewSubmit = () => {
     if (reviewFormData.nickname && reviewFormData.username && reviewFormData.content && pfp.length && reviewImage.length) {
       const uploadData = new FormData()
-      console.log(pfp);
       uploadData.append("nickname", reviewFormData.nickname)
       uploadData.append("username", reviewFormData.username)
       uploadData.append("content", reviewFormData.content)
@@ -158,17 +195,25 @@ const CAP = ({  }) => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        }).then(() => 
-        toast.success('Successfully added', {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        }).then(() => {
+          toast.success('Successfully added', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            })
+          setReviewFormData({
+            name: "",
+            username: "",
+            content: "",
           })
+          setPfp({})
+          setReviewImage({})
+        }
       ).catch(() => 
         toast.error('An error occured', {
           position: "bottom-right",
@@ -191,8 +236,6 @@ const CAP = ({  }) => {
   }
   // REVIEW FORMDATA ACTIONS //
 
-
-
   return (
     <div className='CAP'>
       <div className='navigation'>
@@ -200,14 +243,14 @@ const CAP = ({  }) => {
           <a onClick={() => setBlock("Add")} className={`${block === "Add" ? "current" : ""}`}>Add instance</a>
         </div>
         <div className='block'>
-          <a onClick={() => setBlock("S1")} className={`${block === "S1" ? "current" : ""}`}>SAMPLE 1</a>
+          <a onClick={() => setBlock("Delete")} className={`${block === "Delete" ? "current" : ""}`}>Delete instance</a>
         </div>
-        <div className='block'>
+        {/* <div className='block'>
           <a onClick={() => setBlock("S2")} className={`${block === "S2" ? "current" : ""}`}>SAMPLE 2</a>
         </div>
         <div className='block'>
           <a onClick={() => setBlock("S3")} className={`${block === "S3" ? "current" : ""}`}>SAMPLE 3</a>
-        </div>
+        </div> */}
       </div>
 
       <div className='panel'>
@@ -220,7 +263,7 @@ const CAP = ({  }) => {
                 <div className='form'>
                   <Input question="" label={"name"} onChange={(e) => changeItemFormData(e)} value={itemFormData.name} error={nameError} setError={setNameError} />
                   <Input question="" label={"collection"} onChange={(e) => changeItemFormData(e)} value={itemFormData.collection} error={collectionError} setError={setCollectionError} />
-                  <input type="file" onChange={(e) => setItem3dFiles(e.target.files)} multiple accept='image/*' id="file1"/>
+                  <input ref={d3InputRef} type="file" onChange={(e) => {setItem3dFiles(e.target.files); console.log(e.target.files)}} multiple accept='image/*' id="file1"/>
                   <label onClick={() => set3dError(false)} style={{color: d3Error ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file1">
                     { 
                       item3dFiles.length ? 
@@ -232,7 +275,7 @@ const CAP = ({  }) => {
                     }
                   </label>
 
-                  <input type="file" onChange={(e) => setItemFiles(e.target.files)} multiple accept='image/*' id="file2"/>
+                  <input ref={itemFilesRef} type="file" onChange={(e) => setItemFiles(e.target.files)} multiple accept='image/*' id="file2"/>
                   <label onClick={() => setItemFilesError(false)} style={{color: itemFilesError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file2">
                     {
                       itemFiles.length ? 
@@ -243,7 +286,7 @@ const CAP = ({  }) => {
                         </>
                     }
                   </label>
-                  <input type="file" onChange={(e) => setDisplayFile(e.target.files)} accept='image/*' id="file3"/>
+                  <input ref={displayFilesRef} type="file" onChange={(e) => setDisplayFile(e.target.files)} accept='image/*' id="file3"/>
                   <label onClick={() => setDisplayError(false)} style={{color: displayError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file3">
                     {
                       displayFile.length ? 
@@ -259,7 +302,7 @@ const CAP = ({  }) => {
                     <div className='block-info-block'>
                     {[...Array(blockQuantity)].map((_, i) => 
                       <div className='field' id={uuidv4()}>
-                        <BlockInfoDoubleInput setError={setBlockInfoError} error={blockInfoError} q={i} formData={itemFormData} setFormData={setItemFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
+                        <BlockInfoDoubleInput formSubmitted={formSubmitted} setError={setBlockInfoError} error={blockInfoError} q={i} formData={itemFormData} setFormData={setItemFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
                       </div>
                     )}
                     </div>
@@ -278,7 +321,7 @@ const CAP = ({  }) => {
                   <Input question="" label={"nickname"} onChange={(e) => changeReviewFormData(e)} value={reviewFormData.nickname} error={nicknameError} setError={setNicknameError} />
                   <Input question="" label={"username"} onChange={(e) => changeReviewFormData(e)} value={reviewFormData.username} error={usernameError} setError={setUsernameError} />
                   <Input question="" label={"content"} onChange={(e) => changeReviewFormData(e)} value={reviewFormData.content} error={contentError} setError={setContentError} />
-                  <input type="file" onChange={(e) => setPfp(e.target.files)} accept='image/*' id="file4"/>
+                  <input ref={pfpRef} type="file" onChange={(e) => setPfp(e.target.files)} accept='image/*' id="file4"/>
                   <label onClick={() => setPfpError(false)} style={{color: pfpError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file4">
                     {
                       pfp.length ? 
@@ -289,7 +332,7 @@ const CAP = ({  }) => {
                         </>
                     }
                   </label>
-                  <input type="file" onChange={(e) => setReviewImage(e.target.files)} accept='image/*' id="file5"/>
+                  <input ref={reviewImageRef} type="file" onChange={(e) => setReviewImage(e.target.files)} accept='image/*' id="file5"/>
                   <label onClick={() => setReviewImageError(false)} style={{color: reviewImageError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file5">
                     {
                       reviewImage.length ? 
@@ -317,19 +360,13 @@ const CAP = ({  }) => {
 }
 
 
-export const BlockInfoDoubleInput = ({ error, setError, q, setFormData, formData, blockQuantity, setBlockQuantity }) => {
+export const BlockInfoDoubleInput = ({ formSubmitted, error, setError, q, setFormData, formData, blockQuantity, setBlockQuantity }) => {
   const [input1Focus, setInput1Focus] = useState(false)
   const [input2Focus, setInput2Focus] = useState(false)
 
   const [fieldName, setFieldName] = useState("")
 
   const changeFormData1 = (e) => {
-    // setFormData(prev => {
-    //   let newDict = ({...prev})
-    //   // delete newDict[e.target.value.split(0, e.target.value.length - 1)[0]]
-    //   // console.log(e.target.value.split(0, e.target.value.length - 1)[0])
-    //   return newDict
-    // })
     setFormData(prev => ({...prev, [e.target.value]: ""}))
     setFieldName(e.target.value)
   }
@@ -337,6 +374,15 @@ export const BlockInfoDoubleInput = ({ error, setError, q, setFormData, formData
   const changeFormData2 = (e) => {
     setFormData(prev => ({...prev, [fieldName]: e.target.value}))
   }
+
+  useEffect(() => {
+    if (formSubmitted !== 0) {
+      setFormData(prev => ({...prev, [fieldName]: ""}))
+      setTimeout(() => setFieldName(""), 100)
+    }
+  }, [formSubmitted])
+
+  // useEffect(() => { 
 
   const [changed1, setChanged1] = useState(false)
   const [changed2, setChanged2] = useState(false)

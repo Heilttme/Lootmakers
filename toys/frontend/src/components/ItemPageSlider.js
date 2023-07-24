@@ -18,17 +18,15 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
   }, [currentIndex, slides])
 
   useEffect(() => {
-    if (timerRef.current) {
+    if (timerRef.current || stopped) {
       clearTimeout(timerRef.current)
     }
     if (!stopped) {
-      timerRef.current = setTimeout(() => {
-        goToNext()
-      }, 3000)
+      timerRef.current = setTimeout(() => goToNext(), 3000)
     }
 
     return () => clearTimeout(timerRef.current);
-  }, [goToNext]);
+  }, [stopped, goToNext]);
 
   const getSlidesContainerStylesWithWidth = () => ({
     width: parentWidth * slides.length,
@@ -36,6 +34,8 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
     transition: "transform ease-out 0.3s",
     transform: `translateX(${-(currentIndex * parentWidth)}px)`,
   })
+
+  console.log(stopped);
 
   return (
     <>
@@ -68,7 +68,7 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
                   src={`http://127.0.0.1:8000${slides[slideIndex]}`}
                   />) 
                   :
-                  (<ScrollImages3D mapped3DImages={mapped3DImages} item={item}/>)
+                  (<ScrollImages3D setStopped={setStopped} mapped3DImages={mapped3DImages} item={item}/>)
               ))}
               </div>
           </div>

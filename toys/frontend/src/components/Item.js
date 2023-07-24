@@ -15,6 +15,7 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   const [imageList, setImageList] = useState([])
   const [images3D, setImages3D] = useState([])
   const { height, width } = useWindowDimensions()
+  const [parentWidth, setParentWidth] = useState()
   
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
 
@@ -35,14 +36,50 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
     const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id: id}).then(data => setImageList(data.data.data))
   }, [id])
 
+  useEffect(() => {
+    let w = 600
+    if (width <= 1500) {
+      w = 500
+      
+      if (width <= 1300) {
+        w = 400
+
+        if (width <= 1100) {
+          w = 330
+
+          if (width <= 700) {
+            w = 400
+
+            if (width <= 550) {
+              w = 340
+
+              if (width <= 450) {
+                w = 300
+                
+                if (width <= 380) {
+                  w = 260
+
+                  if (width <= 320){
+                    w = 220
+                  }
+                }
+              }
+            }
+          }
+        } 
+      }
+    } 
+    setParentWidth(w)
+  }, [width])
+
   return curItem && (
     <div className='item-page'>
       <div className='image-slider-container'>
         {
-          width > 900 ?
-            <ItemPageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={width >= 1500 ? 600 : width >= 1100 ? 400 : 330} />
+          width > 700 ?
+          <ItemPageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={parentWidth} />
           :
-            <ItemsSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={width >= 1500 ? 600 : width >= 1100 ? 400 : 330} />
+          <ItemsSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={parentWidth} />
         }
       </div>
       <div className='s-col'>

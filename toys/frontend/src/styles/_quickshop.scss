@@ -1,7 +1,7 @@
 .quickshop{
     position: fixed;
     z-index: 1000;
-    width: 50vw;
+    width: 55vw;
     height: 85vh;
     background-color: white;
     border: 1px solid black;
@@ -237,22 +237,18 @@
             height: 120px;
             transition: all .2s ease-in-out;
             cursor: pointer;
-            opacity: .7;
+            opacity: .6;
+            border-top: 2px solid white;
             
             &:hover{
-                scale: 1.05;
                 opacity: 1;
-        }
+            }
         }
     
         .chosen{
-            scale: 1.2;
             opacity: 1;
             transition: all .2s ease-in-out;
-    
-            &:hover{
-                scale: 1.2;
-            }
+            border-top: 2px solid #000;
         }
     }
 }

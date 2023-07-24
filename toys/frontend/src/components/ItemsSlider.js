@@ -37,19 +37,14 @@ const ItemsSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
   }, [currentIndex, slides])
 
   useEffect(() => {
-    if (timerRef.current) {
+    if (timerRef.current || stopped) {
       clearTimeout(timerRef.current)
     }
     if (!stopped) {
-      timerRef.current = setTimeout(() => {
-        goToNext()
-      }, 3000)
+      timerRef.current = setTimeout(() => goToNext(), 3000)
     }
-
     return () => clearTimeout(timerRef.current);
-  }, [goToNext]);
-
-  console.log(stopped);
+  }, [stopped, goToNext]);
 
   return (
     <div className="slider">
