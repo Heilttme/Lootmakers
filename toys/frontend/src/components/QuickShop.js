@@ -4,6 +4,7 @@ import ImageSlider from './ItemsSlider'
 import axios from 'axios'
 import useStore from "../store"
 import { t } from "i18next"
+import useWindowDimensions from './useWindowDimensions'
 
 const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll, setQuickShop, id }) => {
   const [item, setItem] = useState(items.filter(i => i.id === id)[0])
@@ -11,6 +12,8 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
   const [images3D, setImages3D] = useState([])
   const [mapped3DImages, setMapped3DImages] = useState([])
   const addToStateCart = useStore(state => state.add)
+  const [parentWidth, setParentWidth] = useState(0)
+  const { height, width } = useWindowDimensions()
 
   useEffect(() => {
     setItem(items.filter(i => i.id === id)[0])
@@ -31,6 +34,15 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
 
   const slides = [mapped3DImages, ...imageList.map(item => item.image)]
 
+  useEffect(() => {
+    let w = 380
+    if (width <= 900) {
+      w = 300
+        
+    } 
+    setParentWidth(w)
+  }, [width])
+
   return item && (
     <motion.div 
       initial={{x: 5000}}
@@ -46,7 +58,7 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
         <div className='item'>
           <div className='f-col'>
             <div className='image-slider-container'>
-              <ImageSlider mapped3DImages={mapped3DImages} item={item} slides={slides} parentWidth={380} />
+              <ImageSlider mapped3DImages={mapped3DImages} item={item} slides={slides} parentWidth={parentWidth} />
             </div>
           </div>
           <div className='r-col'>

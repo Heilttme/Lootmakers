@@ -10,6 +10,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const { height, width } = useWindowDimensions()
   const [shownItems, setShownItems] = useState(3)
   const navigate = useNavigate()
+  const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
 
   useEffect(() => {
     const newItems = []
@@ -64,7 +65,10 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
               <h2 className='col'>{itemNew.collection}</h2>
               <h2 className='name'>{itemNew.name}</h2>
             </div>
-            <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+            {
+              !mobile && 
+              <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+            }
           </div>
         </div>
       </>
@@ -83,7 +87,10 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
                 <h2 className='col'>{itemNew.collection}</h2>
                 <h2 className='name'>{itemNew.name}</h2>
               </div>
-              <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+              {
+                !mobile && 
+                <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+              }
             </div>
           </div>
         </>
@@ -102,7 +109,10 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
               <h2 className='col'>{itemNew.collection}</h2>
               <h2 className='name'>{itemNew.name}</h2>
             </div>
-            <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+            {
+              !mobile && 
+              <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+            }
           </div>
         </div>
       </>
@@ -118,9 +128,12 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
           </div>
           <div className='items'>
             {threeItemsDisplay}
-            <div className='more'>
-              <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
-            </div>
+              {
+                shownItems < items.length &&
+                <div className='more'>
+                  <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
+                </div>
+              }
           </div>
       </div>
     </>

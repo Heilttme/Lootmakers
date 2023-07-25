@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useWindowDimensions from './useWindowDimensions'
 import { motion } from "framer-motion"
+import { t } from 'i18next'
 
 const DeleteStore = ({ items, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
@@ -84,29 +85,34 @@ const DeleteStore = ({ items, displayImages }) => {
 
   let newItems = items.map(it => <ItemStore item={it} displayImages={displayImages}/>)
 
-  const [filterId, setFilterId] = useState(-1)
+  const [filter, setFilter] = useState(-1)
   const [filteredItems, setFilteredItems] = useState([])
 
   useEffect(() => {
-    if (filterId !== -1) {
-      newItems = items.filter(it => it.id === parseInt(filterId)).map(it => <ItemStore item={it} displayImages={displayImages}/>)
+    if (filter !== -1) {
+      newItems = items.filter(it => (it.id === parseInt(filter) || it.name.toLowerCase().includes(filter.toLowerCase()))).map(it => <ItemStore item={it} displayImages={displayImages}/>)
     }
     setFilteredItems(newItems)
-  }, [filterId])
+  }, [filter])
+
+  const [filterFocus, setFilterFocus] = useState(false)
 
   return (
     <div className='delete-store'>
         <div className='filter'>
-          <p>Filter by id</p>
           <input 
-            name='id'
-            value={filterId === -1 ? "" : filterId}
-            onChange={(e) => setFilterId(e.target.value)}
-            id="id"
-            type="number"
+            name='filter'
+            value={filter === -1 ? "" : filter}
+            onChange={(e) => setFilter(e.target.value)}
+            id="filter"
+            onFocus={() => setFilterFocus(true)}
+            onBlur={() => setFilterFocus(false)}
           />
+          <motion.label animate={((filter && filter !== -1) || filterFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label`} htmlFor={`filter`}>{t("Filter")}</motion.label>
         </div>
-        {filteredItems}
+        <div className='items'>
+          {filteredItems}
+        </div>
     </div>
   )
 }

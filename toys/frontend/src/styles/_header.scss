@@ -203,9 +203,8 @@
     }
 }
 
-
 @media (max-width: 1600px) {
-    .header a {
+    .header .nav {
         padding-left: 2rem;
         padding-right: 2rem;
     }
@@ -215,6 +214,30 @@
         padding-right: 2rem;
     }
 }
+
+// @media (max-width: 1500px) {
+//     .header .nav {
+//         padding-left: 1rem;
+//         padding-right: 1rem;
+//     }
+
+//     .header .right-lane .cart-container{
+//         padding-left: 1rem;
+//         padding-right: 1rem;
+//     }
+// }
+
+// @media (max-width: 1400px) {
+//     .header{
+//         font-size: .85em;
+//     }
+// }
+
+// @media (max-width: 1300px) {
+//     .header{
+//         font-size: .75em;
+//     }
+// }
 
 @media (max-width: 1140px) {
     .header{

@@ -483,7 +483,7 @@
 }
 
 @media (max-width: 1600px) {
-  .header a {
+  .header .nav {
     padding-left: 2rem;
     padding-right: 2rem;
   }
@@ -698,7 +698,6 @@
 }
 .store .items .block .item {
   width: 33.33%;
-  height: 100%;
   filter: grayscale(100%);
   transition: all 0.2s ease-in-out;
   cursor: pointer;
@@ -707,7 +706,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border-right: 1px solid black;
   --quick-height: 50px;
 }
@@ -742,7 +741,8 @@
 }
 .store .items .block .item img {
   padding: 1rem;
-  width: 80%;
+  width: 90%;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -1668,11 +1668,12 @@
   bottom: 0;
   margin: auto;
   overflow: hidden;
+  --item-width: 380px;
 }
 .quickshop img {
   -o-object-fit: cover;
      object-fit: cover;
-  width: 380px;
+  width: var(--item-width);
   height: 500px;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -1680,9 +1681,7 @@
 }
 .quickshop .quickshop-header {
   background-color: #E6E6E6;
-  position: fixed;
   height: 65px;
-  width: calc(55vw - 2px);
   z-index: 123123;
   font-size: 2em;
   font-weight: 500;
@@ -1700,7 +1699,6 @@
 }
 .quickshop .item-wrapper {
   height: 100%;
-  padding-top: 65px;
 }
 .quickshop .item {
   display: flex;
@@ -1795,7 +1793,7 @@
   }
 }
 .quickshop .image-slider-container {
-  width: 380px;
+  width: var(--item-width);
   height: 100%;
   margin: 0 auto;
   -webkit-user-select: none;
@@ -1883,6 +1881,63 @@
   border-top: 2px solid #000;
 }
 
+@media (max-width: 1700px) {
+  .quickshop {
+    width: 65vw;
+  }
+}
+@media (max-width: 1550px) {
+  .quickshop {
+    width: 70vw;
+  }
+}
+@media (max-width: 1400px) {
+  .quickshop {
+    width: 75vw;
+  }
+}
+@media (max-width: 1300px) {
+  .quickshop {
+    width: 80vw;
+  }
+}
+@media (max-width: 1200px) {
+  .quickshop {
+    width: 85vw;
+  }
+}
+@media (max-width: 1150px) {
+  .quickshop {
+    width: 92vw;
+  }
+}
+@media (max-width: 1070px) {
+  .quickshop .item .f-col {
+    width: 55%;
+  }
+}
+@media (max-width: 900px) {
+  .quickshop .item .f-col {
+    width: 55%;
+  }
+}
+@media (max-width: 900px) {
+  .quickshop {
+    --item-width: 300px;
+  }
+  .quickshop .im {
+    height: 400px;
+    margin-top: 5rem;
+  }
+  .quickshop .item .f-col {
+    width: 55%;
+  }
+}
+@media (max-width: 800px) {
+  .quickshop {
+    font-size: 0.8em;
+  }
+}
 .not-found {
   margin-top: 2rem;
   font-size: 2em;
@@ -2128,14 +2183,58 @@
   margin: 0 auto;
   margin-top: 1rem;
   width: 78%;
+}
+.CAP .panel .delete-store .filter {
+  margin-bottom: 2rem;
+  position: relative;
+}
+.CAP .panel .delete-store .filter label, .CAP .panel .delete-store .filter input[type=text] {
+  display: block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.CAP .panel .delete-store .filter .text-label {
+  position: absolute;
+  top: 0rem;
+  left: 0.5rem;
+  font-size: 1.2em;
+  cursor: text;
+  opacity: 1;
+  padding: 0.4rem;
+  border-radius: 8px;
+  color: white;
+}
+.CAP .panel .delete-store .filter .error {
+  color: rgb(247, 61, 61);
+}
+.CAP .panel .delete-store .filter input {
+  width: 550px;
+  height: 1rem;
+  padding: 1.2rem;
+  background-color: #3f3f3f;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  border-radius: 4px;
+  resize: none;
+}
+.CAP .panel .delete-store .filter input:focus {
+  background-color: #333333;
+}
+.CAP .panel .delete-store .items {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  min-height: 500px;
 }
 .CAP .panel .delete-store .wrapper-item {
   position: relative;
   z-index: 123;
   border-left: 1px solid black;
   border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
   overflow: hidden;
 }
 .CAP .panel .delete-store .wrapper-item .removed {
@@ -2156,7 +2255,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid black;
   --quick-height: 50px;
   z-index: 123;
 }

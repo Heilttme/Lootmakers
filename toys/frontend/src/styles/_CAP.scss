@@ -193,11 +193,56 @@
             margin: 0 auto;
             margin-top: 1rem;
             width: 78%;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
 
             .filter{
-                // display: flex;
+                margin-bottom: 2rem;
+                position: relative;
+
+                label, input[type=text]{
+                    display: block;
+                    user-select: none;
+                    // margin-bottom: .4rem;
+                }
+        
+                .text-label{
+                    position: absolute;
+                    top: 0rem;
+                    left: .5rem;
+                    font-size: 1.2em;
+                    cursor: text;
+                    opacity: 1;
+                    padding: .4rem;
+                    border-radius: 8px;
+                    color: white;
+                }
+                
+                .error{
+                    color: rgb(247, 61, 61);
+                }
+        
+                input{
+                    width: 550px;
+                    height: 1rem;
+                    padding: 1.2rem;
+                    background-color: #3f3f3f;
+                    border: none;
+                    outline: none;
+                    transition: all .2s ease-in-out;
+                    color: white;
+                    border-radius: 4px;
+                    resize: none;
+        
+                    &:focus{
+                        background-color: #333333;
+                    }
+                }
+                
+            }
+
+            .items{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                min-height: 500px;
             }
 
             .wrapper-item{
@@ -205,6 +250,8 @@
                 z-index: 123;
                 border-left: 1px solid black;
                 border-top: 1px solid black;
+                border-bottom: 1px solid black;
+                border-right: 1px solid black;
                 overflow: hidden;
 
                 .removed{
@@ -229,9 +276,12 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                border-right: 1px solid black;
                 --quick-height: 50px;
                 z-index: 123;
+
+                // &:nth-last-child(-2){
+                //     border-bottom: 1px solid #000;
+                // }
                 
                 &:hover{
                     filter: unset;
