@@ -34,13 +34,17 @@
     }
 
     .review{
-        padding: .3rem;
-        margin-bottom: 1rem;
+        // padding: .3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-left: 1px solid #000;
+        border-bottom: 1px solid #000;
         transition: all .15s ease-in-out;
 
-        &:hover{
-            scale: 1.03;
-        }
+        // &:hover{
+        //     scale: 1.03;
+        // }
         
         .top{
             padding-top: 1rem;
@@ -89,9 +93,11 @@
         }
 
         .bot{
+            height: 450px;
+            
             .review-pic{
                 width: 440px;
-                height: 440px;
+                height: 450px;
                 object-fit: cover;
             }
         }
@@ -103,7 +109,6 @@
     }
 
     .l2{
-        // margin-left: 14rem;
         display: flex;
         animation: scroll 10s linear infinite both alternate-reverse;
     }

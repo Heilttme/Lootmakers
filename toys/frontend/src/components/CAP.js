@@ -6,9 +6,9 @@ import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import DeleteStore from './DeleteStore';
+import DeleteReview from './DeleteReview';
 
-const CAP = ({ items, displayImages }) => {
-  const [block, setBlock] = useState("Add")
+const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
 
   // ITEMFORMDATA ACTIONS //
   const [itemFormData, setItemFormData] = useState({
@@ -241,17 +241,14 @@ const CAP = ({ items, displayImages }) => {
     <div className='CAP'>
       <div className='navigation'>
         <div className='block'>
-          <a onClick={() => setBlock("Add")} className={`${block === "Add" ? "current" : ""}`}>Add instance</a>
+          <a onClick={() => setBlock("Add")} className={`${block === "Add" ? "current" : ""}`}>Add</a>
         </div>
         <div className='block'>
-          <a onClick={() => setBlock("Delete")} className={`${block === "Delete" ? "current" : ""}`}>Delete instance</a>
-        </div>
-        {/* <div className='block'>
-          <a onClick={() => setBlock("S2")} className={`${block === "S2" ? "current" : ""}`}>SAMPLE 2</a>
+          <a onClick={() => setBlock("Delete item")} className={`${block === "Delete item" ? "current" : ""}`}>Delete item</a>
         </div>
         <div className='block'>
-          <a onClick={() => setBlock("S3")} className={`${block === "S3" ? "current" : ""}`}>SAMPLE 3</a>
-        </div> */}
+          <a onClick={() => setBlock("Delete review")} className={`${block === "Delete review" ? "current" : ""}`}>Delete review</a>
+        </div>
       </div>
 
       <div className='panel'>
@@ -348,8 +345,11 @@ const CAP = ({ items, displayImages }) => {
                 </div>
               </div>
             </div>
-          :
+          : block === "Delete item" ?
             <DeleteStore items={items} displayImages={displayImages}/>
+          
+          : block === "Delete review" && 
+            <DeleteReview reviews={reviews}/>
         }
         
       </div>

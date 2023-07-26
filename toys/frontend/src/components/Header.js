@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import i18next, { t } from 'i18next'
 import { motion } from "framer-motion"
 
-const Header = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened, storeRef, cartCounterRef }) => {
+const Header = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened, storeRef, cartCounterRef, block, setBlock }) => {
   const [menuOpened, setMenuOpened] = useState(false)
   const location = useLocation().pathname
   const navigate = useNavigate()
@@ -47,6 +47,9 @@ const Header = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened,
             </a>
           </div>
           <a className='nav' onClick={() => changeLanguage(i18next.language === "ru" ? "en" : "ru")}>{i18next.language === "ru" ? "RU" : "EN"}</a>
+        </div>
+        <div className='blocks'>
+            
         </div>
       </div>
     </div>

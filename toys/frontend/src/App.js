@@ -18,6 +18,7 @@ function App() {
   const addToStateCart = useStore(state => state.add)
   const storeRef = useRef(null)
   const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
+  const [blockAdmin, setBlockAdmin] = useState("Add")
   
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
@@ -72,7 +73,7 @@ function App() {
           allowScroll()
         }} className="wrapper">
         <div className="a" style={{filter: (contactOpened || quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened) ? "none" : "unset"}}>
-          <Header blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
+          <Header setBlockAdmin={setBlockAdmin} blockAdmin={blockAdmin} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <MobileNav blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <main>
             <Routes>
@@ -80,7 +81,7 @@ function App() {
               <Route path="/items/:id" element={<Item buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin />}/>
-              <Route path="/admin/cms" element={<CAP displayImages={displayImages} items={items} />}/>
+              <Route path="/admin/cms" element={<CAP setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </main>
