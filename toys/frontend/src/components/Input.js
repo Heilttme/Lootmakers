@@ -4,7 +4,7 @@ import { t } from 'i18next'
 
 const Input = ({ label, onChange, value, error, setError, question }) => {
   const [inputFocus, setInputFocus] = useState(false)
-  
+
   return (
     <div className={`field ${question !== "" && " flex"}`}>
       <input 

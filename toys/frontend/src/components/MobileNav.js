@@ -3,8 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import i18next, { t } from 'i18next'
 import { motion } from "framer-motion"
 
-const MobileNav = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened, storeRef, cartCounterRef }) => {
-  const [menuOpened, setMenuOpened] = useState(false)
+const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, changeLanguage, setCartOpened, storeRef, cartCounterRef }) => {
   const location = useLocation().pathname
   const navigate = useNavigate()
 

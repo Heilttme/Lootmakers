@@ -294,6 +294,7 @@
         .submitted-form{
             margin: 0 auto;
             position: absolute;
+            width: 100%;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -482,5 +483,100 @@
     h3{
         margin-top: 1rem;
         margin-bottom: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .contact{
+        font-size: .8em;
+    }
+}
+
+@media (max-width: 700px) {
+    .contact{
+        display: flex;
+        justify-content: center;
+    }
+    
+    .pre{
+        width: 90%;
+    }
+}
+
+@media (max-width: 500px) {
+    .contact{
+        font-size: .7em;
+    }
+    
+    .pre{
+        width: 90%;
+    }
+}
+
+@media (max-width: 350px) {
+    .contact{
+        font-size: .6em;
+    }
+}
+
+@media (max-width: 1600px) {
+    .contact-form {
+        width: 65vw;
+    }
+
+    .contact-form .contact-header {
+        width: calc(65vw - 2px);
+    }
+}
+
+@media (max-width: 1400px) {
+    .contact-form {
+        width: 75vw;
+    }
+
+    .contact-form .contact-header {
+        width: calc(75vw - 2px);
+    }
+}
+
+@media (max-width: 1300px) {
+    .contact-form .blocks .submitted-form {
+        font-size: .8em;
+    }
+
+    .contact-form .contact-header {
+        width: calc(75vw - 2px);
+    }
+}
+
+@media (max-width: 1000px) {
+    .contact-form {
+        width: 85vw;
+    }
+
+    .contact-form .contact-header {
+        width: calc(85vw - 2px);
+        font-size: .9em;
+    }
+    
+    .contact-form .blocks .submitted-form {
+        font-size: .75em;
+    }
+}
+
+@media (max-width: 800px) {
+    .contact-form {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        bottom: 0;
+    }
+
+    .contact-form .contact-header {
+        width: calc(95vw - 2px);
+    }
+    
+    .contact-form .blocks .submitted-form {
+        font-size: .65em;
     }
 }

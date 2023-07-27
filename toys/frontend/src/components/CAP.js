@@ -177,11 +177,11 @@ const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
 
   useEffect(() => {
     !pfp.length && pfpRef.current && (() => pfpRef.current.value = "")()
-  }, [displayFile])
+  }, [pfp])
 
   useEffect(() => {
     !reviewImage.length && reviewImageRef.current && (() => reviewImageRef.current.value = "")()
-  }, [displayFile])
+  }, [reviewImage])
 
   const onReviewSubmit = () => {
     if (reviewFormData.nickname && reviewFormData.username && reviewFormData.content && pfp.length && reviewImage.length) {
@@ -208,7 +208,7 @@ const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
             theme: "light",
             })
           setReviewFormData({
-            name: "",
+            nickname: "",
             username: "",
             content: "",
           })
@@ -237,6 +237,8 @@ const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
   }
   // REVIEW FORMDATA ACTIONS //
 
+  console.log(reviewFormData);
+
   return (
     <div className='CAP'>
       <div className='navigation'>
@@ -261,7 +263,7 @@ const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
                 <div className='form'>
                   <Input question="" label={"name"} onChange={(e) => changeItemFormData(e)} value={itemFormData.name} error={nameError} setError={setNameError} />
                   <Input question="" label={"collection"} onChange={(e) => changeItemFormData(e)} value={itemFormData.collection} error={collectionError} setError={setCollectionError} />
-                  <input ref={d3InputRef} type="file" onChange={(e) => {setItem3dFiles(e.target.files); console.log(e.target.files)}} multiple accept='image/*' id="file1"/>
+                  <input ref={d3InputRef} type="file" onChange={(e) => {setItem3dFiles(e.target.files)}} multiple accept='image/*' id="file1"/>
                   <label onClick={() => set3dError(false)} style={{color: d3Error ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file1">
                     { 
                       item3dFiles.length ? 

@@ -645,7 +645,7 @@ const NewSocialNetworkLink = ({ q, formData, changeFormData, setLinkQuantity, li
         onFocus={() => {setFocus(true);setError(false)}}
         onBlur={() => setFocus(false)}
       />
-      <motion.label animate={(formData[`link-${q}`] || focus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ error ? " error" : ""}`} htmlFor={`link-${q}`}>{t("Link")}</motion.label>
+      <motion.label animate={(formData[`link-${q}`] || focus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {color: error ? "rgb(247, 61, 61)" : "rgb(255, 255, 255)"}} transition={{color: {stiffness: 100}}} className={`text-label${ error ? " error" : ""}`} htmlFor={`link-${q}`}>{t("Link")}</motion.label>
     </motion.div>
   )
 }

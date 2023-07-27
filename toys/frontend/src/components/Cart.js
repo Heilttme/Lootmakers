@@ -5,7 +5,7 @@ import useStore from "../store";
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
 
-const Cart = ({ items, displayImages, setCartOpened, blockScroll, cartOpened, allowScroll }) => {
+const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll, cartOpened, allowScroll }) => {
   const addToCart = useStore(state => state.add)
   const incQuantity = useStore(state => state.increment)
   const decQuantity = useStore(state => state.decrement)
@@ -17,7 +17,7 @@ const Cart = ({ items, displayImages, setCartOpened, blockScroll, cartOpened, al
   }, [cartOpened])
 
   const cartItems = cart.map(item => (
-    <CartItem key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
+    <CartItem setMenuOpened={setMenuOpened} key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
   ))
   
   return (
@@ -51,7 +51,7 @@ const Cart = ({ items, displayImages, setCartOpened, blockScroll, cartOpened, al
   )
 }
 
-const CartItem = ({ items, item, displayImages, setCartOpened, incQuantity, decQuantity }) => {
+const CartItem = ({ setMenuOpened, items, item, displayImages, setCartOpened, incQuantity, decQuantity }) => {
   const navigate = useNavigate()
   const [removedShadow, setRemovedShadow] = useState(false)
   const [removedItem, setRemovedItem] = useState(false)
@@ -92,7 +92,7 @@ const CartItem = ({ items, item, displayImages, setCartOpened, incQuantity, decQ
       >
         <div className='item-inner'>
           <div className='i-nq'>
-            <img onClick={() => {navigate(`/items/${item.id}`);setCartOpened(false)}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item.id)[0].image}`}/>
+            <img onClick={() => {navigate(`/items/${item.id}`);setCartOpened(false);setMenuOpened(false)}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item.id)[0].image}`}/>
             <div className='n-q'>
               <div>
                 <h2>{item.collection}</h2>
