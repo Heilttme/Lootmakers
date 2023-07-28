@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion } from "framer-motion"
 import { useNavigate } from 'react-router-dom'
 import Input from "./Input"
+import axios from 'axios'
 
 const ALogin = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,13 @@ const ALogin = () => {
   const [passwordError, setPasswordError] = useState(false)
 
   const submit = () => {
+
+    if (true) {
+      const res = axios.post().then(data => {
+        localStorage.setItem("access", )
+        localStorage.setItem("refresh", )
+      })
+    }
     navigate("/admin/cms")
   }
   

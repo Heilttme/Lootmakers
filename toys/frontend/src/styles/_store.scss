@@ -6,10 +6,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: black;
+        background-color: var(--black-light);
         color: white;
-        border-top: 3px solid black;
-        border-bottom: 3px solid black;
+        // border-top: 3px solid black;
+        // border-bottom: 3px solid black;
         font-size: 1.1em;
         font-weight: 200;
     }
@@ -116,7 +116,7 @@
                 padding-bottom: .8rem;
                 font-size: 1.6em;
                 outline: none;
-                border: 1px solid black;
+                // border: 1px solid black;
                 border-top: none;
                 cursor: pointer;
                 margin-bottom: 1rem;

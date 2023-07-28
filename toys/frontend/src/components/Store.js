@@ -129,7 +129,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
           <div className='items'>
             {threeItemsDisplay}
               {
-                shownItems < items.length &&
+                shownItems < (width > 1000 ? items.length / 3 : width > 600 ? items.length / 2 : items.length) &&
                 <div className='more'>
                   <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
                 </div>

@@ -68,11 +68,12 @@ function App() {
   return (
     <Router>
       <div onClick={() => {
-          quickShop && setQuickShop(null)
-          cartOpened && setCartOpened(false)
-          contactOpened && setContactOpened(false)
-          allowScroll()
-        }} className="wrapper">
+        quickShop && setQuickShop(null)
+        cartOpened && setCartOpened(false)
+        contactOpened && setContactOpened(false)
+        
+        allowScroll()
+      }} className="wrapper">
         <div className="a" style={{filter: (contactOpened || quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened) ? "none" : "unset"}}>
           <Header setBlockAdmin={setBlockAdmin} blockAdmin={blockAdmin} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <MobileNav menuOpened={menuOpened} setMenuOpened={setMenuOpened} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />

@@ -272,7 +272,11 @@
         width: 100vw;
         height: 100vh;
         top: 0;
-        bottom: 0;
+        bottom: unset;
+        left: 0;
+        right: unset;
+        margin: unset;
+
     }
     
     .cart .cart-header {

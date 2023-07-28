@@ -7,7 +7,11 @@ const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, 
   const location = useLocation().pathname
   const navigate = useNavigate()
 
-  useEffect(() => menuOpened ? blockScroll() : allowScroll(), [menuOpened])
+  useEffect(() => {
+    if (menuOpened) {
+      blockScroll()
+    }
+  }, [menuOpened])
     
   return (
     <>
@@ -23,6 +27,7 @@ const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, 
         animate={{x: menuOpened ? 0 : 800}}
         transition={{type: "keyframes"}}
         className='side-menu'
+        onClick={(e) => e.stopPropagation()} 
       >
         <div onClick={() => setMenuOpened(false)} className='cross-wrapper'>
           <div className='cross'>
@@ -42,7 +47,7 @@ const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, 
         <div className='block'>
           <a href='/contact' className='nav'>{t("CONTACT")}</a>
         </div>
-        <div onClick={() => setCartOpened(prev => !prev)} className='cart-container'>
+        <div onClick={() => {setCartOpened(prev => !prev);setTimeout(() => setMenuOpened(false), 200)}} className='cart-container'>
             <a className='nav'>
               {t("CART")}
               {

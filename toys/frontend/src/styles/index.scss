@@ -19,8 +19,9 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-    --black-dark-color: #3f3f3f;
-    --black-color: #3f3f3f;
+    --black-light: #333;
+    --black: black;
+    --white-color: #e6e6e6;
 }
 
 a{
@@ -41,7 +42,7 @@ html{
     &::-webkit-scrollbar-thumb{
         border-left: 1px solid black;
         border-right: 1px solid black;
-        background-color: white;
+        background-color: var(--white-color);
     }
 }
 
@@ -50,7 +51,7 @@ html{
 // }
 
 .a{
-    background-color: #E6E6E6;
+    background-color: var(--white-color);
     z-index: 0;
     position: relative;
     
