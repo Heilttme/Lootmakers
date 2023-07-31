@@ -61,16 +61,16 @@ def get_item_images(request):
 def toy_admin_panel_add_item(request):
     name = request.data.get('name')
     collection = request.data.get('collection')
-    # images3D = request.data.get("images3D")
-    # displayImage = request.data.get("displayImage")
-    # images = request.data.get("images")
+    mainText = request.data.get('mainText')
+    quote = request.data.get('quote')
+    author = request.data.get('author')
     blockInfo = request.data.get('blockInfo')
     isPreorder = request.data.get('isPreorder') == "on"
     releaseDate = request.data.get('releaseDate')
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
-    item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
+    item = Item(name=name, collection=collection, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
     item.save()
 
     for i in request.FILES:
@@ -115,9 +115,6 @@ def toy_admin_panel(request):
             releaseDate = form.data.get('releaseDate')
             price = form.data.get('price')
             quantityAvailable = form.data.get('quantityAvailable')
-            print(images3D)
-            print(displayImage)
-            print(images)
 
             item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
             item.save()

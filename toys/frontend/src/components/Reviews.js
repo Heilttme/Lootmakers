@@ -1,10 +1,13 @@
 import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
 import tg from "../assets/b-tg.png"
+import { motion } from "framer-motion"
+import useWindowDimensions from './useWindowDimensions'
 
 const Reviews = ({ reviews }) => {
   const [fr1, setFr1] = useState([])
   const [fr2, setFr2] = useState([])
+  const { height, width } = useWindowDimensions()
 
   function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
@@ -57,6 +60,33 @@ const Reviews = ({ reviews }) => {
 
   }, [reviews])
 
+
+  const [parentWidth, setParentWidth] = useState(450)
+  useEffect(() => {
+      let w = 450
+      if (width <= 1200) {
+        w = 350
+        
+        if (width <= 1000) {
+          w = 300
+
+          if (width <= 650) {
+            w = 250
+
+            if (width <= 450) {
+              w = 220
+
+              if (width <= 360) {
+                w = 200
+
+              }
+            }
+          } 
+        }
+      } 
+      setParentWidth(w)
+    }, [width])
+
   return (
     <>
       <div className='review-head'>
@@ -64,8 +94,21 @@ const Reviews = ({ reviews }) => {
       </div>
       <div className='reviews-wrapper'>
         <div className='reviews'>
-          <div className='l1 l'>{fr1}</div>
-          <div className='l2 l'>{fr2}</div>
+          <motion.div
+            animate={{x: -parentWidth * fr1.length + width - fr1.length}}
+            transition={{duration: 50, repeat: Infinity, ease: "linear", repeatType: 'reverse'}}
+            className='l1 l'
+          >
+            {fr1}
+          </motion.div>
+          <motion.div
+            initial={{translateX: -(parentWidth / 2)}}
+            animate={{x: -(parentWidth * fr2.length) + width - fr2.length + (parentWidth)}}
+            transition={{duration: 35, repeat: Infinity, ease: "linear", repeatType: "reverse"}}
+            className='l2 l'
+          >
+            {fr2}
+          </motion.div>
         </div>
       </div>
     </>

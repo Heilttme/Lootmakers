@@ -35,8 +35,6 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
     transform: `translateX(${-(currentIndex * parentWidth)}px)`,
   })
 
-  console.log(stopped);
-
   return (
     <>
       <div className="bot-images">

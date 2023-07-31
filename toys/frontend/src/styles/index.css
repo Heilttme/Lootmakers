@@ -2,7 +2,7 @@
   margin: auto;
   position: relative;
   overflow: hidden;
-  background-color: #e6e6e6;
+  background-color: var(--white-color);
   color: black;
 }
 
@@ -19,20 +19,15 @@
   font-weight: 200;
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-640px);
-  }
+.reviews {
+  --width-var: attr(count-attr);
+  padding-top: var(--width-var);
 }
 .reviews .review {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-left: 1px solid #000;
-  border-bottom: 1px solid #000;
+  border-bottom: 2px solid #000;
   transition: all 0.15s ease-in-out;
 }
 .reviews .review .top {
@@ -88,6 +83,16 @@
 .reviews .l1 {
   display: flex;
   animation: scroll 10s linear infinite both alternate;
+  position: relative;
+}
+.reviews .l1::after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 .reviews .l2 {
   display: flex;
@@ -340,7 +345,61 @@
   padding-bottom: 1rem;
   width: 95%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+.cart .continue .subtotal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+.cart .continue .subtotal p {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+.cart .continue .subtotal h2 {
+  font-size: 1.6em;
+}
+.cart .continue .subtotal s {
+  position: absolute;
+  right: -2rem;
+  top: -0.4rem;
+}
+.cart .continue .checkout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.cart .continue .checkout .promocode-block {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.cart .continue .checkout input {
+  width: 240px;
+  height: 40px;
+  padding: 1.2rem;
+  background-color: #3f3f3f;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  resize: none;
+}
+.cart .continue .checkout input:focus {
+  background-color: #333333;
+}
+.cart .continue .checkout input::-moz-placeholder {
+  font-weight: 600;
+  -moz-user-select: none;
+       user-select: none;
+}
+.cart .continue .checkout input::placeholder {
+  font-weight: 600;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .cart .continue button {
   outline: none;
@@ -496,7 +555,7 @@
   margin: 0 auto;
   display: flex;
   position: relative;
-  background-color: #E6E6E6;
+  background-color: var(--white-color);
 }
 .header .nav {
   cursor: pointer;
@@ -532,14 +591,12 @@
 .header .about {
   position: relative;
   z-index: 14000;
-  background-color: #E6E6E6;
 }
 .header .about:hover .slide-out {
   transform: translateY(90px);
 }
 .header .slide-out {
   position: absolute;
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1063,6 +1120,7 @@
 }
 .item-page .image-slider-container {
   max-height: var(--item-width);
+  filter: brightness(0.95);
   display: flex;
   gap: 0.3rem;
   -webkit-user-select: none;
@@ -1152,9 +1210,11 @@
   cursor: pointer;
   opacity: 0.6;
   border-left: 2px solid white;
+  filter: brightness(0.9);
 }
 .item-page .bot-images .img-nav:hover {
   opacity: 1;
+  filter: brightness(0.95);
 }
 .item-page .bot-images .chosen {
   opacity: 1;
@@ -1177,8 +1237,8 @@
   font-size: 2.6em;
 }
 .item-page .block-info {
-  border-top: 6px solid #333333;
-  border-bottom: 6px solid #333333;
+  border-top: 4px solid #333333;
+  border-bottom: 4px solid #333333;
   padding-top: 0.8rem;
   padding-bottom: 0.4rem;
   padding-left: 0.6rem;
@@ -1192,8 +1252,12 @@
   margin-bottom: 0.6rem;
   margin-right: 0.6rem;
 }
+.item-page .main-text {
+  margin-top: 1rem;
+  font-size: 1.2em;
+}
 .item-page .quote {
-  margin-top: 3rem;
+  margin-top: 1.2rem;
   font-size: 0.9em;
   margin-left: 0.4rem;
 }
@@ -1537,7 +1601,7 @@
   opacity: 1;
   visibility: visible;
 }
-.contact-form .blocks .block .field label, .contact-form .blocks .block .field textarea input[type=text] {
+.contact-form .blocks .block .field label, .contact-form .blocks .block .field textarea, .contact-form .blocks .block .field input[type=text] {
   display: block;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -1571,6 +1635,15 @@
 .contact-form .blocks .block .field textarea {
   height: 6rem;
   padding: 0.6rem 1rem;
+}
+.contact-form .blocks .block .field textarea::-webkit-scrollbar-track {
+  background-color: black;
+  width: 12px;
+}
+.contact-form .blocks .block .field textarea::-webkit-scrollbar-thumb {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background-color: var(--white-color);
 }
 .contact-form .blocks .block .radio-field {
   margin-top: 1rem;
@@ -2435,7 +2508,7 @@
   margin-top: 2rem;
   position: relative;
 }
-.CAP .panel .form .field label, .CAP .panel .form .field input[type=text] {
+.CAP .panel .form .field label, .CAP .panel .form .field input[type=text], .CAP .panel .form .field textarea {
   display: block;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -2455,7 +2528,7 @@
 .CAP .panel .form .field .error {
   color: rgb(247, 61, 61);
 }
-.CAP .panel .form .field input {
+.CAP .panel .form .field input, .CAP .panel .form .field textarea {
   width: 400px;
   height: 1rem;
   padding: 1.2rem;
@@ -2467,8 +2540,12 @@
   border-radius: 4px;
   resize: none;
 }
-.CAP .panel .form .field input:focus {
+.CAP .panel .form .field input:focus, .CAP .panel .form .field textarea:focus {
   background-color: #333333;
+}
+.CAP .panel .form .field textarea {
+  height: 5rem;
+  padding: 0.8rem;
 }
 .CAP .panel .form .field .block-info {
   display: flex;
@@ -2488,6 +2565,86 @@
 }
 .CAP .panel .form .field .block-info .block-1 .error, .CAP .panel .form .field .block-info .block-2 .error {
   color: rgb(247, 61, 61);
+}
+.CAP .panel .form .field h2 {
+  font-size: 1.2em;
+  margin-bottom: 1rem;
+}
+.CAP .panel .form .field label {
+  font-size: 1.2em;
+}
+.CAP .panel .form .field .type-b {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+}
+.CAP .panel .form .field .type-b [type=radio]:checked,
+.CAP .panel .form .field .type-b [type=radio]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+.CAP .panel .form .field .type-b [type=radio]:checked + label,
+.CAP .panel .form .field .type-b [type=radio]:not(:checked) + label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+}
+.CAP .panel .form .field .type-b [type=radio]:checked + label:before,
+.CAP .panel .form .field .type-b [type=radio]:not(:checked) + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border: 1px solid black;
+  border-radius: 100%;
+  background: black;
+}
+.CAP .panel .form .field .type-b [type=radio]:checked + label:after,
+.CAP .panel .form .field .type-b [type=radio]:not(:checked) + label:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: white;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  border-radius: 100%;
+  transition: all 0.2s ease;
+}
+.CAP .panel .form .field .type-b [type=radio]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+.CAP .panel .form .field .type-b [type=radio]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+.CAP .panel .form .field .type-b a {
+  border-bottom: 1px solid #fff;
+}
+.CAP .panel .form .field .type-b input {
+  width: 350px;
+  height: 1rem;
+  padding: 1.2rem;
+  background-color: #3f3f3f;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: white;
+}
+.CAP .panel .form .field .type-b input:focus {
+  background-color: #333333;
+}
+.CAP .panel .form .field li {
+  list-style: none;
+}
+.CAP .panel .form .type {
+  margin-top: 1rem;
 }
 .CAP .panel .form input[type=file] {
   display: none;
@@ -2535,7 +2692,7 @@
   margin-bottom: 2rem;
   position: relative;
 }
-.CAP .panel .delete-store .filter label, .CAP .panel .delete-store .filter input[type=text] {
+.CAP .panel .delete-store .filter label, .CAP .panel .delete-store .filter input[type=text], .CAP .panel .delete-store .filter textarea {
   display: block;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -2555,7 +2712,7 @@
 .CAP .panel .delete-store .filter .error {
   color: rgb(247, 61, 61);
 }
-.CAP .panel .delete-store .filter input {
+.CAP .panel .delete-store .filter input, .CAP .panel .delete-store .filter textarea {
   width: 550px;
   height: 1rem;
   padding: 1.2rem;
@@ -2567,7 +2724,7 @@
   border-radius: 4px;
   resize: none;
 }
-.CAP .panel .delete-store .filter input:focus {
+.CAP .panel .delete-store .filter input:focus, .CAP .panel .delete-store .filter textarea:focus {
   background-color: #333333;
 }
 .CAP .panel .delete-store .items {
@@ -2808,7 +2965,7 @@
   }
 }
 @media (max-width: 1500px) {
-  .CAP .panel .form .field input {
+  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 350px;
   }
   .CAP .panel .form .file_label {
@@ -2841,7 +2998,7 @@
   .CAP .panel .add {
     width: 85%;
   }
-  .CAP .panel .form .field input {
+  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 300px;
   }
   .CAP .panel .form .file_label {
@@ -2858,7 +3015,7 @@
   .CAP .panel .add {
     width: 90%;
   }
-  .CAP .panel .form .field input {
+  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 290px;
   }
   .CAP .panel .form .file_label {
@@ -2898,7 +3055,7 @@
   .CAP .panel .add {
     width: 90%;
   }
-  .CAP .panel .form .field input {
+  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 350px;
   }
   .CAP .panel .form .file_label {
@@ -2923,7 +3080,7 @@
   .CAP .panel .form {
     width: 90%;
   }
-  .CAP .panel .form .field input {
+  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 100%;
   }
   .CAP .panel .form .file_label {
@@ -3166,7 +3323,7 @@
   font-family: "Montserrat", sans-serif;
   --black-light: #333;
   --black: black;
-  --white-color: #e6e6e6;
+  --white-color: white;
 }
 
 a {

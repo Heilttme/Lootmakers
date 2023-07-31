@@ -62,7 +62,7 @@ WSGI_APPLICATION = 'toys.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "TOY11",
+        'NAME': "TOY1",
         'USER': "postgres",
         'PASSWORD': "Nikson123123",
         'HOST': "localhost",
@@ -96,8 +96,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 DJOSER = {
     "LOGIN_FIELD": "email",
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     "LOGOUT_ON_PASSWORD_CHANGE": True,

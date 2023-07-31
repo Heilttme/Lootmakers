@@ -11,15 +11,28 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
   const decQuantity = useStore(state => state.decrement)
   const navigate = useNavigate()
   const cart = useStore(state => state.cart)
+  const [proceedMove, setProceedMove] = useState(false)
+  const [promoList, setPromoList] = useState(["promo"])
+  const [promo, setPromo] = useState("")
+  const [promoApplied, setPromoApplied] = useState(0)
   
   useEffect(() => {
     cartOpened && blockScroll()
   }, [cartOpened])
 
   const cartItems = cart.map(item => (
-    <CartItem setMenuOpened={setMenuOpened} key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
+    <CartItem setProceedMove={setProceedMove} setMenuOpened={setMenuOpened} key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
   ))
-  
+
+  const applyPromo = () => {
+    if (promoList.includes(promo)) {
+      setPromoApplied(1)
+      setPromo("")
+    } else {
+      setPromoApplied(2)
+    }
+  }
+
   return (
     <motion.div 
       initial={{x: 3000}}
@@ -37,9 +50,25 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
           <div className='cart-items'>
             {cartItems}
           </div>
-          <div className='continue'>
-            <button>{t("PROCEED")}</button>
-          </div>
+          <motion.div animate={{y: proceedMove ? -100 : 0}} transition={{duration: ".1"}} className='continue'>
+            <div className='subtotal'>
+              <p>Subtotal:</p>
+              <h2>${promoApplied === 1 ? (cart.reduce((acc, it) => it.price + acc, 0) * 0.9).toFixed(2) : cart.reduce((acc, it) => it.price + acc, 0)}</h2>
+              {promoApplied === 1 && <s>${cart.reduce((acc, it) => it.price + acc, 0)}</s>}
+            </div>
+            <div className='checkout'>
+              <div className='promocode-block'>
+                <input
+                  onChange={(e) => setPromo(e.target.value)}
+                  value={promo}
+                  placeholder="Enter your promocode here"
+                  style={{outline: promoApplied === 1 ? "1px solid rgb(52, 235, 52)" : promoApplied === 2 && "1px solid rgb(235, 55, 52)"}}
+                />
+                <button onClick={applyPromo}>{t("APPLY")}</button>
+              </div>
+              <button>{t("PROCEED")}</button>
+            </div>
+          </motion.div>
         </div>
           :
         <div className='empty wrapper'>
@@ -51,12 +80,13 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
   )
 }
 
-const CartItem = ({ setMenuOpened, items, item, displayImages, setCartOpened, incQuantity, decQuantity }) => {
+const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, setCartOpened, incQuantity, decQuantity }) => {
   const navigate = useNavigate()
   const [removedShadow, setRemovedShadow] = useState(false)
   const [removedItem, setRemovedItem] = useState(false)
   const removeFromCart = useStore(state => state.remove)
   const [timeout, addTimeout] = useState("")
+  const cart = useStore(state => state.cart)
 
   const startRemoving = (item) => {
     setRemovedShadow(true)
@@ -64,7 +94,14 @@ const CartItem = ({ setMenuOpened, items, item, displayImages, setCartOpened, in
       setTimeout(() => {
         setRemovedShadow(false)
         setRemovedItem(true)
-        setTimeout(() => setRemovedItem(true), 200)
+        setTimeout(() => {
+          setRemovedItem(true)
+          let Citems = JSON.parse(localStorage.getItem("i"))
+          if (Citems.length === 1) {
+            setProceedMove(true)
+          }
+        }, 200)
+        setTimeout(() => setProceedMove(false), 500)
         setTimeout(() => {
           let Citems = JSON.parse(localStorage.getItem("i"))
           Citems = Citems.filter(i => parseInt(i.id) !== parseInt(item.id))
@@ -74,6 +111,12 @@ const CartItem = ({ setMenuOpened, items, item, displayImages, setCartOpened, in
       }, 5000)
     )
   }
+
+  // useEffect(() => {
+  //   if (cartItems.length === 0) {
+  //     setProceedMove(true)
+  //   }
+  // }, [cartItems])
 
   const cancelRemove = () => {
     setRemovedShadow(false)
@@ -86,8 +129,8 @@ const CartItem = ({ setMenuOpened, items, item, displayImages, setCartOpened, in
       className='item-wrapper'
     >
       <motion.div
-        animate={{filter: removedShadow ? "brightness(.25)" : "", pointerEvents: removedShadow ? "none" : "", userSelect: removedShadow ? "none" : ""}}
-        transition={{duration: ".5"}}
+        animate={{filter: removedShadow ? "brightness(.25)" : "brightness(1)", pointerEvents: removedShadow ? "none" : "", userSelect: removedShadow ? "none" : ""}}
+        transition={{duration: ".35"}}
         className='item'
       >
         <div className='item-inner'>

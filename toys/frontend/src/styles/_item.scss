@@ -23,6 +23,7 @@
 
     .image-slider-container{
         max-height: var(--item-width);
+        filter: brightness(.95);
         display: flex;
         gap: .3rem;
         user-select: none;
@@ -123,9 +124,11 @@
             cursor: pointer;
             opacity: .6;
             border-left: 2px solid white;
+            filter: brightness(.9);
             
             &:hover{
                 opacity: 1;
+                filter: brightness(.95);
             }
         }
     
@@ -157,8 +160,8 @@
     }
 
     .block-info{
-        border-top: 6px solid #333333;
-        border-bottom: 6px solid #333333;
+        border-top: 4px solid #333333;
+        border-bottom: 4px solid #333333;
         padding-top: .8rem;
         padding-bottom: .4rem;
         padding-left: .6rem;
@@ -174,8 +177,13 @@
         }
     }
 
+    .main-text{
+        margin-top: 1rem;
+        font-size: 1.2em;
+    }
+
     .quote{
-        margin-top: 3rem;
+        margin-top: 1.2rem;
         font-size: .9em;
         margin-left: .4rem;
 

@@ -74,8 +74,8 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
               ))}
             </div>
             <div className='quote'>
-              <h2>"I think he has something he should say to me."</h2>
-              <h2 className='said'>©Craig</h2>
+              <h2>"{item.quote}"</h2>
+              <h2 className='said'>©{item.author}</h2>
             </div>
             <button ref={buttonRef} onClick={() => addToCart(item)}>{t("ADD TO CART")}</button>
           </div>

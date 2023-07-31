@@ -3,10 +3,13 @@ import { motion } from "framer-motion"
 import { useNavigate } from 'react-router-dom'
 import Input from "./Input"
 import axios from 'axios'
+import { t } from 'i18next'
+import { toast } from 'react-toastify'
 
-const ALogin = () => {
+const ALogin = ({ setAuthorized }) => {
   const [formData, setFormData] = useState({
     login: "",
+    username: "",
     password: ""
   })
 
@@ -20,24 +23,38 @@ const ALogin = () => {
 
   const navigate = useNavigate()
   
-  const [loginError, setLoginError] = useState(false)
+  const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
+  const [usernameError, setUsernameError] = useState(false)
 
   const submit = () => {
-
-    if (true) {
-      const res = axios.post().then(data => {
-        localStorage.setItem("access", )
-        localStorage.setItem("refresh", )
+    const res = axios.post("http://127.0.0.1:8000/auth/jwt/create/", {email: formData.login, password: formData.password})
+    .then(data => {
+      setAuthorized(true)
+      localStorage.setItem("access", data.data.access)
+      localStorage.setItem("refresh", data.data.refresh)
+      navigate("/admin/cms")
+    })
+    .catch(data => {
+      console.log(data);
+      toast.error(t("Error"), {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: 0,
+        theme: "light",
       })
-    }
-    navigate("/admin/cms")
+    })
   }
   
   return (
     <div className='login-form'>
       <div className='form'>
-        <Input question={""} label={"login"} onChange={(e) => changeFormData(e)} value={formData.login} error={loginError} setError={setLoginError} />
+        <Input question={""} label={"email"} onChange={(e) => changeFormData(e)} value={formData.email} error={emailError} setError={setEmailError} />
+        {/* <Input question={""} label={"username"} onChange={(e) => changeFormData(e)} value={formData.username} error={usernameError} setError={setUsernameError} /> */}
         <Input question={""} label={"password"} onChange={(e) => changeFormData(e)} value={formData.password} error={passwordError} setError={setPasswordError} />
         <div className='btn-container'>
           <button onClick={submit}>Submit</button>

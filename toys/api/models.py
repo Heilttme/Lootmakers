@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, AbstractUser
 
 def upload_path_item_3d(instance, filename):
     item = Item.objects.filter(id=instance.item.id)[0]
@@ -15,11 +15,14 @@ def upload_path_item_all_images(instance, filename):
 
 
 class Item(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True)
-    collection = models.CharField(max_length=255, null=True, blank=True)
-    blockInfo = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=255, default="", null=True, blank=True)
+    collection = models.CharField(max_length=255, default="", null=True, blank=True)
+    blockInfo = models.CharField(max_length=255, default="", null=True, blank=True)
     isPreorder = models.BooleanField(null=True, blank=True)
-    releaseDate = models.CharField(max_length=255, null=True, blank=True)
+    releaseDate = models.CharField(max_length=255, default="", null=True, blank=True)
+    quote = models.CharField(max_length=255, default="", null=True, blank=True)
+    author = models.CharField(max_length=255, default="", null=True, blank=True)
+    mainText = models.CharField(max_length=4095, default="", null=True, blank=True)
     price = models.FloatField()
     quantityAvailable = models.IntegerField()
 
@@ -28,9 +31,11 @@ class DisplayImage(models.Model):
     image = models.ImageField(upload_to=upload_path_item_display)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
+
 class Image3D(models.Model):
     image = models.ImageField(upload_to=upload_path_item_3d)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
 
 class ImageList(models.Model):
     image = models.ImageField(upload_to=upload_path_item_all_images)
@@ -52,32 +57,52 @@ class Review(models.Model):
 
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
+    def create_user(self, email, username, password=None, **extra_fields):
         if not email:
-            raise ValueError("users must have an email adress")
+            raise ValueError('Users must have an email address')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, username=username)
+        user = self.model(email=email, username=username **extra_fields)
 
         user.set_password(password)
         user.save()
 
         return user
 
+# class UserAccount(AbstractBaseUser, PermissionsMixin):
+#     email = models.EmailField(max_length=255, unique=True)
+#     username = models.CharField(max_length=255, default="", null=True, blank=True)
+#     is_active = models.BooleanField(default=True)
+#     is_staff = models.BooleanField(default=False)
+
+#     objects = UserAccountManager()
+
+#     USERNAME_FIELD = "email"
+#     REQUIRED_FIELDS = ["email"]
+
+
+
+#     def save(self, *args, **kwargs):
+#         # Set the username field to the same value as the email field
+#         self.username = ""
+
+#         super(UserAccount, self).save(*args, **kwargs)
+
+
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
-    username = models.CharField(max_length=255, unique=False)
+    username = models.CharField(max_length=255, default="", blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = UserAccountManager()
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['email']
 
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='user_accounts_groups', 
+        related_name='user_accounts_groups',
         blank=True,
         verbose_name='groups',
         help_text='The groups this user belongs to.',
@@ -85,8 +110,11 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='user_accounts_permissions',  # Choose a unique related_name
+        related_name='user_accounts_permissions',
         blank=True,
         verbose_name='user permissions',
         help_text='Specific permissions for this user.',
     )
+    
+    def __str__(self):
+        return self.email

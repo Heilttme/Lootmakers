@@ -12,9 +12,10 @@ const Input = ({ label, onChange, value, error, setError, question }) => {
         onChange={onChange}
         id={label}
         value={value}
-        type={(label === "price" || label === "quantityAvailable") ? "number" : "text"}
+        type={(label === "price" || label === "quantityAvailable" || label === "password") ? label === "password" ? "password" : "number" : "text"}
         onFocus={() => {setInputFocus(true);setError(false)}}
         onBlur={() => setInputFocus(false)}
+
       />
       <motion.label animate={(value || inputFocus) ? {y: -30, x: -15, fontSize: "16px", color: !error ? "rgb(0, 0, 0)" : "rgb(247, 61, 61)"} : {color: !error ? "rgb(255, 255, 255)" : "rgb(247, 61, 61)"}} transition={{color: {stiffness: 100}}} className={`text-label${ error ? " error" : ""}`} htmlFor={label}>{t(label.slice(0, 1).toUpperCase() + label.slice(1, label.length))}</motion.label>
       {

@@ -72,6 +72,7 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
     setParentWidth(w)
   }, [width])
 
+
   return curItem && (
     <div className='item-page'>
       <div className='image-slider-container'>
@@ -94,9 +95,12 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
             </div>
           ))}
         </div>
+        <div className='main-text'>
+          <p>{curItem.mainText}</p>
+        </div>
         <div className='quote'>
-          <h2>"I think he has something he should say to me."</h2>
-          <h2 className='said'>©Craig</h2>
+          <h2>"{curItem.quote}"</h2>
+          <h2 className='said'>©{curItem.author}</h2>
         </div>
         <button ref={buttonRef} onClick={() => addToCart(curItem)}>{t("ADD TO CART")}</button>
       </div>

@@ -20,7 +20,8 @@ function App() {
   const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
   const [blockAdmin, setBlockAdmin] = useState("Add")
   const [menuOpened, setMenuOpened] = useState(false)
-  
+  const [authorized, setAuthorized] = useState(false) 
+
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
@@ -82,7 +83,7 @@ function App() {
               <Route path="/" element={<Home quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
               <Route path="/items/:id" element={<Item buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
-              <Route path="/admin/login" element={<ALogin />}/>
+              <Route path="/admin/login" element={<ALogin setAuthorized={setAuthorized} />}/>
               <Route path="/admin/cms" element={<CAP setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
