@@ -11,13 +11,18 @@ const AddItem = () => {
   const [itemFormData, setItemFormData] = useState({
     name: "",
     collection: "",
-    releaseDate: "",
+    type: "",
+    madeBy: "",
+    year: "",
+    month: "",
+    day: "",
+    hour: "",
     price: "",
     quantityAvailable: "",
     quote: "",
-    mainText: "",
     author: "",
-    type: ""
+    orderType: "",
+    "text-0": ""
   })
 
   const changeItemFormData = (e) => {
@@ -31,16 +36,20 @@ const AddItem = () => {
   const [formSubmitted, setFormSubmitted] = useState(0)
 
   const [blockQuantity, setBlockQuantity] = useState(1)
+  const [textQuantity, setTextQuantity] = useState(1)
+
   const [nameError, setNameError] = useState(false)
   const [collectionError, setCollectionError] = useState(false)
+  const [typeError, setTypeError] = useState(false)
+  const [madeByError, setMadeByError] = useState(false)
   const [mainTextError, setMainTextError] = useState(false)
   const [quoteError, setQuoteError] = useState(false)
   const [authorError, setAuthorError] = useState(false)
   const [blockInfoError, setBlockInfoError] = useState(false)
   const [priceError, setPriceError] = useState(false)
-  const [releaseDateError, setReleaseDateError] = useState(false)
+  const [dateError, setDateError] = useState(false)
   const [quantityError, setQuantityError] = useState(false)
-  const [typeError, setTypeError] = useState(false)
+  const [orderTypeError, setOrderTypeError] = useState(false)
   
   const [item3dFiles, setItem3dFiles] = useState({})
   const [itemFiles, setItemFiles] = useState({})
@@ -65,40 +74,87 @@ const AddItem = () => {
   useEffect(() => {
     !displayFile.length && displayFilesRef.current && (() => displayFilesRef.current.value = "")()
   }, [displayFile])
+
+  console.log(itemFormData);
   
   const onItemSubmit = () => {
-    if (itemFormData.name && itemFormData.collection && itemFormData.price && itemFormData.releaseDate && itemFormData.quantityAvailable && item3dFiles.length && displayFile.length && itemFiles.length) {
-      const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => v != ""))
-      if (Object.keys(data).length >= 9) {
+
+    if (
+      itemFormData.name && 
+      itemFormData.collection && 
+      itemFormData.type && 
+      itemFormData.madeBy && 
+      Object.keys(itemFormData).filter(it => it.startsWith("text")).length && 
+      itemFormData.quote && 
+      itemFormData.author && 
+      itemFormData.price && 
+      itemFormData.quantityAvailable && 
+      ((itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) || itemFormData.orderType === "order") && 
+      item3dFiles.length && 
+      displayFile.length && 
+      itemFiles.length
+    ) {
+      const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => (v != "" && !v.startsWith("text"))))
+      if (Object.keys(data).length >= 14) {
         const uploadData = new FormData()
-        const item3dFilesArray = Array.from(item3dFiles);
+        const item3dFilesArray = Array.from(item3dFiles)
+
         item3dFilesArray.forEach((file, index) => {
-          uploadData.append(`images3D_${index}`, file);
-        });
+          uploadData.append(`images3D_${index}`, file)
+        })
         uploadData.append("displayImage", displayFile[0])
         
-        const itemFilesArray = Array.from(itemFiles);
+        const itemFilesArray = Array.from(itemFiles)
         itemFilesArray.forEach((file, index) => {
-          uploadData.append(`images_${index}`, file);
-        });
+          uploadData.append(`images_${index}`, file)
+        })
 
         let blockInfoData = {}
+        let mainText = []
+        
         for (let i = 0; i < Object.keys(data).length; i++){
           let it = Object.keys(data)[i]
-          if (it !== "name" && it !== "collection" && it !== "price" && it !== "quantityAvailable" && it !== "releaseDate" && it !== "mainText" && it !== "quote" && it !== "author") {
+          if (
+              it !== "name" &&
+              it !== "collection" &&
+              it !== "price" && 
+              it !== "quantityAvailable" && 
+              it !== "releaseDate" && 
+              it !== "quote" && 
+              it !== "author" && 
+              it !== "type" && 
+              it !== "orderType" && 
+              it !== "madeBy" &&
+              it !== "year" &&
+              it !== "month" &&
+              it !== "day" &&
+              it !== "hour" &&
+              !it.startsWith("text")
+          ) {
             blockInfoData = {...blockInfoData, [it]: data[it]}
+          }
+
+          if (it.startsWith("text")) {
+            mainText.push(data[it])
           }
         }
         
         blockInfoData = Object.keys(blockInfoData).map(item => `${item}:${blockInfoData[item]}`).join(";")
+        mainText = mainText.join(";")
         
         uploadData.append("name", data.name)
         uploadData.append("collection", data.collection)
-        uploadData.append("mainText", data.mainText)
+        uploadData.append("type", data.type)
+        uploadData.append("madeBy", data.madeBy)
+        uploadData.append("mainText", mainText)
         uploadData.append("quote", data.quote)
         uploadData.append("author", data.author)
         uploadData.append("blockInfo", blockInfoData)
-        uploadData.append("releaseDate", data.releaseDate)
+        uploadData.append("orderType", data.orderType)
+        uploadData.append("year", data.year)
+        uploadData.append("month", data.month)
+        uploadData.append("day", data.day)
+        uploadData.append("hour", data.hour)
         uploadData.append("price", data.price)
         uploadData.append("quantityAvailable", data.quantityAvailable)
     
@@ -120,17 +176,24 @@ const AddItem = () => {
           setItemFormData({
             name: "",
             collection: "",
-            releaseDate: "",
+            type: "",
+            madeBy: "",
+            year: "",
+            month: "",
+            day: "",
+            hour: "",
             price: "",
             quantityAvailable: "",
             quote: "",
-            mainText: "",
-            author: ""
+            author: "",
+            orderType: "",
+            "text-0": ""
           })
           setItem3dFiles({})
           setItemFiles({})
           setDisplayFile({})
           setBlockQuantity(1)
+          setTextQuantity(1)
           setFormSubmitted(prev => prev + 1)
         }).catch(() => 
           toast.error('An error occured', {
@@ -146,18 +209,21 @@ const AddItem = () => {
         )
       }
     } else {
-      !itemFormData.name.length && setNameError(true)
+      !itemFormData.name && setNameError(true)
       !itemFormData.collection && setCollectionError(true)
-      !itemFormData.mainText && setMainTextError(true)
+      !itemFormData.type && setTypeError(true)
+      !itemFormData.madeBy && setMadeByError(true)
+      !Object.keys(itemFormData).filter(it => it.startsWith("text")).length && setMainTextError(true)
       !itemFormData.quote && setQuoteError(true)
       !itemFormData.author && setAuthorError(true)
       !itemFormData.price && setPriceError(true)
-      !itemFormData.releaseDate && setReleaseDateError(true)
+      !itemFormData.orderType && setOrderTypeError(true)
       !itemFormData.quantityAvailable && setQuantityError(true)
-      !(Object.keys(itemFormData).length >= 8) && setBlockInfoError(true)
+      !(Object.keys(itemFormData).length >= 15) && setBlockInfoError(true)
       !item3dFiles.length && set3dError(true)
       !displayFile.length && setDisplayError(true)
       !itemFiles.length && setItemFilesError(true)
+      !((itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) || itemFormData.orderType === "order") && setDateError(true)
     }
   }
 
@@ -253,6 +319,8 @@ const AddItem = () => {
     }
   }
   // REVIEW FORMDATA ACTIONS //
+
+  console.log(typeError);
   
   return (
     <div className='add'>
@@ -261,16 +329,33 @@ const AddItem = () => {
         <div className='form'>
           <Input question="" label={"name"} onChange={(e) => changeItemFormData(e)} value={itemFormData.name} error={nameError} setError={setNameError} />
           <Input question="" label={"collection"} onChange={(e) => changeItemFormData(e)} value={itemFormData.collection} error={collectionError} setError={setCollectionError} />
-          <div className='field flex'>
-            <textarea 
-                name='mainText'
-                onChange={e => changeItemFormData(e)}
-                id="mainText"
-                value={itemFormData.mainText}
-                onFocus={() => {setMainTextFocus(true);setMainTextError(false)}}
-                onBlur={() => setMainTextFocus(false)}
-              />
-            <motion.label animate={(itemFormData.mainText || mainTextFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label${ mainTextError ? " error" : ""}`} htmlFor="mainText">{t("MainText")}</motion.label>
+          <div className='field'>
+            <select
+              style={{color: typeError ? "rgb(247, 61, 61)" : "white"}}
+              onChange={(e) => {setItemFormData(prev => ({...prev, type: e.target.value})); setTypeError(false)}}
+            >
+              {itemFormData.type === "" && <option>Type</option>}
+              <option>Plush</option>
+              <option>Vinyl</option>
+            </select>
+          </div>
+          <div className='field'>
+            <select
+              style={{color: madeByError ? "rgb(247, 61, 61)" : "white"}}
+              onChange={(e) => {setItemFormData(prev => ({...prev, madeBy: e.target.value})); setMadeByError(false)}}
+            >
+              {itemFormData.madeBy === "" && <option>Made by</option>}
+              <option>Loot Makers</option>
+            </select>
+          </div>
+          <div className='field'>
+            <div className='block-info-block'>
+            {[...Array(textQuantity)].map((_, i) => 
+              <div className='field' id={uuidv4()}>
+                <NewTextBlock formSubmitted={formSubmitted} setError={setMainTextError} error={mainTextError} q={i} formData={itemFormData} setFormData={setItemFormData} textQuantity={textQuantity} setTextQuantity={setTextQuantity} changeFormData={changeItemFormData}/>
+              </div>
+            )}
+            </div>
           </div>
           <Input question="" label={"quote"} onChange={(e) => changeItemFormData(e)} value={itemFormData.quote} error={quoteError} setError={setQuoteError} />
           <Input question="" label={"author"} onChange={(e) => changeItemFormData(e)} value={itemFormData.author} error={authorError} setError={setAuthorError} />
@@ -326,35 +411,40 @@ const AddItem = () => {
                   name='input'
                   id='inp1'
                   type="radio"
-                  checked={itemFormData.type === "preorder" && true}
+                  checked={itemFormData.orderType === "preorder" && true}
                   onClick={(e) => {
                     if (e.target.checked) {
-                      setItemFormData(prev => ({...prev, type: "preorder"}))
-                      setTypeError(false)
+                      setItemFormData(prev => ({...prev, orderType: "preorder"}))
+                      setOrderTypeError(false)
                     }
                   }}
                 />
-                <motion.label animate={{color: typeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor='inp1'>{t("Preorder")}</motion.label>
+                <motion.label animate={{color: orderTypeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor='inp1'>{t("Preorder")}</motion.label>
               </li>
               <li className='type-b'>
                 <input 
                   name='input'
                   id='inp2'
                   type="radio"
-                  checked={itemFormData.type === "order" && true}
+                  checked={itemFormData.orderType === "order" && true}
                   onClick={(e) => {
                     if (e.target.checked) {
-                      setItemFormData(prev => ({...prev, type: "order"}))
-                      setTypeError(false)
+                      setItemFormData(prev => ({...prev, orderType: "order"}))
+                      setOrderTypeError(false)
                     }
                   }}
                 />
-                <motion.label animate={{color: typeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor='inp2'>{t("Order")}</motion.label>
+                <motion.label animate={{color: orderTypeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor='inp2'>{t("Order")}</motion.label>
               </li>
             </ul>
           </div>
-
-          <Input question="" label={"releaseDate"} onChange={(e) => changeItemFormData(e)} value={itemFormData.releaseDate} error={releaseDateError} setError={setReleaseDateError} />
+          
+          <div className='date-input'>
+            <Input question="" label={"year"} onChange={(e) => changeItemFormData(e)} value={itemFormData.year} error={dateError} setError={setDateError} />
+            <Input question="" label={"month"} onChange={(e) => changeItemFormData(e)} value={itemFormData.month} error={dateError} setError={setDateError} />
+            <Input question="" label={"day"} onChange={(e) => changeItemFormData(e)} value={itemFormData.day} error={dateError} setError={setDateError} />
+            <Input question="" label={"hour"} onChange={(e) => changeItemFormData(e)} value={itemFormData.hour} error={dateError} setError={setDateError} />
+          </div>
           <Input question="" label={"price"} onChange={(e) => changeItemFormData(e)} value={itemFormData.price} error={priceError} setError={setPriceError} />
           <Input question="" label={"quantityAvailable"} onChange={(e) => changeItemFormData(e)} value={itemFormData.quantityAvailable} error={quantityError} setError={setQuantityError} />
           <button onClick={onItemSubmit}>Submit</button>
@@ -458,9 +548,8 @@ const BlockInfoDoubleInput = ({ formSubmitted, error, setError, q, setFormData, 
   )
 }
 
-const NewTextLink = ({ q, formData, changeFormData, setTextQuantity, textQuantity }) => {
+const NewTextBlock = ({ q, formData, changeFormData, setTextQuantity, textQuantity, error, setError }) => {
   const [focus, setFocus] = useState(false)
-  const [error, setError] = useState(false)
   const [changed, setChanged] = useState(false)
 
   const value = formData[`text-${q}`]
@@ -476,7 +565,7 @@ const NewTextLink = ({ q, formData, changeFormData, setTextQuantity, textQuantit
       transition={{type: "keyframes", stiffness: 100}}
       className='additional-text'
     >
-      <input 
+      <textarea 
         name={`text-${q}`}
         onChange={e => {changeFormData(e);setChanged(true)}}
         // onChange={e => setFormData(prev => ({...prev, [e.target.name]: e.target.value}))}

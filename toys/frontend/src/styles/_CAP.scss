@@ -5,7 +5,7 @@
         position: fixed;
         left: 0;
         width: 200px;
-        background-color: #e6e6e6;
+        background-color: var(--white-color);
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -237,10 +237,60 @@
                     list-style: none;
                     
                 }
+
+                select{
+                    width: 400px;
+                    height: 40px;
+                    background-color: #3f3f3f;
+                    border: none;
+                    outline: none;
+                    transition: all .2s ease-in-out;
+                    border-radius: 4px;
+                    padding-left: .4rem;
+                    color: white ;
+                    font-size: 1.2em;
+                    
+                    &:focus{
+                        background-color: #333333;
+                    }
+                }
+                
+                option{
+                    color: white !important;
+                    padding-top: .4rem;
+                    padding-bottom: .4rem;
+
+                    &:checked {
+                        background-color: #333333;
+                        color: white;
+                      }
+
+                    &:hover{
+                        background-color: #3f3f3f;
+                    }
+                }
             }
 
             .type{
                 margin-top: 1rem;
+            }
+
+            .date-input{
+                display: flex;
+                justify-content: space-between;
+
+                .field{
+                    
+                    input{
+                        width: 80px;
+                    }
+
+                    label{
+                        font-size: 1em;
+                        top: .2rem;
+                        left: .3rem;
+                    }
+                }
             }
             
             input[type=file]{

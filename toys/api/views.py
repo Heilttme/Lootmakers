@@ -61,16 +61,21 @@ def get_item_images(request):
 def toy_admin_panel_add_item(request):
     name = request.data.get('name')
     collection = request.data.get('collection')
+    type = request.data.get('type')
+    madeBy = request.data.get('madeBy')
     mainText = request.data.get('mainText')
     quote = request.data.get('quote')
     author = request.data.get('author')
     blockInfo = request.data.get('blockInfo')
-    isPreorder = request.data.get('isPreorder') == "on"
-    releaseDate = request.data.get('releaseDate')
+    orderType = request.data.get('orderType')
+    year = request.data.get('year')
+    month = request.data.get('year')
+    day = request.data.get('year')
+    hour = request.data.get('year')
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
-    item = Item(name=name, collection=collection, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
+    item = Item(name=name, collection=collection, type=type, madeBy=madeBy, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, orderType=orderType, year=year, month=month, day=day, hour=hour, price=price, quantityAvailable=quantityAvailable)
     item.save()
 
     for i in request.FILES:

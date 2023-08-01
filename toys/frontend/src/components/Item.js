@@ -84,9 +84,22 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
         }
       </div>
       <div className='s-col'>
+          {
+            curItem.orderType === "preorder" && 
+            <>
+              <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder'>
+                {[...Array(100)].map(() => <p>PREORDER</p>)}
+                {/* <div className='blocker blocker-1'/>
+                <div className='blocker blocker-2'/> */}
+              </motion.div>
+            </>
+          }
         <h3>{curItem.collection}</h3>
         <h2>{curItem.name}</h2>
-        <h1>${curItem.price}</h1>
+        <div className='price-block'>
+          <h1>${curItem.price}</h1>
+          <button ref={buttonRef} onClick={() => addToCart(curItem)}>{t("ADD TO CART")}</button>
+        </div>
         <div className='block-info'>
           {curItem.blockInfo.split(";").map(bl => (
             <div className='line'>
@@ -96,13 +109,14 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
           ))}
         </div>
         <div className='main-text'>
-          <p>{curItem.mainText}</p>
+          {curItem.mainText.split(";").map((it, i) => (
+            <p className={`${i % 2 === 0 ? "odd" : "even"}`}>{it}</p>
+          ))}
         </div>
         <div className='quote'>
           <h2>"{curItem.quote}"</h2>
           <h2 className='said'>©{curItem.author}</h2>
         </div>
-        <button ref={buttonRef} onClick={() => addToCart(curItem)}>{t("ADD TO CART")}</button>
       </div>
     </div>
   )

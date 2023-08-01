@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { t } from 'i18next'
 import useWindowDimensions from "./useWindowDimensions"
+import { motion } from 'framer-motion'
 
 const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
@@ -59,6 +60,16 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
       {item.map(itemNew => 
       <>
         <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
+          {
+            itemNew.orderType === "preorder" && 
+            <>
+              <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder'>
+              {[...Array(100)].map(() => <p>PREORDER</p>)}
+              </motion.div>
+              <div className='blocker blocker-1'/>
+              <div className='blocker blocker-2'/>
+            </>
+          }
           <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
           <div className='text-wrapper'>
             <div className='text'>
