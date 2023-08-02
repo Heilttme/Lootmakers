@@ -39,7 +39,7 @@
         width: var(--item-width);
         height: var(--item-width);
         user-select: none;
-    }
+    }   
 
     
     .slider-container{
@@ -111,7 +111,9 @@
             height: 4px;
             border-radius: 50%;
             width: 2px;
+            background-color: #e6e6e6;
         }
+
     
         &::-webkit-scrollbar-thumb{
             background-color: black;
@@ -123,7 +125,7 @@
             transition: all .2s ease-in-out;
             cursor: pointer;
             opacity: .6;
-            border-left: 2px solid white;
+            // border-left: 2px solid #e6e6e6;
             // filter: brightness(.9);
             
             &:hover{
@@ -135,7 +137,8 @@
         .chosen{
             opacity: 1;
             transition: all .2s ease-in-out;
-            border-left: 2px solid #000;
+            // border-left: 2px solid #adadad;
+            filter: brightness(.95);
         }
     } 
 
@@ -143,8 +146,12 @@
         position: sticky;
         height: 100%;
         border-left: 1px solid #d1d1d1;
-        padding-left: 2.6rem;
         overflow: hidden;
+
+        .bottom{
+            padding-left: 2.6rem;
+
+        }
 
         // .blocker{
         //     position: absolute;
@@ -174,11 +181,46 @@
             padding-left: .6rem;
             padding-right: .6rem;
             z-index: 2;
-            margin-bottom: 1rem;
+            // margin-bottom: 1rem;
+            border-bottom: 1px solid #e6e6e6;
             font-size: 1.2em;
 
             p{
                 color: white;
+            }
+        }
+
+        .timer{
+            width: 100%;
+            color: white;
+            margin: 0 auto;
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            margin-bottom: 1rem;
+            padding: 1rem 3rem;
+            font-size: 1.2em;
+
+            h2{
+                font-size: 1.5em;
+                margin-bottom: 1rem;
+            }
+
+            .wrapper-timer{
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            .digit{
+                font-size: 1.5em;
+            }
+
+            .time{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
             }
         }
         
@@ -203,8 +245,18 @@
             button{
                 padding: .6rem 1rem;
                 border-radius: 10px;
+                margin-right: .4rem;
                 font-size: .9em;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
             }
+
+            .added{
+                position: absolute;
+            }   
 
         }
     }
@@ -232,13 +284,15 @@
 
         p{
             margin-top: 1rem;
+            border-radius: 8px;
+            padding: .2rem;
         }
 
         .odd{
             text-align: left;
             background-color: #333;
             color: white;
-            padding: .6rem;
+            padding: .8rem 1rem;
         }
 
         .even{

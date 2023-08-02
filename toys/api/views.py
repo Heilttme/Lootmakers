@@ -68,10 +68,11 @@ def toy_admin_panel_add_item(request):
     author = request.data.get('author')
     blockInfo = request.data.get('blockInfo')
     orderType = request.data.get('orderType')
-    year = request.data.get('year')
-    month = request.data.get('year')
-    day = request.data.get('year')
-    hour = request.data.get('year')
+    year = request.data.get('year') if request.data.get('year') != "undefined" else 0
+    month = request.data.get('month') if request.data.get('month') != "undefined" else 0
+    day = request.data.get('day') if request.data.get('day') != "undefined" else 0
+    hour = request.data.get('hour') if request.data.get('hour') != "undefined" else 0
+    
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
@@ -105,59 +106,59 @@ def toy_admin_panel_add_review(request):
     return Response(status=HTTP_200_OK)
 
 
-def toy_admin_panel(request):
-    if request.method == "POST": 
-        form = ItemForm(request.POST, request.FILES)
-        if form.is_valid(): 
-            name = form.data.get('name')
-            collection = form.data.get('collection')
-            images3D = request.FILES.getlist('images3D')
-            displayImage = request.FILES.getlist('displayImage')
-            images = request.FILES.getlist('images')
-            blockInfo = form.data.get('blockInfo')
-            isPreorder = form.data.get('isPreorder')
-            isPreorder = isPreorder == 'on'
-            releaseDate = form.data.get('releaseDate')
-            price = form.data.get('price')
-            quantityAvailable = form.data.get('quantityAvailable')
+# def toy_admin_panel(request):
+#     if request.method == "POST": 
+#         form = ItemForm(request.POST, request.FILES)
+#         if form.is_valid(): 
+#             name = form.data.get('name')
+#             collection = form.data.get('collection')
+#             images3D = request.FILES.getlist('images3D')
+#             displayImage = request.FILES.getlist('displayImage')
+#             images = request.FILES.getlist('images')
+#             blockInfo = form.data.get('blockInfo')
+#             isPreorder = form.data.get('isPreorder')
+#             isPreorder = isPreorder == 'on'
+#             releaseDate = form.data.get('releaseDate')
+#             price = form.data.get('price')
+#             quantityAvailable = form.data.get('quantityAvailable')
 
-            item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
-            item.save()
+#             item = Item(name=name, collection=collection, blockInfo=blockInfo, isPreorder=isPreorder, releaseDate=releaseDate, price=price, quantityAvailable=quantityAvailable)
+#             item.save()
 
-            for i in displayImage:
-                i = DisplayImage(image=i, item=item)
-                i.save()
+#             for i in displayImage:
+#                 i = DisplayImage(image=i, item=item)
+#                 i.save()
 
-            for i in images3D:
-                i = Image3D(image=i, item=item)
-                i.save()
+#             for i in images3D:
+#                 i = Image3D(image=i, item=item)
+#                 i.save()
 
-            for i in images:
-                i = ImageList(image=i, item=item)
-                i.save()
-    else: 
-        form = ItemForm() 
+#             for i in images:
+#                 i = ImageList(image=i, item=item)
+#                 i.save()
+#     else: 
+#         form = ItemForm() 
         
-    return render(request, "index.html", {"form": form})
+#     return render(request, "index.html", {"form": form})
 
 
-def toy_admin_panel_review(request):
-    if request.method == "POST": 
-        form = ReviewForm(request.POST, request.FILES)
-        if form.is_valid(): 
-            nickname = form.data.get('nickname')
-            username = form.data.get('username')
-            content = form.data.get('content')
-            pfp = request.FILES.get('pfp')
-            reviewImage = request.FILES.get('reviewImage')
+# def toy_admin_panel_review(request):
+#     if request.method == "POST": 
+#         form = ReviewForm(request.POST, request.FILES)
+#         if form.is_valid(): 
+#             nickname = form.data.get('nickname')
+#             username = form.data.get('username')
+#             content = form.data.get('content')
+#             pfp = request.FILES.get('pfp')
+#             reviewImage = request.FILES.get('reviewImage')
 
-            item = Review(nickname=nickname, pfp=pfp, reviewImage=reviewImage, username=username, content=content)
-            item.save()
+#             item = Review(nickname=nickname, pfp=pfp, reviewImage=reviewImage, username=username, content=content)
+#             item.save()
 
-    else: 
-        form = ReviewForm() 
+#     else: 
+#         form = ReviewForm() 
 
-    return render(request, "index.html", {"form": form})
+#     return render(request, "index.html", {"form": form})
 
 @api_view(["POST"])
 def remove_item(request):

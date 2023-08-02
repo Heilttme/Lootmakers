@@ -49,6 +49,8 @@ function App() {
   const buttonRef = useRef(null)
   const cartCounterRef = useRef(null)
 
+  const timerRef = useRef(null)
+
   const addToCart = (item) => {
     if (!cart.filter(i => i.id === item.id).length) {
       addToStateCart(items.filter(i => i.id === item.id)[0])
@@ -62,7 +64,7 @@ function App() {
       buttonRef.current.className = "shaking"
       setTimeout(() => {
         if (buttonRef.current !== null) buttonRef.current.className = ""
-      }, 500)
+      }, 400)
     }
   }
 

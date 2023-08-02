@@ -12,6 +12,120 @@
         // border-bottom: 3px solid black;
         font-size: 1.1em;
         font-weight: 200;
+        gap: .6rem;
+        user-select: none;
+        position: relative;
+        z-index: 2231;
+
+        svg{
+            width: 32px;
+            cursor: pointer;
+        }
+    }
+
+    .filter-wrapper {
+        position: absolute;
+        background-color: #333;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid #e6e6e6;
+        padding: 1rem;
+        z-index: 1;
+        height: 3.6rem;
+        width: 100%;
+    }
+    
+    .filter{
+        user-select: none;
+        display: flex;
+        gap: 1.5rem;
+        font-size: 1.15em;
+        position: relative;
+
+        .bin{
+            position: absolute;
+            color: white;
+            left: -2.2rem;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .filter-item{
+            display: flex;
+            gap: .2rem;
+            cursor: pointer;
+            position: relative;
+            
+            svg{
+                width: 16px;
+                transform: rotate(90deg);
+                margin-left: .4rem;
+                transition: all .2s ease-in-out;
+            }
+
+            .rotated{
+                transform: rotate(-90deg);
+            }
+
+            .checkbox-pop{
+                display: none;
+            }
+
+            .pop{
+                position: absolute;
+                z-index: 243;
+                width: 200px;
+                top: 1rem;
+                left: 50%;
+                top: 2.1rem;
+                transform: translateX(-50%);
+                background-color: #333;
+                padding: 1rem 1.2rem;
+                border: 1px solid #585858;
+                display: flex;
+                flex-direction: column;
+                gap: .6rem;
+
+                .checkbox-pop + label span{
+                    display:inline-block;
+                    width: 16px;
+                    height: 16px;
+                    margin: 0 10px 0 0; /*layout relationship between check and label*/
+                    
+                    &:before,
+                    &:after {
+                        transition: all .3s ease-in-out;
+                        content: "";
+                        position: absolute;
+                        z-index: 1;
+                        width: 16px;
+                        height: 16px;
+                        background: transparent;
+                        border: 2px solid white; 
+                    }
+                       &:after {
+                        z-index: 0;
+                        border: none;
+                    }
+                }
+                  
+                .checkbox-pop:checked + label span {
+                    &:before {
+                        @keyframes pop {
+                            0% { opacity:0; }
+                            100% {opacity:1; }
+                        }
+
+                        animation: pop .3s ease;
+                        z-index: 100;
+                        background: white;
+                    } 
+                }
+            }
+        }
     }
 
     .items{
@@ -53,7 +167,7 @@
 
                 .blocker{
                     position: absolute;
-                    z-index: 123123123;
+                    z-index: 131;
                     background-color: #333;
                     height: 2.8rem;
                     width: 10px;
@@ -140,6 +254,29 @@
 
                 }
 
+            }
+        }
+
+        .block-3{
+            .item .preorder{
+                top: -100px;
+                transition: all .2s ease-in-out;
+            }
+            .blocker{
+                top: -100px;
+                transition: all .2s ease-in-out;
+
+            }
+
+
+            .item:hover{
+                .preorder{
+                    top: 0;
+                }
+
+                .blocker{
+                    top: 0;
+                }
             }
         }
 

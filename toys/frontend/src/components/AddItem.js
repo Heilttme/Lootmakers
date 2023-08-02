@@ -75,8 +75,8 @@ const AddItem = () => {
     !displayFile.length && displayFilesRef.current && (() => displayFilesRef.current.value = "")()
   }, [displayFile])
 
-  console.log(itemFormData);
-  
+  console.log(itemFormData)
+
   const onItemSubmit = () => {
 
     if (
@@ -89,13 +89,14 @@ const AddItem = () => {
       itemFormData.author && 
       itemFormData.price && 
       itemFormData.quantityAvailable && 
-      ((itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) || itemFormData.orderType === "order") && 
+      (itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) ||
+       (itemFormData.orderType === "order" && (!(itemFormData.year || itemFormData.month || itemFormData.day || itemFormData.hour) || (itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour))) &&
       item3dFiles.length && 
       displayFile.length && 
       itemFiles.length
     ) {
       const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => (v != "" && !v.startsWith("text"))))
-      if (Object.keys(data).length >= 14) {
+      if (Object.keys(data).length >= 10) {
         const uploadData = new FormData()
         const item3dFilesArray = Array.from(item3dFiles)
 
@@ -173,22 +174,11 @@ const AddItem = () => {
             progress: undefined,
             theme: "light",
             })
-          setItemFormData({
-            name: "",
-            collection: "",
-            type: "",
-            madeBy: "",
-            year: "",
-            month: "",
-            day: "",
-            hour: "",
-            price: "",
-            quantityAvailable: "",
-            quote: "",
-            author: "",
-            orderType: "",
-            "text-0": ""
-          })
+          const newData = {}
+          for (let i = 0; i < Object.keys(itemFormData).length; i++) {
+            newData[Object.keys(itemFormData)[i]] = ""
+          }
+          setItemFormData(newData)
           setItem3dFiles({})
           setItemFiles({})
           setDisplayFile({})
@@ -223,7 +213,8 @@ const AddItem = () => {
       !item3dFiles.length && set3dError(true)
       !displayFile.length && setDisplayError(true)
       !itemFiles.length && setItemFilesError(true)
-      !((itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) || itemFormData.orderType === "order") && setDateError(true)
+      !((itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) ||
+       (itemFormData.orderType === "order" && (!(itemFormData.year || itemFormData.month || itemFormData.day || itemFormData.hour) || (itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour)))) && setDateError(true)
     }
   }
 
@@ -244,8 +235,6 @@ const AddItem = () => {
     }))
   }
 
-  const [mainTextFocus, setMainTextFocus] = useState(false)
-  
   const [nicknameError, setNicknameError] = useState(false)
   const [usernameError, setUsernameError] = useState(false)
   const [contentError, setContentError] = useState(false)
@@ -320,8 +309,6 @@ const AddItem = () => {
   }
   // REVIEW FORMDATA ACTIONS //
 
-  console.log(typeError);
-  
   return (
     <div className='add'>
       <div className='form-item'>
@@ -416,6 +403,7 @@ const AddItem = () => {
                     if (e.target.checked) {
                       setItemFormData(prev => ({...prev, orderType: "preorder"}))
                       setOrderTypeError(false)
+                      setDateError(false)
                     }
                   }}
                 />
@@ -431,6 +419,7 @@ const AddItem = () => {
                     if (e.target.checked) {
                       setItemFormData(prev => ({...prev, orderType: "order"}))
                       setOrderTypeError(false)
+                      setDateError(false)
                     }
                   }}
                 />
