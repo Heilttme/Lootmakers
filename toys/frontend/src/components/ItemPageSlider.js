@@ -25,8 +25,8 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
       timerRef.current = setTimeout(() => goToNext(), 3000)
     }
 
-    return () => clearTimeout(timerRef.current);
-  }, [stopped, goToNext]);
+    return () => clearTimeout(timerRef.current)
+  }, [stopped, goToNext])
 
   const getSlidesContainerStylesWithWidth = () => ({
     width: parentWidth * slides.length,

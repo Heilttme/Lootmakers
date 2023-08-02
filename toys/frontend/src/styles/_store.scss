@@ -75,6 +75,7 @@
             }
 
             .pop{
+                cursor: default;
                 position: absolute;
                 z-index: 243;
                 width: 200px;
@@ -89,8 +90,12 @@
                 flex-direction: column;
                 gap: .6rem;
 
+                label{
+                    cursor: pointer;
+                }
+
                 .checkbox-pop + label span{
-                    display:inline-block;
+                    display: inline-block;
                     width: 16px;
                     height: 16px;
                     margin: 0 10px 0 0; /*layout relationship between check and label*/
