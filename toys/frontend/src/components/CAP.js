@@ -5,7 +5,7 @@ import DeleteStore from './DeleteStore';
 import DeleteReview from './DeleteReview';
 import AddItem from './AddItem';
 
-const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
+const CAP = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, items, displayImages, reviews, block, setBlock }) => {
 
   return (
     <div className='CAP'>
@@ -27,7 +27,7 @@ const CAP = ({ items, displayImages, reviews, block, setBlock }) => {
           block ===  "Add" ?
             <AddItem/>
           : block === "Delete item" ?
-            <DeleteStore items={items} displayImages={displayImages}/>
+            <DeleteStore setStockFilter={setStockFilter} stockFilter={stockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} items={items} displayImages={displayImages}/>
           
           : block === "Delete review" && 
             <DeleteReview reviews={reviews}/>

@@ -162,7 +162,7 @@
   position: fixed;
   z-index: 1000;
   width: 50vw;
-  background-color: #E6E6E6;
+  background-color: white;
   border: 1px solid black;
   top: 2rem;
   left: 0;
@@ -182,7 +182,7 @@
   background-color: white;
 }
 .cart .cart-header {
-  background-color: #E6E6E6;
+  background-color: white;
   position: fixed;
   height: 65px;
   width: calc(50vw - 2px);
@@ -214,6 +214,7 @@
 .cart .wrapper {
   padding-top: 65px;
   height: 100%;
+  position: relative;
 }
 .cart .cart-items {
   display: flex;
@@ -224,6 +225,7 @@
 .cart .cart-items .item-wrapper {
   width: 100%;
   position: relative;
+  border-bottom: 1px solid #bebebe;
 }
 .cart .cart-items .item-wrapper .remove-warn {
   width: 100%;
@@ -266,9 +268,8 @@
   padding: 0.6rem;
   padding-left: 1rem;
   padding-right: 1rem;
-  border-bottom: 1px solid black;
   padding-bottom: 0.8rem;
-  background-color: #E6E6E6;
+  background-color: white;
 }
 .cart .cart-items .item .remove {
   display: flex;
@@ -346,6 +347,13 @@
   width: 95%;
   display: flex;
   justify-content: space-between;
+  border-top: 1px dashed #bebebe;
+  padding-top: 1rem;
+  bottom: 0;
+  margin-inline: auto;
+  left: 50%;
+  translate: -50%;
+  position: absolute;
 }
 .cart .continue .subtotal {
   display: flex;
@@ -924,7 +932,7 @@
   align-items: center;
   border-top: 1px solid #e6e6e6;
   padding: 1rem;
-  z-index: 1;
+  z-index: 123;
   height: 3.6rem;
   width: 100%;
 }
@@ -981,12 +989,16 @@
 }
 .store .filter .filter-item .pop label {
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.store .filter .filter-item .pop label:hover {
+  color: #bebebe;
 }
 .store .filter .filter-item .pop .checkbox-pop + label span {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin: 0 10px 0 0; /*layout relationship between check and label*/
+  margin: 0 10px 2px 0; /*layout relationship between check and label*/
 }
 .store .filter .filter-item .pop .checkbox-pop + label span:before, .store .filter .filter-item .pop .checkbox-pop + label span:after {
   transition: all 0.3s ease-in-out;
@@ -1409,21 +1421,31 @@
   background-color: #333;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-direction: column;
   margin-bottom: 1rem;
-  padding: 1rem 3rem;
-  font-size: 1.2em;
+  padding: 1rem 8rem;
+  font-size: 0.9em;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 .item-page .s-col .timer h2 {
   font-size: 1.5em;
   margin-bottom: 1rem;
 }
+.item-page .s-col .timer span {
+  color: #e6e6e6;
+  opacity: 0.82;
+}
 .item-page .s-col .timer .wrapper-timer {
   display: flex;
   justify-content: space-between;
+  gap: 1.8rem;
 }
 .item-page .s-col .timer .digit {
-  font-size: 1.5em;
+  font-size: 2.1em;
+  color: white;
+  opacity: 1;
 }
 .item-page .s-col .timer .time {
   display: flex;
@@ -2908,8 +2930,15 @@
   margin-top: 1rem;
 }
 .CAP .panel .form .date-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
+  place-content: center;
+}
+.CAP .panel .form .date-input .field {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 .CAP .panel .form .date-input .field input {
   width: 80px;
@@ -2961,48 +2990,116 @@
   margin-top: 1rem;
   width: 78%;
 }
-.CAP .panel .delete-store .filter {
-  margin-bottom: 2rem;
+.CAP .panel .delete-store .filter-wrapper {
   position: relative;
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #e6e6e6;
+  margin-top: 6rem;
+  padding: 1rem;
+  z-index: 1321321;
+  width: 100%;
 }
-.CAP .panel .delete-store .filter label, .CAP .panel .delete-store .filter input[type=text], .CAP .panel .delete-store .filter textarea {
-  display: block;
+.CAP .panel .delete-store .filter {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.15em;
+  position: relative;
+  margin: 0;
 }
-.CAP .panel .delete-store .filter .text-label {
+.CAP .panel .delete-store .filter .bin {
   position: absolute;
-  top: 0rem;
-  left: 0.5rem;
-  font-size: 1.2em;
-  cursor: text;
-  opacity: 1;
-  padding: 0.4rem;
-  border-radius: 8px;
   color: white;
+  left: -2.2rem;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
-.CAP .panel .delete-store .filter .error {
-  color: rgb(247, 61, 61);
+.CAP .panel .delete-store .filter .filter-item {
+  display: flex;
+  gap: 0.2rem;
+  cursor: pointer;
+  position: relative;
 }
-.CAP .panel .delete-store .filter input, .CAP .panel .delete-store .filter textarea {
-  width: 550px;
-  height: 1rem;
-  padding: 1.2rem;
-  background-color: #3f3f3f;
-  border: none;
-  outline: none;
+.CAP .panel .delete-store .filter .filter-item svg {
+  width: 16px;
+  transform: rotate(90deg);
+  margin-left: 0.4rem;
   transition: all 0.2s ease-in-out;
-  color: white;
-  border-radius: 4px;
-  resize: none;
 }
-.CAP .panel .delete-store .filter input:focus, .CAP .panel .delete-store .filter textarea:focus {
-  background-color: #333333;
+.CAP .panel .delete-store .filter .filter-item .rotated {
+  transform: rotate(-90deg);
+}
+.CAP .panel .delete-store .filter .filter-item .checkbox-pop {
+  display: none;
+}
+.CAP .panel .delete-store .filter .filter-item .pop {
+  cursor: default;
+  position: absolute;
+  z-index: 243;
+  width: 200px;
+  top: 1rem;
+  left: 50%;
+  top: 2.1rem;
+  transform: translateX(-50%);
+  background-color: #333;
+  padding: 1rem 1.2rem;
+  border: 1px solid #585858;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.CAP .panel .delete-store .filter .filter-item .pop label {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.CAP .panel .delete-store .filter .filter-item .pop label:hover {
+  color: #bebebe;
+}
+.CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0 10px 2px 0; /*layout relationship between check and label*/
+}
+.CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span:before, .CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span:after {
+  transition: all 0.3s ease-in-out;
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: 2px solid white;
+}
+.CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span:after {
+  z-index: 0;
+  border: none;
+}
+.CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop:checked + label span:before {
+  animation: pop 0.3s ease;
+  z-index: 100;
+  background: white;
+}
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .CAP .panel .delete-store .items {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  position: relative;
+  z-index: 2;
 }
 .CAP .panel .delete-store .wrapper-item {
   position: relative;
@@ -3061,6 +3158,7 @@
   font-size: 1.2em;
 }
 .CAP .panel .delete-store .item img {
+  z-index: 0;
   padding: 1rem;
   width: 90%;
   height: 100%;
@@ -3241,6 +3339,9 @@
   .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 350px;
   }
+  .CAP .panel .form .field select {
+    width: 350px;
+  }
   .CAP .panel .form .file_label {
     width: 350px;
   }
@@ -3274,6 +3375,9 @@
   .CAP .panel .form .field input, .CAP .panel .form .field textarea {
     width: 300px;
   }
+  .CAP .panel .form .field select {
+    width: 300px;
+  }
   .CAP .panel .form .file_label {
     width: 300px;
   }
@@ -3282,6 +3386,20 @@
   }
   .CAP .panel .form .field .block-info .block-2 input {
     width: 145px;
+  }
+  .CAP .panel .form .date-input {
+    grid-template-columns: 1fr 1fr;
+  }
+  .CAP .panel .form .date-input .field input {
+    width: 145px;
+  }
+}
+@media (max-width: 1050px) {
+  .CAP .panel .delete-store {
+    width: 90%;
+  }
+  .CAP .panel .delete-store .items {
+    font-size: 0.7em;
   }
 }
 @media (max-width: 950px) {
@@ -3294,27 +3412,29 @@
   .CAP .panel .form .file_label {
     width: 290px;
   }
+  .CAP .panel .form .field select {
+    width: 290px;
+  }
   .CAP .panel .form .field .block-info .block-1 input {
     width: 130px;
   }
   .CAP .panel .form .field .block-info .block-2 input {
     width: 130px;
   }
-}
-@media (max-width: 1050px) {
-  .CAP .panel .delete-store {
-    width: 90%;
+  .CAP .panel .form .date-input {
+    grid-template-columns: 1fr 1fr;
   }
-  .CAP .panel .delete-store .items {
-    font-size: 0.7em;
+  .CAP .panel .form .date-input .field input {
+    width: 140px;
   }
 }
 @media (max-width: 900px) {
   .CAP .navigation {
-    display: none;
+    width: 140px;
+    font-size: 0.75em;
   }
   .CAP .panel {
-    padding-left: 0;
+    padding-left: 140px;
   }
   .CAP .panel .add {
     width: 90%;
@@ -3329,16 +3449,42 @@
     width: 90%;
   }
   .CAP .panel .form .field input, .CAP .panel .form .field textarea {
-    width: 350px;
+    width: 310px;
   }
   .CAP .panel .form .file_label {
-    width: 350px;
+    width: 310px;
   }
   .CAP .panel .form .field .block-info .block-1 input {
-    width: 160px;
+    width: 140px;
   }
   .CAP .panel .form .field .block-info .block-2 input {
-    width: 160px;
+    width: 140px;
+  }
+  .CAP .panel .form .date-input .field input {
+    width: 150px;
+  }
+  .CAP .panel .form .field select {
+    width: 310px;
+  }
+}
+@media (max-width: 880px) {
+  .CAP .panel .form .field select {
+    width: 280px;
+  }
+  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+    width: 280px;
+  }
+  .CAP .panel .form .file_label {
+    width: 280px;
+  }
+  .CAP .panel .form .field .block-info .block-2 input {
+    width: 120px;
+  }
+  .CAP .panel .form .field .block-info .block-1 input {
+    width: 120px;
+  }
+  .CAP .panel .form .date-input .field input {
+    width: 135px;
   }
 }
 @media (max-width: 800px) {
@@ -3346,6 +3492,12 @@
     flex-direction: column;
     gap: 2rem;
     font-size: 0.8em;
+  }
+  .CAP .panel .form .field select {
+    width: 100%;
+  }
+  .CAP .panel .form .date-input .field input {
+    width: 240px;
   }
   .CAP .panel .form .field .text-label {
     top: 0.15rem;

@@ -2,7 +2,7 @@
     position: fixed;
     z-index: 1000;
     width: 50vw;
-    background-color: #E6E6E6;
+    background-color: white;
     border: 1px solid black;
     top: 2rem;
     left: 0;
@@ -24,7 +24,7 @@
     }
 
     .cart-header{
-        background-color: #E6E6E6;
+        background-color: white;
         position: fixed;
         height: 65px;
         width: calc(50vw - 2px);
@@ -60,6 +60,7 @@
     .wrapper{
         padding-top: 65px;
         height: 100%;
+        position: relative;
     }
     
     .cart-items{
@@ -72,6 +73,11 @@
         .item-wrapper{
             width: 100%;
             position: relative;
+            border-bottom: 1px solid #bebebe;
+
+            // &:last-child{
+            //     border: none;
+            // }
             
             .remove-warn{
                 width: 100%;
@@ -120,9 +126,8 @@
             padding-left: 1rem;
             padding-right: 1rem;
             // font-size: 1em;
-            border-bottom: 1px solid black;
             padding-bottom: .8rem;
-            background-color: #E6E6E6;
+            background-color: white;
 
             .remove{
                 display: flex;
@@ -214,6 +219,13 @@
         width: 95%;
         display: flex;
         justify-content: space-between;
+        border-top: 1px dashed #bebebe;
+        padding-top: 1rem;
+        bottom: 0;
+        margin-inline: auto;
+        left: 50%;
+        translate: -50%;
+        position: absolute;
         
         .subtotal{
             display: flex;

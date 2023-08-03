@@ -197,23 +197,35 @@
             background-color: #333;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             flex-direction: column;
             margin-bottom: 1rem;
-            padding: 1rem 3rem;
-            font-size: 1.2em;
+            padding: 1rem 8rem;
+            font-size: .9em;
+            // border-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-bottom-left-radius: 6px;
 
             h2{
                 font-size: 1.5em;
                 margin-bottom: 1rem;
             }
 
+            span{
+                color: #e6e6e6;
+                opacity: .82;
+            }
+
             .wrapper-timer{
                 display: flex;
                 justify-content: space-between;
+                gap: 1.8rem;
             }
             
             .digit{
-                font-size: 1.5em;
+                font-size: 2.1em;
+                color: white;
+                opacity: 1;
             }
 
             .time{

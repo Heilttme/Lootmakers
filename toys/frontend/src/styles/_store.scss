@@ -32,7 +32,7 @@
         align-items: center;
         border-top: 1px solid #e6e6e6;
         padding: 1rem;
-        z-index: 1;
+        z-index: 123;
         height: 3.6rem;
         width: 100%;
     }
@@ -92,13 +92,18 @@
 
                 label{
                     cursor: pointer;
+                    transition: all .2s ease-in-out;
+
+                    &:hover{
+                        color: #bebebe;
+                    }
                 }
 
                 .checkbox-pop + label span{
                     display: inline-block;
                     width: 16px;
                     height: 16px;
-                    margin: 0 10px 0 0; /*layout relationship between check and label*/
+                    margin: 0 10px 2px 0; /*layout relationship between check and label*/
                     
                     &:before,
                     &:after {
@@ -110,11 +115,13 @@
                         height: 16px;
                         background: transparent;
                         border: 2px solid white; 
+
                     }
-                       &:after {
+                    &:after {
                         z-index: 0;
                         border: none;
                     }
+                    
                 }
                   
                 .checkbox-pop:checked + label span {
@@ -127,6 +134,7 @@
                         animation: pop .3s ease;
                         z-index: 100;
                         background: white;
+                        
                     } 
                 }
             }

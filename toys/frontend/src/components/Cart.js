@@ -50,7 +50,7 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
           <div className='cart-items'>
             {cartItems}
           </div>
-          <motion.div animate={{y: proceedMove ? -100 : 0}} transition={{duration: ".1"}} className='continue'>
+          <motion.div animate={{y: proceedMove ? 100 : 0}} transition={{duration: ".1"}} className='continue'>
             <div className='subtotal'>
               <p>Subtotal:</p>
               <h2>${promoApplied === 1 ? (cart.reduce((acc, it) => it.price + acc, 0) * 0.9).toFixed(2) : cart.reduce((acc, it) => it.price + acc, 0)}</h2>

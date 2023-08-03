@@ -22,6 +22,13 @@ function App() {
   const [menuOpened, setMenuOpened] = useState(false)
   const [authorized, setAuthorized] = useState(false) 
 
+  /// filters states
+  
+  const [[stockFilter, setStockFilter], [typeFilter, setTypeFilter], [vendorFilter, setVendorFilter]] = [useState(false), useState(false), useState(false)]
+  const [[stockFilterPanel, setStockFilterPanel], [typeFilterPanel, setTypeFilterPanel], [vendorFilterPanel, setVendorFilterPanel]] = [useState(false), useState(false), useState(false)]
+
+  ///
+
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
@@ -74,7 +81,12 @@ function App() {
         quickShop && setQuickShop(null)
         cartOpened && setCartOpened(false)
         contactOpened && setContactOpened(false)
-        
+        setStockFilter(false)
+        setTypeFilter(false)
+        setVendorFilter(false)
+        setStockFilterPanel(false)
+        setTypeFilterPanel(false)
+        setVendorFilterPanel(false)
         allowScroll()
       }} className="wrapper">
         <div className="a" style={{filter: (contactOpened || quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened) ? "none" : "unset"}}>
@@ -82,11 +94,11 @@ function App() {
           <MobileNav menuOpened={menuOpened} setMenuOpened={setMenuOpened} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <main>
             <Routes>
-              <Route path="/" element={<Home quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
+              <Route path="/" element={<Home stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
               <Route path="/items/:id" element={<Item buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin setAuthorized={setAuthorized} />}/>
-              <Route path="/admin/cms" element={<CAP setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
+              <Route path="/admin/cms" element={<CAP setStockFilter={setStockFilterPanel} stockFilter={stockFilterPanel} typeFilter={typeFilterPanel} setTypeFilter={setTypeFilterPanel} vendorFilter={vendorFilterPanel} setVendorFilter={setVendorFilterPanel} setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </main>

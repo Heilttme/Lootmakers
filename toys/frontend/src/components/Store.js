@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { t } from 'i18next'
 import useWindowDimensions from "./useWindowDimensions"
 import { motion } from 'framer-motion'
+import { cloneDeep } from "lodash"
 
-const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
+const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
@@ -18,12 +19,40 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     type: [],
     vendor: [],
   })
-  const [filteredItems, setFilteredItems] = useState([])
+  const [filteredItems, setFilteredItems] = useState(items)
+
+  useEffect(() => {
+    setFilteredItems(items)
+  }, [items])
+
+  useEffect(() => {
+    let newItems = cloneDeep(items)
+    const stock = appliedFilters.stock
+    const type = appliedFilters.type
+    const vendor = appliedFilters.vendor
+    
+    if (stock.includes("in stock")) {
+      newItems = newItems.filter(it => it.quantityAvailable >= 1)
+    }
+
+    if (stock.includes("out of stock")) {
+      newItems = newItems.filter(it => it.quantityAvailable === 0)
+    }
+
+    if (stock.includes("all")) {
+      newItems = items.filter(it => ((it.quantityAvailable === 0) || (it.quantityAvailable >= 1)))
+    }
+
+    newItems = newItems.filter(it => type.map(t => t === it.type).every(el => el === true))
+    newItems = newItems.filter(it => vendor.map(v => v === it.madeBy).every(el => el === true))
+    
+    setFilteredItems(newItems)
+  }, [appliedFilters])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < filteredItems.length; i++) {
       newAr.push(items[i])
       if (newAr.length === 3) {
         newItems.push(newAr)
@@ -32,12 +61,12 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     }
     newItems.push(newAr)
     setThreeLineItems(newItems)
-  }, [items])
+  }, [filteredItems])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < filteredItems.length; i++) {
       newAr.push(items[i])
       if (newAr.length === 2) {
         newItems.push(newAr)
@@ -46,12 +75,12 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     }
     newItems.push(newAr)
     setTwoLineItems(newItems)
-  }, [items])
+  }, [filteredItems])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < filteredItems.length; i++) {
       newAr.push(items[i])
       if (newAr.length === 1) {
         newItems.push(newAr)
@@ -60,7 +89,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     }
     newItems.push(newAr)
     setOneLineItems(newItems)
-  }, [items])
+  }, [filteredItems])
 
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
@@ -158,10 +187,6 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
     </div>
   ))
 
-  const [stockFilter, setStockFilter] = useState(false)
-  const [typeFilter, setTypeFilter] = useState(false)
-  const [vendorFilter, setVendorFilter] = useState(false)
-
   return (
     <>
       <div ref={storeRef} className='store'>
@@ -173,7 +198,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
           <motion.div initial={{y: -60}} animate={{y: filter ? 0 : -60}} transition={{type: "keyframes", ease: "linear", duration: .2}} className='filter-wrapper'>
             <motion.div className='filter'>
               <svg onClick={() => setAppliedFilters({stock: [], type: [], vendor: []})} className='bin' fill='currentColor' clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m20.015 6.506h-16v14.423c0 .591.448 1.071 1 1.071h14c.552 0 1-.48 1-1.071 0-3.905 0-14.423 0-14.423zm-5.75 2.494c.414 0 .75.336.75.75v8.5c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-8.5c0-.414.336-.75.75-.75zm-4.5 0c.414 0 .75.336.75.75v8.5c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-8.5c0-.414.336-.75.75-.75zm-.75-5v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-16.507c-.413 0-.747-.335-.747-.747s.334-.747.747-.747zm4.5 0v-.5h-3v.5z" fill-rule="nonzero"/></svg>
-              <div onClick={() => {setStockFilter(prev => !prev);setTypeFilter(false);setVendorFilter(false)}} className='filter-item'>
+              <div onClick={(e) => {e.stopPropagation();setStockFilter(prev => !prev);setTypeFilter(false);setVendorFilter(false)}} className='filter-item'>
                 <p>{t("Stock")}</p>
                 <svg className={`${stockFilter ? "rotated" : ""}`} fill='currentColor' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
                 {
@@ -183,9 +208,23 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
                       <input
                         className="checkbox-pop"
                         type="checkbox" 
+                        id="all"
+                        checked={appliedFilters.stock.includes("all")}
+                        onChange={(e) => {
+                          e.target.checked ? setAppliedFilters(prev => ({...prev, stock: ["all"]})) : setAppliedFilters(prev => ({...prev, stock: prev.stock.filter(fi => fi !== "all")}))
+                        }}
+                      />
+                      <label for="all"><span></span>All</label>
+                    </div>
+                    <div className="checkbox">
+                      <input
+                        className="checkbox-pop"
+                        type="checkbox" 
                         id="inStock"
                         checked={appliedFilters.stock.includes("in stock")}
-                        onChange={(e) => e.target.checked ? setAppliedFilters(prev => ({...prev, stock: [...prev.stock, "in stock"]})) : setAppliedFilters(prev => ({...prev, stock: prev.stock.filter(fi => fi !== "in stock")}))}
+                        onChange={(e) => {
+                          e.target.checked ? setAppliedFilters(prev => ({...prev, stock: ["in stock"]})) : setAppliedFilters(prev => ({...prev, stock: prev.stock.filter(fi => fi !== "in stock")}))
+                        }}
                       />
                       <label for="inStock"><span></span>In stock</label>
                     </div>
@@ -195,14 +234,16 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
                         type="checkbox" 
                         id="outOfStock"
                         checked={appliedFilters.stock.includes("out of stock")}
-                        onChange={(e) => e.target.checked ? setAppliedFilters(prev => ({...prev, stock: [...prev.stock, "out of stock"]})) : setAppliedFilters(prev => ({...prev, stock: prev.stock.filter(fi => fi !== "out of stock")}))}
+                        onChange={(e) => {
+                          e.target.checked ? setAppliedFilters(prev => ({...prev, stock: ["out of stock"]})) : setAppliedFilters(prev => ({...prev, stock: prev.stock.filter(fi => fi !== "out of stock")}))
+                        }}
                       />
                       <label for="outOfStock"><span></span>Out of stock</label>
                     </div>
                   </div>
                 }
               </div>
-              <div onClick={() => {setTypeFilter(prev => !prev);setStockFilter(false);setVendorFilter(false)}} className='filter-item'>
+              <div onClick={(e) => {e.stopPropagation();setTypeFilter(prev => !prev);setStockFilter(false);setVendorFilter(false)}} className='filter-item'>
                 <p>{t("Type")}</p>
                 <svg className={`${typeFilter ? "rotated" : ""}`} fill='currentColor' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
                 {
@@ -215,7 +256,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
                           type="checkbox" 
                           id={it}
                           checked={appliedFilters.type.includes(it)}
-                          onChange={(e) => e.target.checked ? setAppliedFilters(prev => ({...prev, type: [...prev.type, it]})) : setAppliedFilters(prev => ({...prev, type: prev.type.filter(fi => fi !== it)}))}
+                          onChange={(e) => e.target.checked ? setAppliedFilters(prev => ({...prev, type: [it]})) : setAppliedFilters(prev => ({...prev, type: prev.type.filter(fi => fi !== it)}))}
                         />
                         <label for={it}><span></span>{it}</label>
                       </div>
@@ -223,7 +264,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
                   </div>
                 }
               </div>
-              <div onClick={() => {setVendorFilter(prev => !prev);setStockFilter(false);setTypeFilter(false)}} className='filter-item'>
+              <div onClick={(e) => {e.stopPropagation();setVendorFilter(prev => !prev);setStockFilter(false);setTypeFilter(false)}} className='filter-item'>
                 <p>{t("Vendor")}</p>
                 <svg className={`${vendorFilter ? "rotated" : ""}`} fill='currentColor' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
                 {
@@ -236,7 +277,7 @@ const Store = ({ setQuickShop, items, storeRef, displayImages }) => {
                           type="checkbox" 
                           id={it}
                           checked={appliedFilters.vendor.includes(it)}
-                          onChange={(e) => e.target.checked ? setAppliedFilters(prev => ({...prev, vendor: [...prev.vendor, it]})) : setAppliedFilters(prev => ({...prev, vendor: prev.vendor.filter(fi => fi !== it)}))}
+                          onChange={(e) => e.target.checked ? setAppliedFilters(prev => ({...prev, vendor: [it]})) : setAppliedFilters(prev => ({...prev, vendor: prev.vendor.filter(fi => fi !== it)}))}
                         />
                         <label for={it}><span></span>{it}</label>
                       </div>

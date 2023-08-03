@@ -24,6 +24,8 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [])
+
+  // console.log(curItem);
   
   useEffect(() => {
     setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])
@@ -31,6 +33,7 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
 
   useEffect(() => {
     if (curItem) {
+      console.log(curItem);
       const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
 
       const now = new Date().getTime()
@@ -60,8 +63,8 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   }, [images3D])
 
   useEffect(() => {
-    const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id: id}).then(data => setImages3D(data.data.data))
-    const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id: id}).then(data => setImageList(data.data.data))
+    const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id}).then(data => setImages3D(data.data.data))
+    const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id}).then(data => setImageList(data.data.data))
   }, [id])
 
   useEffect(() => {
