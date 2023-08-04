@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import i18next, { t } from 'i18next'
 import { motion } from "framer-motion"
 
-const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, changeLanguage, setCartOpened, storeRef, cartCounterRef }) => {
+const MobileNav = ({ setBlock, menuOpened, setMenuOpened, allowScroll, blockScroll, cart, changeLanguage, setCartOpened, storeRef, cartCounterRef }) => {
   const location = useLocation().pathname
   const navigate = useNavigate()
 
@@ -11,6 +11,8 @@ const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, 
     if (menuOpened) {
       blockScroll()
     }
+
+    return () => allowScroll()
   }, [menuOpened])
     
   return (
@@ -59,6 +61,20 @@ const MobileNav = ({ menuOpened, setMenuOpened, allowScroll, blockScroll, cart, 
         <div className='block'>
           <a onClick={() => changeLanguage(i18next.language === "ru" ? "en" : "ru")} className='nav'>{i18next.language === "ru" ? "RU" : "EN"}</a>
         </div>
+        {
+          location === "/admin/cms" && 
+          <>
+            <div className='block ad'>
+              <a onClick={() => {setBlock("Add"); setMenuOpened(false)}} className='nav'>{t("ADD")}</a>
+            </div>
+            <div className='block'>
+              <a onClick={() => {setBlock("Delete item"); setMenuOpened(false)}} className='nav'>{t("REMOVE ITEM")}</a>
+            </div>
+            <div className='block'>
+              <a onClick={() => {setBlock("Delete review"); setMenuOpened(false)}} className='nav'>{t("REMOVE REVIEW")}</a>
+            </div>
+          </>
+        }
       </motion.div>
     </>
   )

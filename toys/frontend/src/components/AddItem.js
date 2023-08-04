@@ -84,8 +84,6 @@ const AddItem = () => {
 
   
   const onItemSubmit = () => {
-    console.log(itemFormData)
-
     if (
       itemFormData.name && 
       itemFormData.collection && 
@@ -229,8 +227,6 @@ const AddItem = () => {
     }
   }
   
-  console.log(itemFormData);
-
   // ITEMFORMDATA ACTIONS //
   
   // REVIEW FORMDATA ACTIONS //

@@ -3,7 +3,7 @@ import { create } from "zustand"
 const useStore = create(set => ({
     cart: [],
     add: (item) => 
-        set(state => ({cart: [...state.cart, {...item, quantity: 1}]})),
+        set(state => ({cart: [...state.cart, {...item, quantity: item.quantity ? item.quantity : 1}]})),
     remove: (item) => 
         set(state => {
             const newAr = []

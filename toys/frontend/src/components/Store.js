@@ -237,13 +237,13 @@ export const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setC
   const navigate = useNavigate()
   const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
 
-  const itemClick = () => {
-    if (censored && itemNew.censored === true) {
+  // const itemClick = () => {
+  //   if (censored && itemNew.censored === true) {
 
-    } else {
-      navigate(`items/${itemNew.id}`)
-    }
-  }
+  //   } else {
+  //     navigate(`items/${itemNew.id}`)
+  //   }
+  // }
   
   return (
     <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>

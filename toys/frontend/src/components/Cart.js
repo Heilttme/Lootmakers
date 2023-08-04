@@ -96,11 +96,12 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
     let newAr = []
     const cItems = JSON.parse(localStorage.getItem("i")).map(it => {
       if (it.id === item.id){
-        newAr.push({...it, quantity: it.quantity !== 99 ? it.quantity + 1 : 99})
+        newAr.push({...it, quantity: it.quantity !== 99 ? it.quantity + 1 < it.quantityAvailable ? it. quantity + 1 : it.quantityAvailable : 99})
       } else {
         newAr.push(it)
       }
     })
+    console.log(newAr);
     localStorage.setItem("i", JSON.stringify(newAr))
   }
 
@@ -164,7 +165,17 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
       >
         <div className='item-inner'>
           <div className='i-nq'>
-            <img onClick={() => {navigate(`/items/${item.id}`);setCartOpened(false);setMenuOpened(false)}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item.id)[0].image}`}/>
+            <div className='img-wrapper'>
+              <img onClick={() => {navigate(`/items/${item.id}`);setCartOpened(false);setMenuOpened(false)}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item.id)[0].image}`}/>
+              {
+                item.orderType === "preorder" &&
+                <div data-hover="This item is a preorder" className='pre'>
+                  <div className='question-wrapper'>
+                    <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12.002 21.534c5.518 0 9.998-4.48 9.998-9.998s-4.48-9.997-9.998-9.997c-5.517 0-9.997 4.479-9.997 9.997s4.48 9.998 9.997 9.998zm0-8c-.414 0-.75-.336-.75-.75v-5.5c0-.414.336-.75.75-.75s.75.336.75.75v5.5c0 .414-.336.75-.75.75zm-.002 3c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1z" fill-rule="nonzero"/></svg>
+                  </div> 
+                </div>
+              }
+            </div>
             <div className='n-q'>
               <div>
                 <h2>{item.collection}</h2>

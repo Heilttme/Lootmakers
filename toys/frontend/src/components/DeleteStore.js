@@ -12,7 +12,7 @@ const DeleteStore = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, v
   const [threeLineItems, setThreeLineItems] = useState([])
   const { height, width } = useWindowDimensions()
   
-  const [filterInput, setFilterInput] = useState(-1)
+  const [filterInput, setFilterInput] = useState("")
   const [filterFocus, setFilterFocus] = useState(false)
   
   const [filter, setFilter] = useState(false)
@@ -46,7 +46,7 @@ const DeleteStore = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, v
     }
 
     if (filterInput !== -1) {
-      newItems = newItems.filter(it => (it.name.includes(filterInput) || it.collection.includes(filterInput)))
+      newItems = newItems.filter(it => (it.name.toLowerCase().includes(filterInput.toLowerCase()) || it.collection.toLowerCase().includes(filterInput.toLowerCase())))
     }
 
     newItems = newItems.filter(it => type.map(t => t === it.type).every(el => el === true))
@@ -132,13 +132,14 @@ const DeleteStore = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, v
         <div className='filter'>
           <input 
             name='filter'
-            value={filter === -1 ? "" : filter}
+            value={filterInput}
             onChange={(e) => setFilterInput(e.target.value)}
             id="filter"
             onFocus={() => setFilterFocus(true)}
             onBlur={() => setFilterFocus(false)}
           />
-          <motion.label animate={((filter && filter !== -1) || filterFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label`} htmlFor={`filter`}>{t("Filter")}</motion.label>
+          <motion.label animate={((filterInput && filter !== -1) || filterFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {}} transition={{color: {stiffness: 100}}} className={`text-label`} htmlFor={`filter`}>{t("Filter")}</motion.label>
+          
         </div>
         <motion.div initial={{y: -60}} animate={{y: filter ? 0 : -60}} transition={{type: "keyframes", ease: "linear", duration: .2}} className='filter-wrapper'>
           <motion.div className='filter'>

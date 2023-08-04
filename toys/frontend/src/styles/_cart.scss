@@ -194,6 +194,54 @@
                 align-items: center;
                 gap: 3rem;
 
+                .img-wrapper{
+                    position: relative;
+
+                    .pre{
+                        position: absolute;
+                        transform: translateY(-50%);
+                        right: -1rem;
+                        top: 22px;
+    
+                        &::before {
+                            content: attr(data-hover);
+                            visibility: hidden;
+                            opacity: 0;
+                            background-color: #333333;
+                            
+                            min-width: 200px;
+                            color: #fff;
+                            text-align: center;
+                            border-radius: 5px;
+                            padding: .4rem 1rem;
+                            transition: opacity .3s ease-in-out;
+                            position: absolute;
+                            z-index: 1;
+                            left: 1.6rem;
+                            top: -.2rem;
+                        }
+                          
+                          &:hover::before {
+                            opacity: 1;
+                            visibility: visible;
+                        }
+
+                        svg{
+                            width: 28px;
+                            height: 28px;
+                        }
+                          
+                    }
+                }
+
+                .pre{
+                    position: absolute;
+                    right: -20px;
+                    top: 10px;
+                    
+                    // background-color: white;
+                }
+                
                 img{
                     width: 160px;
                     cursor: pointer;
