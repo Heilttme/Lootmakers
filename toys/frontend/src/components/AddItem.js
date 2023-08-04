@@ -22,7 +22,13 @@ const AddItem = () => {
     quote: "",
     author: "",
     orderType: "",
-    "text-0": ""
+    "text-0": "",
+    "text-1": "",
+    "text-2": "",
+    "text-3": "",
+    "text-4": "",
+    "text-5": "",
+    censor: ""
   })
 
   const changeItemFormData = (e) => {
@@ -50,6 +56,7 @@ const AddItem = () => {
   const [dateError, setDateError] = useState(false)
   const [quantityError, setQuantityError] = useState(false)
   const [orderTypeError, setOrderTypeError] = useState(false)
+  const [censorError, setCensorError] = useState(false)
   
   const [item3dFiles, setItem3dFiles] = useState({})
   const [itemFiles, setItemFiles] = useState({})
@@ -75,9 +82,9 @@ const AddItem = () => {
     !displayFile.length && displayFilesRef.current && (() => displayFilesRef.current.value = "")()
   }, [displayFile])
 
-  console.log(itemFormData)
-
+  
   const onItemSubmit = () => {
+    console.log(itemFormData)
 
     if (
       itemFormData.name && 
@@ -89,6 +96,7 @@ const AddItem = () => {
       itemFormData.author && 
       itemFormData.price && 
       itemFormData.quantityAvailable && 
+      itemFormData.censor && 
       (itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) ||
        (itemFormData.orderType === "order" && (!(itemFormData.year || itemFormData.month || itemFormData.day || itemFormData.hour) || (itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour))) &&
       item3dFiles.length && 
@@ -96,7 +104,7 @@ const AddItem = () => {
       itemFiles.length
     ) {
       const data = Object.fromEntries(Object.entries(itemFormData).filter(([_, v]) => (v != "" && !v.startsWith("text"))))
-      if (Object.keys(data).length >= 10) {
+      if (Object.keys(data).length >= 11) {
         const uploadData = new FormData()
         const item3dFilesArray = Array.from(item3dFiles)
 
@@ -130,6 +138,7 @@ const AddItem = () => {
               it !== "month" &&
               it !== "day" &&
               it !== "hour" &&
+              it !== "censor" &&
               !it.startsWith("text")
           ) {
             blockInfoData = {...blockInfoData, [it]: data[it]}
@@ -152,6 +161,7 @@ const AddItem = () => {
         uploadData.append("author", data.author)
         uploadData.append("blockInfo", blockInfoData)
         uploadData.append("orderType", data.orderType)
+        uploadData.append("censor", data.censor)
         uploadData.append("year", data.year)
         uploadData.append("month", data.month)
         uploadData.append("day", data.day)
@@ -209,14 +219,17 @@ const AddItem = () => {
       !itemFormData.price && setPriceError(true)
       !itemFormData.orderType && setOrderTypeError(true)
       !itemFormData.quantityAvailable && setQuantityError(true)
-      !(Object.keys(itemFormData).length >= 15) && setBlockInfoError(true)
+      !(Object.keys(itemFormData).length >= 11) && setBlockInfoError(true)
       !item3dFiles.length && set3dError(true)
       !displayFile.length && setDisplayError(true)
       !itemFiles.length && setItemFilesError(true)
+      !itemFiles.censor && setCensorError(true)
       !((itemFormData.orderType === "preorder" && itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour) ||
        (itemFormData.orderType === "order" && (!(itemFormData.year || itemFormData.month || itemFormData.day || itemFormData.hour) || (itemFormData.year && itemFormData.month && itemFormData.day && itemFormData.hour)))) && setDateError(true)
     }
   }
+  
+  console.log(itemFormData);
 
   // ITEMFORMDATA ACTIONS //
   
@@ -319,6 +332,7 @@ const AddItem = () => {
           <div className='field'>
             <select
               style={{color: typeError ? "rgb(247, 61, 61)" : "white"}}
+              value={itemFormData.type}
               onChange={(e) => {setItemFormData(prev => ({...prev, type: e.target.value})); setTypeError(false)}}
             >
               {itemFormData.type === "" && <option>Type</option>}
@@ -329,6 +343,7 @@ const AddItem = () => {
           <div className='field'>
             <select
               style={{color: madeByError ? "rgb(247, 61, 61)" : "white"}}
+              value={itemFormData.type}
               onChange={(e) => {setItemFormData(prev => ({...prev, madeBy: e.target.value})); setMadeByError(false)}}
             >
               {itemFormData.madeBy === "" && <option>Made by</option>}
@@ -407,7 +422,7 @@ const AddItem = () => {
                     }
                   }}
                 />
-                <motion.label animate={{color: orderTypeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor='inp1'>{t("Preorder")}</motion.label>
+                <motion.label animate={{color: orderTypeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} for='inp1'>{t("Preorder")}</motion.label>
               </li>
               <li className='type-b'>
                 <input 
@@ -423,7 +438,7 @@ const AddItem = () => {
                     }
                   }}
                 />
-                <motion.label animate={{color: orderTypeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor='inp2'>{t("Order")}</motion.label>
+                <motion.label animate={{color: orderTypeError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} for='inp2'>{t("Order")}</motion.label>
               </li>
             </ul>
           </div>
@@ -434,6 +449,44 @@ const AddItem = () => {
             <Input question="" label={"day"} onChange={(e) => changeItemFormData(e)} value={itemFormData.day} error={dateError} setError={setDateError} />
             <Input question="" label={"hour"} onChange={(e) => changeItemFormData(e)} value={itemFormData.hour} error={dateError} setError={setDateError} />
           </div>
+
+          <div className='field type'>
+            <ul className='types'>
+              <h2>{t("Censor")}</h2>
+              <li className='type-b'>
+                <input 
+                  name='inputc'
+                  id='inputcensor1'
+                  type="radio"
+                  checked={itemFormData.censor === "applied" && true}
+                  onClick={(e) => {
+                    if (e.target.checked) {
+                      setItemFormData(prev => ({...prev, censor: "applied"}))
+                      setCensorError(false)
+                    }
+                  }}
+                />
+                <motion.label animate={{color: censorError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor="inputcensor1">{t("Applied")}</motion.label>
+              </li>
+              <li className='type-b'>
+                <input 
+                  name='inputc'
+                  id='inputcensor2'
+                  type="radio"
+                  checked={itemFormData.censor === "disabled" && true}
+                  onClick={(e) => {
+                    console.log(123123);
+                    if (e.target.checked) {
+                      setItemFormData(prev => ({...prev, censor: "disabled"}))
+                      setCensorError(false)
+                    }
+                  }}
+                />
+                <motion.label animate={{color: censorError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} htmlFor="inputcensor2">{t("Disabled")}</motion.label>
+              </li>
+            </ul>
+          </div>
+
           <Input question="" label={"price"} onChange={(e) => changeItemFormData(e)} value={itemFormData.price} error={priceError} setError={setPriceError} />
           <Input question="" label={"quantityAvailable"} onChange={(e) => changeItemFormData(e)} value={itemFormData.quantityAvailable} error={quantityError} setError={setQuantityError} />
           <button onClick={onItemSubmit}>Submit</button>

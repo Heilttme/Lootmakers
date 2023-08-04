@@ -24,16 +24,19 @@ const Header = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened,
           }}>
             {t("STORE")}
           </a>
-          <a className='nav about'>
-            {t("ABOUT")}
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
-
-            {/* <div className='slide-out'>
-              <div className='block'>{t("How it's made")}</div>
-              <div className='block'>{t("Public oferta")}</div>
-              <div className='block'>{t("Company Policy")}</div>
-            </div> */}
-          </a>
+          <div className='about-wrapper'>
+            <div className='slide-out'>
+              <a className='block'>{t("About us")}</a>
+              <a className='block'>{t("How it's made")}</a>
+              <a className='block'>{t("Public oferta")}</a>
+              <a className='block'>{t("Company Policy")}</a>
+              <a className='block'>{t("FAQ")}</a>
+            </div>
+            <a className='nav about'>
+              {t("ABOUT")}
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
+            </a>
+          </div>
           <a className='nav' href='/contact'>{t("CONTACT")}</a>
         </div>
         <div className='right-lane'>

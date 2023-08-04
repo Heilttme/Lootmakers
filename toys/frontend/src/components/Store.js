@@ -5,7 +5,7 @@ import useWindowDimensions from "./useWindowDimensions"
 import { motion } from 'framer-motion'
 import { cloneDeep } from "lodash"
 
-const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages }) => {
+const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages, censor, setCensor }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
@@ -20,6 +20,7 @@ const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorF
     vendor: [],
   })
   const [filteredItems, setFilteredItems] = useState(items)
+  
 
   useEffect(() => {
     setFilteredItems(items)
@@ -94,31 +95,7 @@ const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorF
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
       {item.map(itemNew => 
-      <>
-        <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
-          {
-            itemNew.orderType === "preorder" && 
-            <>
-              <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
-              {[...Array(100)].map(() => <p>PREORDER</p>)}
-              </motion.div>
-              <div className='blocker blocker-1'/>
-              <div className='blocker blocker-2'/>
-            </>
-          }
-          <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
-          <div className='text-wrapper'>
-            <div className='text'>
-              <h2 className='col'>{itemNew.collection}</h2>
-              <h2 className='name'>{itemNew.name}</h2>
-            </div>
-            {
-              !mobile && 
-              <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
-            }
-          </div>
-        </div>
-      </>
+        <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   )) 
@@ -126,31 +103,7 @@ const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorF
     twoLineItems.slice(0, shownItems).map(item => (
       <div className='block block-2'>
         {item.map(itemNew => 
-        <>
-          <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
-            {
-              itemNew.orderType === "preorder" && 
-              <>
-                <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
-                {[...Array(100)].map(() => <p>PREORDER</p>)}
-                </motion.div>
-                <div className='blocker blocker-1'/>
-                <div className='blocker blocker-2'/>
-              </>
-            }
-            <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
-            <div className='text-wrapper'>
-              <div className='text'>
-                <h2 className='col'>{itemNew.collection}</h2>
-                <h2 className='name'>{itemNew.name}</h2>
-              </div>
-              {
-                !mobile && 
-                <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
-              }
-            </div>
-          </div>
-        </>
+          <StoreItem displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
         )}
       </div>
     ))
@@ -158,31 +111,7 @@ const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorF
   oneLineItems.slice(0, shownItems).map(item => (
     <div className='block block-1'>
       {item.map(itemNew => 
-      <>
-        <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
-          {
-            itemNew.orderType === "preorder" && 
-            <>
-              <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder'>
-              {[...Array(100)].map(() => <p>PREORDER</p>)}
-              </motion.div>
-              <div className='blocker blocker-1'/>
-              <div className='blocker blocker-2'/>
-            </>
-          }
-          <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
-          <div className='text-wrapper'>
-            <div className='text'>
-              <h2 className='col'>{itemNew.collection}</h2>
-              <h2 className='name'>{itemNew.name}</h2>
-            </div>
-            {
-              !mobile && 
-              <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
-            }
-          </div>
-        </div>
-      </>
+        <StoreItem displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   ))
@@ -302,3 +231,53 @@ const Store = ({ stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorF
 }
 
 export default Store
+
+
+export const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored }) => {
+  const navigate = useNavigate()
+  const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
+
+  const itemClick = () => {
+    if (censored && itemNew.censored === true) {
+
+    } else {
+      navigate(`items/${itemNew.id}`)
+    }
+  }
+  
+  return (
+    <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
+      {
+        itemNew.orderType === "preorder" && 
+        <>
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder'>
+          {[...Array(100)].map(() => <p>PREORDER</p>)}
+          </motion.div>
+          <div className='blocker blocker-1'/>
+          <div className='blocker blocker-2'/>
+        </>
+      }
+      {
+        itemNew.censor === true && 
+        <>
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder censor'>
+          {[...Array(100)].map(() => <p>CENSORED</p>)}
+          </motion.div>
+          <div className='blocker censor-blocker blocker-1'/>
+          <div className='blocker censor-blocker blocker-2'/>
+        </>
+      }
+      <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+      <div className='text-wrapper'>
+        <div className='text'>
+          <h2 className='col'>{itemNew.collection}</h2>
+          <h2 className='name'>{itemNew.name}</h2>
+        </div>
+        {
+          !mobile && 
+          <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
+        }
+      </div>
+    </div>
+  )
+}

@@ -213,6 +213,10 @@
                     }
                 }
 
+                .censor{
+                    top: 0;
+                }
+
                 .text-wrapper{
                     width: 100%;
                     position: relative;
@@ -275,10 +279,18 @@
                 top: -100px;
                 transition: all .2s ease-in-out;
             }
+
+            .item .censor{
+                top: 0;
+            }
+            
             .blocker{
                 top: -100px;
                 transition: all .2s ease-in-out;
+            }
 
+            .censor-blocker{
+                top: 0;
             }
 
 

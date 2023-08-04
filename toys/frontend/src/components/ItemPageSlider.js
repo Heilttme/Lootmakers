@@ -35,16 +35,42 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
     transform: `translateX(${-(currentIndex * parentWidth)}px)`,
   })
 
+  const containerRef = useRef(null)
+
+  const handleImageClick = (event) => {
+    const container = containerRef.current
+    const image = event.target
+    const containerRect = container.getBoundingClientRect()
+    const imageRect = image.getBoundingClientRect()
+
+    const offsetTop = imageRect.top - containerRect.top
+    const offsetLeft = imageRect.left - containerRect.left
+
+    container.scrollTo({
+      top: offsetTop,
+      left: offsetLeft,
+      behavior: 'smooth',
+    })
+  }
+  
   return (
     <>
-      <div className="bot-images">
-        <div onClick={() => {goToSlide(0);setStopped(true)}}>
-          <img id="in" className={`img-nav${currentIndex === 0 ? " chosen" : ""}`} src={`http://127.0.0.1:8000${slides[0][0]}`}/>
-          </div>
-          {slides.slice(1).map((slide, slideIndex) => (
-          <div onClick={() => {goToSlide(slideIndex + 1);setStopped(true)}}>
-              {slideIndex + 1 <= slides.length && <img src={`http://127.0.0.1:8000${slides[slideIndex + 1]}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === slideIndex + 1 ? " chosen" : ""}`}/>}
-        </div>
+      <div ref={containerRef} className="bot-images">
+        <ImageBottom containerRef={containerRef} handleImageClick={handleImageClick} imgIndex={0} currentIndex={currentIndex} onClick={(e) => {handleImageClick(e);goToSlide(0);setStopped(true)}} slide={slides[0]} classN={`img-nav${currentIndex === 0 ? " chosen" : ""}`}/>
+        <ImageBottom containerRef={containerRef} handleImageClick={handleImageClick} imgIndex={1} currentIndex={currentIndex} onClick={(e) => {handleImageClick(e);goToSlide(1);setStopped(true)}} slide={slides[1][0]} classN={`img-nav${currentIndex === 1 ? " chosen" : ""}`}/>
+        {/* <div onClick={() => {goToSlide(0);setStopped(true)}}> */}
+          {/* {true && <img src={`http://127.0.0.1:8000${slides[0]}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === 0 ? " chosen" : ""}`}/>} */}
+          {/* {slideIndex + 1 <= slides.length && <img src={`http://127.0.0.1:8000${slides[slideIndex + 1]}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === slideIndex + 1 ? " chosen" : ""}`}/>} */}
+        {/* </div> */}
+        {/* <div onClick={() => {goToSlide(1);setStopped(true)}}>
+          <img id="in" className={`img-nav${currentIndex === 1 ? " chosen" : ""}`} src={`http://127.0.0.1:8000${slides[1][0]}`}/>
+        </div> */}
+        {slides.slice(2).map((slide, slideIndex) => (
+          // <div onClick={() => {goToSlide(slideIndex + 2);setStopped(true)}}>
+          //     {true && <img src={`http://127.0.0.1:8000${slide}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === slideIndex + 2 ? " chosen" : ""}`}/>}
+          //     {/* {slideIndex + 2 <= slides.length && <img src={`http://127.0.0.1:8000${slides[slideIndex + 2]}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === slideIndex ? " chosen" : ""}`}/>} */}
+          // </div>
+          <ImageBottom containerRef={containerRef} handleImageClick={handleImageClick} imgIndex={slideIndex + 2} currentIndex={currentIndex} onClick={(e) => {handleImageClick(e);goToSlide(slideIndex + 2);setStopped(true)}} slide={slide} classN={`img-nav${currentIndex === slideIndex + 2 ? " chosen" : ""}`} />
         ))}
       </div>
       <div className="slider-wrapper">
@@ -58,12 +84,12 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
           <div>
               <div className="slider-container" style={getSlidesContainerStylesWithWidth()}>
               {slides.map((_, slideIndex) => (
-                  slideIndex !== 0 ? 
+                  slideIndex !== 1 ? 
                   (<img
-                  id="in"
-                  className="im"
-                  key={slideIndex}
-                  src={`http://127.0.0.1:8000${slides[slideIndex]}`}
+                    id="in"
+                    className="im"
+                    key={slideIndex}
+                    src={`http://127.0.0.1:8000${slides[slideIndex]}`}
                   />) 
                   :
                   (<ScrollImages3D setStopped={setStopped} mapped3DImages={mapped3DImages} item={item}/>)
@@ -75,5 +101,34 @@ const ItemPageSlider = ({ mapped3DImages, item, slides, parentWidth }) => {
     </>
   );
 };
+
+const ImageBottom = ({ containerRef, imgIndex, currentIndex, onClick, slide, classN }) => {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (currentIndex === imgIndex && containerRef.current) {
+      const container = containerRef.current
+      const image = ref.current
+      const containerRect = container.getBoundingClientRect()
+      const imageRect = image.getBoundingClientRect()
+
+      const offsetTop = imageRect.top - containerRect.top
+      const offsetLeft = imageRect.left - containerRect.left
+
+      container.scrollTo({
+        top: offsetTop,
+        left: offsetLeft,
+        behavior: 'smooth',
+      })
+    }
+  }, [currentIndex])
+  
+  return (
+    <div ref={ref} onClick={(e) => {onClick(e)}}>
+        {true && <img src={`http://127.0.0.1:8000${slide}`} onClick={(e) => e.target.scrollTo(e)} className={classN}/>}
+        {/* {slideIndex + 2 <= slides.length && <img src={`http://127.0.0.1:8000${slides[slideIndex + 2]}`} onClick={(e) => e.target.scrollTo(e)} className={`img-nav${currentIndex === slideIndex ? " chosen" : ""}`}/>} */}
+    </div>
+  )
+}
 
 export default ItemPageSlider;

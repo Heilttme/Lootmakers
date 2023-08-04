@@ -15,6 +15,7 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
   const [promoList, setPromoList] = useState(["promo"])
   const [promo, setPromo] = useState("")
   const [promoApplied, setPromoApplied] = useState(0)
+  const [total, setTotal] = useState(0)
   
   useEffect(() => {
     cartOpened && blockScroll()
@@ -32,6 +33,8 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
       setPromoApplied(2)
     }
   }
+
+  useEffect(() => setTotal(cart.reduce((acc, it) => (it.price * it.quantity) + acc, 0)), [cart])
 
   return (
     <motion.div 
@@ -53,8 +56,8 @@ const Cart = ({ setMenuOpened, items, displayImages, setCartOpened, blockScroll,
           <motion.div animate={{y: proceedMove ? 100 : 0}} transition={{duration: ".1"}} className='continue'>
             <div className='subtotal'>
               <p>Subtotal:</p>
-              <h2>${promoApplied === 1 ? (cart.reduce((acc, it) => it.price + acc, 0) * 0.9).toFixed(2) : cart.reduce((acc, it) => it.price + acc, 0)}</h2>
-              {promoApplied === 1 && <s>${cart.reduce((acc, it) => it.price + acc, 0)}</s>}
+              <h2>${promoApplied === 1 ? (total * 0.9).toFixed(2) : total}</h2>
+              {promoApplied === 1 && <s>${total}</s>}
             </div>
             <div className='checkout'>
               <div className='promocode-block'>
@@ -87,6 +90,32 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
   const removeFromCart = useStore(state => state.remove)
   const [timeout, addTimeout] = useState("")
   const cart = useStore(state => state.cart)
+
+  const clickInc = () => {
+    incQuantity(item)
+    let newAr = []
+    const cItems = JSON.parse(localStorage.getItem("i")).map(it => {
+      if (it.id === item.id){
+        newAr.push({...it, quantity: it.quantity !== 99 ? it.quantity + 1 : 99})
+      } else {
+        newAr.push(it)
+      }
+    })
+    localStorage.setItem("i", JSON.stringify(newAr))
+  }
+
+  const clickDec = () => {
+    decQuantity(item)
+    let newAr = []
+    const cItems = JSON.parse(localStorage.getItem("i")).map(it => {
+      if (it.id === item.id){
+        newAr.push({...it, quantity: it.quantity !== 1 ? it.quantity - 1 : 1})
+      } else {
+        newAr.push(it)
+      }
+    })
+    localStorage.setItem("i", JSON.stringify(newAr))
+  }
 
   const startRemoving = (item) => {
     setRemovedShadow(true)
@@ -146,10 +175,11 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
         </div>
         <div className='remove'>
           <div className='quantity'>
-            <button onClick={() => decQuantity(item)}>-</button>
+            <button onClick={clickDec}>-</button>
             <p>{item.quantity}</p>
-            <button onClick={() => incQuantity(item)}>+</button>
+            <button onClick={clickInc}>+</button>
           </div>
+          <p className='price'>${item.price}</p>
           <button className='remove-btn' onClick={() => startRemoving(item)}>{t("REMOVE")}</button>
         </div>
       </motion.div>

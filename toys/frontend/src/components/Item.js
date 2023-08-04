@@ -8,22 +8,24 @@ import ItemsSlider from "./ItemsSlider"
 import { motion } from "framer-motion"
 import useWindowDimensions from "./useWindowDimensions"
 
-const Item = ({ buttonRef, addToCart, cart, items }) => {
+const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestriction }) => {
   const { id } = useParams()
   const [curItem, setCurItem] = useState(items.filter(i => i.id === id)[0])
   const [mapped3DImages, setMapped3DImages] = useState([])
   const [imageList, setImageList] = useState([])
+  const [displayImage, setDisplayImage] = useState("")
   const [images3D, setImages3D] = useState([])
   const { height, width } = useWindowDimensions()
   const [parentWidth, setParentWidth] = useState()
   const [inCart, setInCart] = useState(false)
   const [time, setTime] = useState([])
 
-  const slides = [mapped3DImages, ...imageList.map(item => item.image)]
+  const slides = [displayImage, mapped3DImages, ...imageList.map(item => item.image)]
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [])
+    curItem && curItem.censor === true && setAgeRestriction(true)
+  }, [curItem])
 
   // console.log(curItem);
   
@@ -33,7 +35,6 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
 
   useEffect(() => {
     if (curItem) {
-      console.log(curItem);
       const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
 
       const now = new Date().getTime()
@@ -65,6 +66,7 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
   useEffect(() => {
     const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id}).then(data => setImages3D(data.data.data))
     const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id}).then(data => setImageList(data.data.data))
+    const res3 = axios.post("http://127.0.0.1:8000/api/get_display_image/", {id}).then(data => setDisplayImage(data.data.data[0].image))
   }, [id])
 
   useEffect(() => {
@@ -112,7 +114,7 @@ const Item = ({ buttonRef, addToCart, cart, items }) => {
 
   return curItem && (
     <div className='item-page'>
-      <div className='image-slider-container'>
+      <div className='image-slider-container' style={{filter: ageRestriction ? "blur(1rem)" : ""}}>
         {
           width > 700 ?
           <ItemPageSlider mapped3DImages={mapped3DImages} item={curItem} slides={slides} parentWidth={parentWidth} />

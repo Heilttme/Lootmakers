@@ -56,6 +56,14 @@ def get_item_images(request):
 
     return Response({"data": images})
 
+@api_view(["POST"])
+def get_display_image(request):
+    id = request.data.get("id")
+    images = DisplayImage.objects.filter(item=id)
+    images = DisplayImageSerializer(images, many=True).data
+
+    return Response({"data": images})
+
     
 @api_view(["POST"])
 def toy_admin_panel_add_item(request):
@@ -68,6 +76,7 @@ def toy_admin_panel_add_item(request):
     author = request.data.get('author')
     blockInfo = request.data.get('blockInfo')
     orderType = request.data.get('orderType')
+    censor = True if request.data.get('censor') == "applied" else False
     year = request.data.get('year') if request.data.get('year') != "undefined" else 0
     month = request.data.get('month') if request.data.get('month') != "undefined" else 0
     day = request.data.get('day') if request.data.get('day') != "undefined" else 0
@@ -76,7 +85,7 @@ def toy_admin_panel_add_item(request):
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
-    item = Item(name=name, collection=collection, type=type, madeBy=madeBy, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, orderType=orderType, year=year, month=month, day=day, hour=hour, price=price, quantityAvailable=quantityAvailable)
+    item = Item(name=name, collection=collection, type=type, madeBy=madeBy, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, orderType=orderType, censor=censor, year=year, month=month, day=day, hour=hour, price=price, quantityAvailable=quantityAvailable)
     item.save()
 
     for i in request.FILES:

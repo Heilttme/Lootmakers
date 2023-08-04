@@ -35,7 +35,7 @@
     }
 
     img{
-        object-fit: cover;
+        object-fit: contain;
         width: var(--item-width);
         height: var(--item-width);
         user-select: none;

@@ -1,6 +1,6 @@
 import "./styles/index.css"
 import { BrowserRouter as Router, json, Route, Routes, useLocation, useNavigate } from "react-router-dom"
-import { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, MobileNav } from "./components"
+import { AgeRestriction, Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, MobileNav } from "./components"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios"
 import useStore from "./store";
@@ -21,6 +21,8 @@ function App() {
   const [blockAdmin, setBlockAdmin] = useState("Add")
   const [menuOpened, setMenuOpened] = useState(false)
   const [authorized, setAuthorized] = useState(false) 
+  const [censored, setCensored] = useState(true)
+  const [ageRestriction, setAgeRestriction] = useState(false)
 
   /// filters states
   
@@ -52,6 +54,10 @@ function App() {
       }
     }
   }, [])
+
+  useEffect(() => {
+    
+  })
   
   const buttonRef = useRef(null)
   const cartCounterRef = useRef(null)
@@ -87,15 +93,15 @@ function App() {
         setStockFilterPanel(false)
         setTypeFilterPanel(false)
         setVendorFilterPanel(false)
-        allowScroll()
+        !ageRestriction && allowScroll()
       }} className="wrapper">
-        <div className="a" style={{filter: (contactOpened || quickShop || cartOpened) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened) ? "none" : "unset"}}>
+        <div className="a" style={{filter: (contactOpened || quickShop || cartOpened || ageRestriction) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened || ageRestriction) ? "none" : "unset"}}>
           <Header setBlockAdmin={setBlockAdmin} blockAdmin={blockAdmin} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <MobileNav menuOpened={menuOpened} setMenuOpened={setMenuOpened} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <main>
             <Routes>
-              <Route path="/" element={<Home stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
-              <Route path="/items/:id" element={<Item buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
+              <Route path="/" element={<Home censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
+              <Route path="/items/:id" element={<Item ageRestriction={ageRestriction} setAgeRestriction={setAgeRestriction} buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin setAuthorized={setAuthorized} />}/>
               <Route path="/admin/cms" element={<CAP setStockFilter={setStockFilterPanel} stockFilter={stockFilterPanel} typeFilter={typeFilterPanel} setTypeFilter={setTypeFilterPanel} vendorFilter={vendorFilterPanel} setVendorFilter={setVendorFilterPanel} setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
@@ -113,6 +119,9 @@ function App() {
       <div className="contact-form-wrapper">
         <ContactForm allowScroll={allowScroll} blockScroll={blockScroll} setContactOpened={setContactOpened} contactOpened={contactOpened} />
       </div>
+      { ageRestriction && 
+        <AgeRestriction blockScroll={blockScroll} allowScroll={allowScroll} ageRestriction={ageRestriction} setAgeRestriction={setAgeRestriction}/>
+      }
     </Router>
   )
 }

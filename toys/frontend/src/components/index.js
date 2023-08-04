@@ -13,5 +13,6 @@ import ALogin from "./ALogin";
 import PageNotFound from "./PageNotFound";
 import Input from "./Input";
 import MobileNav from "./MobileNav";
+import AgeRestriction from "./AgeRestriction";
 
-export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, Input, MobileNav }
+export { Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, Input, MobileNav, AgeRestriction }
