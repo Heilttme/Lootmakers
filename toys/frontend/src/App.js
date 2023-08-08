@@ -24,6 +24,9 @@ function App() {
   const [censored, setCensored] = useState(true)
   const [ageRestriction, setAgeRestriction] = useState(false)
 
+  const [promoApplied, setPromoApplied] = useState(0)
+  const [total, setTotal] = useState(0)
+
   /// filters states
   
   const [[stockFilter, setStockFilter], [typeFilter, setTypeFilter], [vendorFilter, setVendorFilter]] = [useState(false), useState(false), useState(false)]
@@ -115,7 +118,7 @@ function App() {
         !mobile && 
         <QuickShop buttonRef={buttonRef} addToCart={addToCart} cart={cart} allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
       }
-      <Cart setMenuOpened={setMenuOpened} items={items} allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
+      <Cart setPromoApplied={setPromoApplied} promoApplied={promoApplied} total={total} setTotal={setTotal} setMenuOpened={setMenuOpened} items={items} allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
       <div className="contact-form-wrapper">
         <ContactForm allowScroll={allowScroll} blockScroll={blockScroll} setContactOpened={setContactOpened} contactOpened={contactOpened} />
       </div>

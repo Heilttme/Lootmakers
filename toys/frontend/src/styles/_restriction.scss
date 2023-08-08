@@ -69,3 +69,142 @@
         }
     }
 }
+
+@media (max-width: 1680px) {
+    .restriction .text {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .restriction .buttons button {
+        width: 100px;
+    }
+
+    .restriction {
+        width: 25vw;
+    }
+}
+
+@media (max-width: 1680px) {
+    .restriction .text {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 30vw;
+    }
+}
+
+@media (max-width: 1050px) {
+    .restriction .text {
+        width: 75%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 35vw;
+    }
+}
+
+@media (max-width: 900px) {
+    .restriction .text {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 40vw;
+    }
+}
+
+@media (max-width: 750px) {
+    .restriction .text {
+        width: 82%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 45vw;
+    }
+}
+
+@media (max-width: 666px) {
+    .restriction .text {
+        width: 85%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 50vw;
+    }
+}
+
+@media (max-width: 580px) {
+    .restriction .text {
+        width: 85%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 55vw;
+    }
+}
+
+@media (max-width: 520px) {
+    .restriction .text {
+        width: 85%;
+        margin: 0 auto;
+    }
+
+    .restriction {
+        width: 60vw;
+    }
+
+    .restriction .buttons button {
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 470px) {
+
+    .restriction {
+        width: 65vw;
+    }
+
+    .restriction .buttons button {
+        font-size: 1.05em;
+        
+    }
+}
+
+@media (max-width: 430px) {
+    .restriction {
+        width: 75vw;
+    }
+
+    .restriction .buttons button {
+        font-size: 1.05em;
+        
+    }
+}
+
+@media (max-width: 375px) {
+    .restriction {
+        width: 80vw;
+        font-size: .9em;
+        height: 28vh;
+   }
+}
+
+@media (max-width: 330px) {
+    .restriction {
+        width: 90vw;
+        font-size: .9em;
+        height: 28vh;
+   }
+
+   .restriction .buttons button {
+        width: 90px;
+    }
+}

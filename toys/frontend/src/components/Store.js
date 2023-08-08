@@ -103,15 +103,15 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     twoLineItems.slice(0, shownItems).map(item => (
       <div className='block block-2'>
         {item.map(itemNew => 
-          <StoreItem displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
-        )}
+          <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+        )} 
       </div>
     ))
   : 
   oneLineItems.slice(0, shownItems).map(item => (
     <div className='block block-1'>
       {item.map(itemNew => 
-        <StoreItem displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+        <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   ))
@@ -132,7 +132,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
                 <svg className={`${stockFilter ? "rotated" : ""}`} fill='currentColor' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
                 {
                   stockFilter &&
-                  <div onClick={(e) => e.stopPropagation()} className='pop'>
+                  <div onClick={(e) => e.stopPropagation()} className='pop pop-1'>
                     <div className="checkbox">
                       <input
                         className="checkbox-pop"
@@ -177,7 +177,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
                 <svg className={`${typeFilter ? "rotated" : ""}`} fill='currentColor' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
                 {
                   typeFilter &&
-                  <div onClick={(e) => e.stopPropagation()} className='pop'>
+                  <div onClick={(e) => e.stopPropagation()} className='pop pop-2'>
                     {[...new Set(items.map(it => it.type))].map(it => (
                       <div className="checkbox">
                         <input 
@@ -198,7 +198,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
                 <svg className={`${vendorFilter ? "rotated" : ""}`} fill='currentColor' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
                 {
                   vendorFilter &&
-                  <div onClick={(e) => e.stopPropagation()} className='pop'>
+                  <div onClick={(e) => e.stopPropagation()} className='pop pop-3'>
                     {[...new Set(items.map(it => it.madeBy))].map(it => (
                       <div className="checkbox">
                         <input

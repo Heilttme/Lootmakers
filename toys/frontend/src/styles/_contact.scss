@@ -513,11 +513,12 @@
     .contact{
         display: flex;
         justify-content: center;
+
+        .pre{
+            width: 90%;
+        }
     }
     
-    .pre{
-        width: 90%;
-    }
 
     .contact-form .blocks .block .field .question-mark::before {
         left: -345px;
@@ -534,10 +535,10 @@
 @media (max-width: 500px) {
     .contact{
         font-size: .7em;
-    }
-    
-    .pre{
-        width: 90%;
+        
+        .pre{
+            width: 90%;
+        }
     }
 }
 
