@@ -25,6 +25,8 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
   useEffect(() => {
     window.scrollTo(0, 0);
     curItem && curItem.censor === true && setAgeRestriction(true)
+
+    return () => setAgeRestriction(false)
   }, [curItem])
 
   // console.log(curItem);

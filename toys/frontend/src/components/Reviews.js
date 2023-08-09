@@ -37,7 +37,7 @@ const Reviews = ({ reviews }) => {
                 <p><span>@</span>{item.username}</p>
               </div>
             </div>
-            <img className='tg' src={tg} />
+            <img style={{filter: "invert(90%)"}} className='tg' src={tg} />
           </div>
           <div className='content'>{item.content}</div>
         </div>

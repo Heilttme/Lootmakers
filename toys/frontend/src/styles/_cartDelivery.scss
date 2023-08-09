@@ -1,9 +1,91 @@
 .cart {
     .delivery{
         width: 100%;
-        height: 100%;
-        // background-color: blue;
+        min-height: 100%;
         position: absolute;
+        padding-top: 65px;
 
+        .wrapper{
+            padding-top: 0;
+            height: unset;
+            min-height: calc(100% - 76px);
+        }
+
+        .form{
+            height: 100%;
+            width: 500px;
+            padding-left: 2rem;
+
+            .name-surname{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+                .field:last-child{
+                    display: flex;
+                    justify-content: flex-end;
+
+                    label{
+                        left: 1.2rem;
+                    }
+                }
+                
+                input{
+                    width: 95%;
+                }
+            }
+        }
+
+        .field{
+            margin-top: 2rem;
+            position: relative;
+
+            label, input[type=text], textarea{
+                display: block;
+                user-select: none;
+            }
+    
+            .text-label{
+                position: absolute;
+                top: 0rem;
+                left: .5rem;
+                font-size: 1.2em;
+                cursor: text;
+                opacity: 1;
+                padding: .4rem;
+                border-radius: 8px;
+                color: white;
+            }
+
+            .error{
+                color: rgb(247, 61, 61)
+            }
+            
+            input, textarea{
+                width: 100%;
+                height: 1rem;
+                padding: 1.2rem;
+                background-color: #3f3f3f;
+                border: none;
+                outline: none;
+                transition: all .2s ease-in-out;
+                color: white;
+                border-radius: 4px;
+                resize: none;
+
+                &:focus{
+                    background-color: #333333;
+                }
+            }
+
+            textarea{
+                height: 5rem;
+                padding: .8rem;
+                
+            }
+        }
+
+        .continue {
+            justify-content: flex-end;
+        }
     }
 }

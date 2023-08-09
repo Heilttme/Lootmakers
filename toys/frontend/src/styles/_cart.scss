@@ -12,6 +12,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
+    border-radius: 12px;
 
     .cart-block{
         width: 100%;
@@ -43,10 +44,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
 
     .leave{
         width: 50px;
+        margin-right: .6rem;
         cursor: pointer;
     }
     
@@ -81,10 +85,6 @@
             width: 100%;
             position: relative;
             border-bottom: 1px solid #bebebe;
-
-            // &:last-child{
-            //     border: none;
-            // }
             
             .remove-warn{
                 width: 100%;

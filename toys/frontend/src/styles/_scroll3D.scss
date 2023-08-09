@@ -1,6 +1,10 @@
 .scroll3D{
     position: relative;
 
+    img{
+        cursor: grab;
+    }
+
     input{
         position: absolute;
         bottom: 2rem;

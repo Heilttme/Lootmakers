@@ -4,12 +4,11 @@ import axios from 'axios'
 import useStore from "../store";
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
+import Input from './Input';
 
 const Cart = ({ setPromoApplied, promoApplied, total, setTotal, setMenuOpened, items, displayImages, setCartOpened, cartOpened, allowScroll, blockScroll }) => {
-  const addToCart = useStore(state => state.add)
   const incQuantity = useStore(state => state.increment)
   const decQuantity = useStore(state => state.decrement)
-  const navigate = useNavigate()
   const cart = useStore(state => state.cart)
   const [step, setStep] = useState(0)
   
@@ -46,7 +45,6 @@ const CartList = ({ step, setStep, setTotal, cart, promoApplied, setPromoApplied
 
   const [promoList, setPromoList] = useState(["promo"])
   const [promo, setPromo] = useState("")
-  console.log(step)
 
   const applyPromo = () => {
     if (promoList.includes(promo)) {
@@ -213,7 +211,6 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
             <button onClick={clickInc}>+</button>
           </div>
           <p className='price'>${item.price} USD</p>
-          {/* <button className='remove-btn' onClick={() => startRemoving(item)}>{t("REMOVE")}</button> */}
         </div>
       </motion.div>
       {
@@ -239,7 +236,34 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
   )
 }
 
-const Delivery = ({ step, }) => {
+const Delivery = ({ step, setStep }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    person: "",
+    social: "",
+    channel: "",
+    product: "",
+    merch: "",
+    contact: "",
+  })
+
+  const changeFormData = (e) => {
+    const {name, value} = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+  const [proceedMove, setProceedMove] = useState(false)
+
+  const [emailError, setEmailError] = useState(false)
+  const [nameError, setNameError] = useState(false)
+  const [surnameError, setSurnameError] = useState(false)
+  const [addressError, setAddressError] = useState(false)
+  const [postalCodeError, setPostalCodeError] = useState(false)
+  const [phoneError, setPhoneError] = useState(false)
+
   return (
     <motion.div
       initial={{x: 1200}}
@@ -247,7 +271,25 @@ const Delivery = ({ step, }) => {
       className='delivery'
       transition={{ease: "easeInOut"}}
     >
+      <div className='wrapper'>
+        <div className='form'> {/* add a wrapper to items to avoid animation failure and stick continue to it */}
+          <h2>Fill in delivery information</h2>
+          <Input question={""} label={"email"} onChange={(e) => changeFormData(e)} value={formData.email} error={emailError} setError={setEmailError} />
+          <div className='name-surname'>
+            <Input question={""} label={"name"} onChange={(e) => changeFormData(e)} value={formData.name} error={nameError} setError={setNameError} />
+            <Input question={""} label={"surname"} onChange={(e) => changeFormData(e)} value={formData.surname} error={surnameError} setError={setSurnameError} />
+          </div>
+          <Input question={""} label={"address"} onChange={(e) => changeFormData(e)} value={formData.address} error={addressError} setError={setAddressError} />
+          <Input question={""} label={"postalCode"} onChange={(e) => changeFormData(e)} value={formData.postalCode} error={postalCodeError} setError={setPostalCodeError} />
 
+          <Input question={""} label={"phone"} onChange={(e) => changeFormData(e)} value={formData.phone} error={phoneError} setError={setPhoneError} />
+        </div>
+        <motion.div animate={{y: proceedMove ? 100 : 0}} transition={{duration: ".1"}} className='continue'>
+          <div className='checkout checkout-delivery'>
+            <button onClick={() => setStep(1)}>{t("PROCEED")}</button>
+          </div>
+        </motion.div>
+      </div>
     </motion.div>
   )
 }

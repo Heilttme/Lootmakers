@@ -250,7 +250,7 @@ export const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setC
       {
         itemNew.orderType === "preorder" && 
         <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder'>
+          <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
           {[...Array(100)].map(() => <p>PREORDER</p>)}
           </motion.div>
           <div className='blocker blocker-1'/>

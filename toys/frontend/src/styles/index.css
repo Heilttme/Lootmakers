@@ -14,7 +14,7 @@
   align-items: center;
   background-color: var(--black-light);
   color: white;
-  border-bottom: 3px solid white;
+  border-bottom: 2px solid #bebebe;
   font-size: 1.1em;
   font-weight: 200;
 }
@@ -22,6 +22,8 @@
 .reviews {
   --width-var: attr(count-attr);
   padding-top: var(--width-var);
+  background-color: #333;
+  color: white;
 }
 .reviews .review {
   display: flex;
@@ -62,8 +64,9 @@
      object-fit: contain;
 }
 .reviews .review .top .name .tg {
-  width: 35px;
-  height: 35px;
+  width: 38px;
+  height: 38px;
+  color: white;
 }
 .reviews .review .top .content {
   font-size: 1.25em;
@@ -172,6 +175,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
+  border-radius: 12px;
 }
 .cart .cart-block {
   width: 100%;
@@ -200,9 +204,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 .cart .leave {
   width: 50px;
+  margin-right: 0.6rem;
   cursor: pointer;
 }
 .cart .empty {
@@ -1392,6 +1399,9 @@
 }
 .scroll3D {
   position: relative;
+}
+.scroll3D img {
+  cursor: grab;
 }
 .scroll3D input {
   position: absolute;
@@ -4116,8 +4126,79 @@
 }
 .cart .delivery {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   position: absolute;
+  padding-top: 65px;
+}
+.cart .delivery .wrapper {
+  padding-top: 0;
+  height: unset;
+  min-height: calc(100% - 76px);
+}
+.cart .delivery .form {
+  height: 100%;
+  width: 500px;
+  padding-left: 2rem;
+}
+.cart .delivery .form .name-surname {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.cart .delivery .form .name-surname .field:last-child {
+  display: flex;
+  justify-content: flex-end;
+}
+.cart .delivery .form .name-surname .field:last-child label {
+  left: 1.2rem;
+}
+.cart .delivery .form .name-surname input {
+  width: 95%;
+}
+.cart .delivery .field {
+  margin-top: 2rem;
+  position: relative;
+}
+.cart .delivery .field label, .cart .delivery .field input[type=text], .cart .delivery .field textarea {
+  display: block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.cart .delivery .field .text-label {
+  position: absolute;
+  top: 0rem;
+  left: 0.5rem;
+  font-size: 1.2em;
+  cursor: text;
+  opacity: 1;
+  padding: 0.4rem;
+  border-radius: 8px;
+  color: white;
+}
+.cart .delivery .field .error {
+  color: rgb(247, 61, 61);
+}
+.cart .delivery .field input, .cart .delivery .field textarea {
+  width: 100%;
+  height: 1rem;
+  padding: 1.2rem;
+  background-color: #3f3f3f;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  border-radius: 4px;
+  resize: none;
+}
+.cart .delivery .field input:focus, .cart .delivery .field textarea:focus {
+  background-color: #333333;
+}
+.cart .delivery .field textarea {
+  height: 5rem;
+  padding: 0.8rem;
+}
+.cart .delivery .continue {
+  justify-content: flex-end;
 }
 
 * {

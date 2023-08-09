@@ -18,7 +18,7 @@
     background-color: var(--black-light);
     color: white;
     // border-top: 3px solid black;
-    border-bottom: 3px solid white;
+    border-bottom: 2px solid #bebebe;
     font-size: 1.1em;
     font-weight: 200;
 }
@@ -26,6 +26,8 @@
 .reviews{
     --width-var: attr(count-attr);
     padding-top: (var(--width-var));
+    background-color: #333;
+    color: white;
     
     // @keyframes scroll {
     //     0%{
@@ -84,8 +86,9 @@
                 }
 
                 .tg{
-                    width: 35px;
-                    height: 35px;
+                    width: 38px;
+                    height: 38px;
+                    color: white;
                 }
             }
 
