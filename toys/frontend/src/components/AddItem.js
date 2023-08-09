@@ -349,7 +349,7 @@ const AddItem = () => {
           <div className='field'>
             <div className='block-info-block'>
             {[...Array(textQuantity)].map((_, i) => 
-              <div className='field' id={uuidv4()}>
+              <div className='block-field' id={uuidv4()}>
                 <NewTextBlock formSubmitted={formSubmitted} setError={setMainTextError} error={mainTextError} q={i} formData={itemFormData} setFormData={setItemFormData} textQuantity={textQuantity} setTextQuantity={setTextQuantity} changeFormData={changeItemFormData}/>
               </div>
             )}
@@ -395,7 +395,7 @@ const AddItem = () => {
           <div className='field'>
             <div className='block-info-block'>
             {[...Array(blockQuantity)].map((_, i) => 
-              <div className='field' id={uuidv4()}>
+              <div className='block-field' id={uuidv4()}>
                 <BlockInfoDoubleInput formSubmitted={formSubmitted} setError={setBlockInfoError} error={blockInfoError} q={i} formData={itemFormData} setFormData={setItemFormData} blockQuantity={blockQuantity} setBlockQuantity={setBlockQuantity}/>
               </div>
             )}
@@ -573,6 +573,7 @@ const BlockInfoDoubleInput = ({ formSubmitted, error, setError, q, setFormData, 
       <div className='block-2'>
         <input 
           disabled={fieldName.length ? false : true}
+          style={{cursor: !fieldName.length ? "not-allowed" : "text"}}
           name={`block-${q}-2`}
           onChange={(e) => {changeFormData2(e);setChanged2(true)}}
           id={`block-${q}-2`}

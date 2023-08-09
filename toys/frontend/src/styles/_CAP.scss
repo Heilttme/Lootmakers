@@ -61,11 +61,13 @@
         .form-item{
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
 
         }
 
         .form-review{
+            width: 350px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -73,8 +75,13 @@
         }
 
         .form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 400px;
 
             .field{
+                width: 100%;
                 margin-top: 2rem;
                 position: relative;
 
@@ -100,7 +107,7 @@
                 }
                 
                 input, textarea{
-                    width: 400px;
+                    width: 100%;
                     height: 1rem;
                     padding: 1.2rem;
                     background-color: #3f3f3f;
@@ -130,7 +137,7 @@
                         position: relative;
 
                         input{
-                            width: 180px;
+                            width: 95%;
                         }
 
                         .text-label{
@@ -142,6 +149,15 @@
 
                         .error{
                             color: rgb(247, 61, 61)
+                        }
+                    }
+
+                    .block-2{
+                        display: flex;
+                        justify-content: flex-end;
+
+                        label{
+                            left: .2rem !important;
                         }
                     }
 
@@ -217,7 +233,7 @@
                     }
         
                     input{
-                        width: 350px;
+                        width: 100%;
                         height: 1rem;
                         padding: 1.2rem;
                         background-color: #3f3f3f;
@@ -239,7 +255,7 @@
                 }
 
                 select{
-                    width: 400px;
+                    width: 100%;
                     height: 40px;
                     background-color: #3f3f3f;
                     border: none;
@@ -279,7 +295,7 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr;
                 width: 100%;
-                place-content: center;
+                gap: .5rem;
 
                 .field{
                     display: flex;
@@ -287,13 +303,17 @@
                     align-items: center;
                     
                     input{
-                        width: 80px;
+                        width: 100%;
                     }
 
                     label{
                         font-size: 1em;
                         top: .2rem;
                         left: .3rem;
+                    }
+
+                    .block-info-block{
+                        
                     }
                 }
             }
@@ -308,7 +328,7 @@
                 height: 1rem;
                 padding: 1.2rem .8rem;
                 border-radius: 4px;
-                width: 400px;
+                width: 100%;
                 background-color: #3f3f3f;
                 color: white;
                 display: flex;
@@ -807,24 +827,8 @@
 }
 
 @media (max-width: 1500px) {
-    .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+    .CAP .panel .form {
         width: 350px;
-    }
-    
-    .CAP .panel .form .field select {
-        width: 350px;
-    }
-
-    .CAP .panel .form .file_label {
-        width: 350px;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 input{
-        width: 160px;
-    }
-
-    .CAP .panel .form .field .block-info .block-2 input{
-        width: 160px;
     }
 }
 
@@ -852,35 +856,17 @@
     .CAP .panel .add {
         width: 85%;
     }
-    
-    .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+
+    .CAP .panel .form {
         width: 300px;
-    }
-
-    .CAP .panel .form .field select {
-        width: 300px;
-    }
-
-    .CAP .panel .form .file_label {
-        width: 300px;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 input{
-        width: 145px;
-    }
-
-    .CAP .panel .form .field .block-info .block-2 input{
-        width: 145px;
     }
 
     .CAP .panel .form .date-input {
         grid-template-columns: 1fr 1fr;
 
         .field{
+            margin-top: 1rem;
 
-            input{
-                width: 145px;
-            }
         }
     }
 }
@@ -899,25 +885,9 @@
     .CAP .panel .add {
         width: 90%;
     }
-    
-    .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+
+    .CAP .panel .form {
         width: 290px;
-    }
-
-    .CAP .panel .form .file_label {
-        width: 290px;
-    }
-
-    .CAP .panel .form .field select {
-        width: 290px;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 input{
-        width: 130px;
-    }
-
-    .CAP .panel .form .field .block-info .block-2 input{
-        width: 130px;
     }
 
     .CAP .panel .form .date-input {
@@ -925,9 +895,9 @@
 
         .field{
 
-            input{
-                width: 140px;
-            }
+            // input{
+            //     width: 140px;
+            // }
         }
     }
 }
@@ -957,30 +927,11 @@
     .CAP .panel .add {
         width: 90%;
     }
-    
-    .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+
+    .CAP .panel .form {
         width: 310px;
     }
 
-    .CAP .panel .form .file_label {
-        width: 310px;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 input{
-        width: 140px;
-    }
-
-    .CAP .panel .form .field .block-info .block-2 input{
-        width: 140px;
-    }
-
-    .CAP .panel .form .date-input .field input {
-        width: 150px;
-    }
-
-    .CAP .panel .form .field select {
-        width: 310px;
-    }
 }
 
 @media (max-width: 880px) {
@@ -988,24 +939,8 @@
         width: 280px;
     }
 
-    .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+    .CAP .panel .form {
         width: 280px;
-    }
-
-    .CAP .panel .form .file_label {
-        width: 280px;
-    }
-
-    .CAP .panel .form .field .block-info .block-2 input{
-        width: 120px;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 input{
-        width: 120px;
-    }
-
-    .CAP .panel .form .date-input .field input {
-        width: 135px;
     }
 }
 
@@ -1021,40 +956,12 @@
         width: 100%;
     }
 
-    .CAP .panel .form .date-input .field input {
-        width: 240px;
+    .CAP .panel .form, .CAP .panel .form-review {
+        width: 95%;
     }
 
     .CAP .panel .form .field .text-label {
         top: .15rem;
-    }
-
-    .CAP .panel .form{
-        width: 90%;
-    }
-
-    .CAP .panel .form .field input, .CAP .panel .form .field textarea {
-        width: 100%;
-    }
-
-    .CAP .panel .form .file_label {
-        width: 100%;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 {
-        width: 100%;
-    }
-    
-    .CAP .panel .form .field .block-info .block-2 {
-        width: 100%;
-    }
-
-    .CAP .panel .form .field .block-info .block-1 input {
-        width: 100%;
-    }
-    
-    .CAP .panel .form .field .block-info .block-2 input {
-        width: 100%;
     }
 
     .CAP .panel .form .field .block-info {

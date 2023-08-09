@@ -2950,14 +2950,23 @@
 .CAP .panel .form-item {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 .CAP .panel .form-review {
+  width: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+.CAP .panel .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+}
 .CAP .panel .form .field {
+  width: 100%;
   margin-top: 2rem;
   position: relative;
 }
@@ -2982,7 +2991,7 @@
   color: rgb(247, 61, 61);
 }
 .CAP .panel .form .field input, .CAP .panel .form .field textarea {
-  width: 400px;
+  width: 100%;
   height: 1rem;
   padding: 1.2rem;
   background-color: #3f3f3f;
@@ -3008,7 +3017,7 @@
   position: relative;
 }
 .CAP .panel .form .field .block-info .block-1 input, .CAP .panel .form .field .block-info .block-2 input {
-  width: 180px;
+  width: 95%;
 }
 .CAP .panel .form .field .block-info .block-1 .text-label, .CAP .panel .form .field .block-info .block-2 .text-label {
   top: -30px;
@@ -3018,6 +3027,13 @@
 }
 .CAP .panel .form .field .block-info .block-1 .error, .CAP .panel .form .field .block-info .block-2 .error {
   color: rgb(247, 61, 61);
+}
+.CAP .panel .form .field .block-info .block-2 {
+  display: flex;
+  justify-content: flex-end;
+}
+.CAP .panel .form .field .block-info .block-2 label {
+  left: 0.2rem !important;
 }
 .CAP .panel .form .field h2 {
   font-size: 1.2em;
@@ -3081,7 +3097,7 @@
   border-bottom: 1px solid #fff;
 }
 .CAP .panel .form .field .type-b input {
-  width: 350px;
+  width: 100%;
   height: 1rem;
   padding: 1.2rem;
   background-color: #3f3f3f;
@@ -3097,7 +3113,7 @@
   list-style: none;
 }
 .CAP .panel .form .field select {
-  width: 400px;
+  width: 100%;
   height: 40px;
   background-color: #3f3f3f;
   border: none;
@@ -3130,7 +3146,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;
-  place-content: center;
+  gap: 0.5rem;
 }
 .CAP .panel .form .date-input .field {
   display: flex;
@@ -3138,7 +3154,7 @@
   align-items: center;
 }
 .CAP .panel .form .date-input .field input {
-  width: 80px;
+  width: 100%;
 }
 .CAP .panel .form .date-input .field label {
   font-size: 1em;
@@ -3153,7 +3169,7 @@
   height: 1rem;
   padding: 1.2rem 0.8rem;
   border-radius: 4px;
-  width: 400px;
+  width: 100%;
   background-color: #3f3f3f;
   color: white;
   display: flex;
@@ -3533,20 +3549,8 @@
   }
 }
 @media (max-width: 1500px) {
-  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+  .CAP .panel .form {
     width: 350px;
-  }
-  .CAP .panel .form .field select {
-    width: 350px;
-  }
-  .CAP .panel .form .file_label {
-    width: 350px;
-  }
-  .CAP .panel .form .field .block-info .block-1 input {
-    width: 160px;
-  }
-  .CAP .panel .form .field .block-info .block-2 input {
-    width: 160px;
   }
 }
 @media (max-width: 1400px) {
@@ -3569,26 +3573,14 @@
   .CAP .panel .add {
     width: 85%;
   }
-  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+  .CAP .panel .form {
     width: 300px;
-  }
-  .CAP .panel .form .field select {
-    width: 300px;
-  }
-  .CAP .panel .form .file_label {
-    width: 300px;
-  }
-  .CAP .panel .form .field .block-info .block-1 input {
-    width: 145px;
-  }
-  .CAP .panel .form .field .block-info .block-2 input {
-    width: 145px;
   }
   .CAP .panel .form .date-input {
     grid-template-columns: 1fr 1fr;
   }
-  .CAP .panel .form .date-input .field input {
-    width: 145px;
+  .CAP .panel .form .date-input .field {
+    margin-top: 1rem;
   }
 }
 @media (max-width: 1050px) {
@@ -3603,26 +3595,11 @@
   .CAP .panel .add {
     width: 90%;
   }
-  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+  .CAP .panel .form {
     width: 290px;
-  }
-  .CAP .panel .form .file_label {
-    width: 290px;
-  }
-  .CAP .panel .form .field select {
-    width: 290px;
-  }
-  .CAP .panel .form .field .block-info .block-1 input {
-    width: 130px;
-  }
-  .CAP .panel .form .field .block-info .block-2 input {
-    width: 130px;
   }
   .CAP .panel .form .date-input {
     grid-template-columns: 1fr 1fr;
-  }
-  .CAP .panel .form .date-input .field input {
-    width: 140px;
   }
 }
 @media (max-width: 900px) {
@@ -3645,22 +3622,7 @@
   .CAP .panel .add {
     width: 90%;
   }
-  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
-    width: 310px;
-  }
-  .CAP .panel .form .file_label {
-    width: 310px;
-  }
-  .CAP .panel .form .field .block-info .block-1 input {
-    width: 140px;
-  }
-  .CAP .panel .form .field .block-info .block-2 input {
-    width: 140px;
-  }
-  .CAP .panel .form .date-input .field input {
-    width: 150px;
-  }
-  .CAP .panel .form .field select {
+  .CAP .panel .form {
     width: 310px;
   }
 }
@@ -3668,20 +3630,8 @@
   .CAP .panel .form .field select {
     width: 280px;
   }
-  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
+  .CAP .panel .form {
     width: 280px;
-  }
-  .CAP .panel .form .file_label {
-    width: 280px;
-  }
-  .CAP .panel .form .field .block-info .block-2 input {
-    width: 120px;
-  }
-  .CAP .panel .form .field .block-info .block-1 input {
-    width: 120px;
-  }
-  .CAP .panel .form .date-input .field input {
-    width: 135px;
   }
 }
 @media (max-width: 800px) {
@@ -3693,32 +3643,11 @@
   .CAP .panel .form .field select {
     width: 100%;
   }
-  .CAP .panel .form .date-input .field input {
-    width: 240px;
+  .CAP .panel .form, .CAP .panel .form-review {
+    width: 95%;
   }
   .CAP .panel .form .field .text-label {
     top: 0.15rem;
-  }
-  .CAP .panel .form {
-    width: 90%;
-  }
-  .CAP .panel .form .field input, .CAP .panel .form .field textarea {
-    width: 100%;
-  }
-  .CAP .panel .form .file_label {
-    width: 100%;
-  }
-  .CAP .panel .form .field .block-info .block-1 {
-    width: 100%;
-  }
-  .CAP .panel .form .field .block-info .block-2 {
-    width: 100%;
-  }
-  .CAP .panel .form .field .block-info .block-1 input {
-    width: 100%;
-  }
-  .CAP .panel .form .field .block-info .block-2 input {
-    width: 100%;
   }
   .CAP .panel .form .field .block-info {
     gap: 2rem;

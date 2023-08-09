@@ -5,11 +5,13 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
   const [mouseXStart, setMouseXStart] = useState(0);
   const [mouseX, setMouseX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [startIndex, setStartIndex] = useState(0)
 
   const handleDragStart = (e) => {
     e.preventDefault()
     setIsDragging(true)
     setMouseXStart(e.clientX)
+    setStartIndex(curIndex)
   }
 
   const handleDragEnd = (e) => {
@@ -34,9 +36,11 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
       //     index = Math.abs(Math.floor((e.clientX - mouseXStart) / 10))
       //   }
       // }
-      index = Math.floor(Math.abs(e.clientX - mouseXStart) / 10) % mapped3DImages.length
-
-      // console.log(index);
+      if ((startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length >= 0){
+        index = (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+      } else {
+        index = mapped3DImages.length + (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+      }
       setCurIndex(index)
     }
   };
