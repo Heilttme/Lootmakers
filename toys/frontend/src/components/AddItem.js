@@ -28,7 +28,8 @@ const AddItem = () => {
     "text-3": "",
     "text-4": "",
     "text-5": "",
-    censor: ""
+    censor: "",
+    blurred: ""
   })
 
   const changeItemFormData = (e) => {
@@ -57,10 +58,12 @@ const AddItem = () => {
   const [quantityError, setQuantityError] = useState(false)
   const [orderTypeError, setOrderTypeError] = useState(false)
   const [censorError, setCensorError] = useState(false)
+  const [blurredError, setBlurredError] = useState(false)
   
   const [item3dFiles, setItem3dFiles] = useState({})
   const [itemFiles, setItemFiles] = useState({})
   const [displayFile, setDisplayFile] = useState({})
+  const [blurredFile, setBlurredFile] = useState({})
 
   const [d3Error, set3dError] = useState(false)
   const [displayError, setDisplayError] = useState(false)
@@ -318,6 +321,7 @@ const AddItem = () => {
   }
   // REVIEW FORMDATA ACTIONS //
 
+
   return (
     <div className='add'>
       <div className='form-item'>
@@ -471,7 +475,6 @@ const AddItem = () => {
                   type="radio"
                   checked={itemFormData.censor === "disabled" && true}
                   onClick={(e) => {
-                    console.log(123123);
                     if (e.target.checked) {
                       setItemFormData(prev => ({...prev, censor: "disabled"}))
                       setCensorError(false)
@@ -545,8 +548,6 @@ const BlockInfoDoubleInput = ({ formSubmitted, error, setError, q, setFormData, 
       setTimeout(() => setFieldName(""), 100)
     }
   }, [formSubmitted])
-
-  // useEffect(() => { 
 
   const [changed1, setChanged1] = useState(false)
   const [changed2, setChanged2] = useState(false)

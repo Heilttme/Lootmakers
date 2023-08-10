@@ -1,6 +1,6 @@
 import "./styles/index.css"
 import { BrowserRouter as Router, json, Route, Routes, useLocation, useNavigate } from "react-router-dom"
-import { AgeRestriction, Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, MobileNav } from "./components"
+import { Archive, AgeRestriction, Header, Footer, Home, ScrollImages3D, Cart, Item, QuickShop, useBlockScroll, Contact, ContactForm, ALogin, CAP, PageNotFound, MobileNav } from "./components"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios"
 import useStore from "./store";
@@ -53,7 +53,7 @@ function App() {
       let Citems = localStorage.getItem("i")
       if (Citems) {
         Citems = JSON.parse(Citems)
-        Citems.map(item => !cart.map(cartItem => cartItem.id).includes(item.id) && addToStateCart(item))
+        Citems.map(item => (!cart.map(cartItem => cartItem.id).includes(item.id) && items.map(it => it.id).includes(item.id)) && addToStateCart(item))
       }
     }
   }, [])
@@ -108,6 +108,7 @@ function App() {
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin setAuthorized={setAuthorized} />}/>
               <Route path="/admin/cms" element={<CAP setStockFilter={setStockFilterPanel} stockFilter={stockFilterPanel} typeFilter={typeFilterPanel} setTypeFilter={setTypeFilterPanel} vendorFilter={vendorFilterPanel} setVendorFilter={setVendorFilterPanel} setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
+              <Route path="/archive" element={<Archive censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} setQuickShop={setQuickShop} items={items} storeRef={storeRef} displayImages={displayImages} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </main>
@@ -118,7 +119,7 @@ function App() {
         !mobile && 
         <QuickShop buttonRef={buttonRef} addToCart={addToCart} cart={cart} allowScroll={allowScroll} items={items} setQuickShop={setQuickShop} blockScroll={blockScroll} id={quickShop}/>
       }
-      <Cart setPromoApplied={setPromoApplied} promoApplied={promoApplied} total={total} setTotal={setTotal} setMenuOpened={setMenuOpened} items={items} allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
+      <Cart storeRef={storeRef} setPromoApplied={setPromoApplied} promoApplied={promoApplied} total={total} setTotal={setTotal} setMenuOpened={setMenuOpened} items={items} allowScroll={allowScroll} displayImages={displayImages} cart={cart} blockScroll={blockScroll} cartOpened={cartOpened} setCartOpened={setCartOpened} />
       <div className="contact-form-wrapper">
         <ContactForm allowScroll={allowScroll} blockScroll={blockScroll} setContactOpened={setContactOpened} contactOpened={contactOpened} />
       </div>

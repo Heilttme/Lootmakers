@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
-import axios from 'axios'
+import axios, { all } from 'axios'
 import useStore from "../store";
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
 import Input from './Input';
 
-const Cart = ({ setPromoApplied, promoApplied, total, setTotal, setMenuOpened, items, displayImages, setCartOpened, cartOpened, allowScroll, blockScroll }) => {
+const Cart = ({ storeRef, setPromoApplied, promoApplied, total, setTotal, setMenuOpened, items, displayImages, setCartOpened, cartOpened, allowScroll, blockScroll }) => {
   const incQuantity = useStore(state => state.increment)
   const decQuantity = useStore(state => state.decrement)
   const cart = useStore(state => state.cart)
@@ -14,6 +14,8 @@ const Cart = ({ setPromoApplied, promoApplied, total, setTotal, setMenuOpened, i
   
   useEffect(() => {
     setTimeout(() => cartOpened && blockScroll(), 220)
+
+    return () => allowScroll()
   }, [cartOpened])
 
   return (
@@ -29,7 +31,7 @@ const Cart = ({ setPromoApplied, promoApplied, total, setTotal, setMenuOpened, i
           <svg className='leave' onClick={() => {setCartOpened(false);allowScroll()}} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
         </div>
 
-        <CartList step={step} setStep={setStep} total={total} setTotal={setTotal} setPromoApplied={setPromoApplied} promoApplied={promoApplied} setMenuOpened={setMenuOpened} items={items} cart={cart} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
+        <CartList storeRef={storeRef} step={step} setStep={setStep} total={total} setTotal={setTotal} setPromoApplied={setPromoApplied} promoApplied={promoApplied} setMenuOpened={setMenuOpened} items={items} cart={cart} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
         
         <Delivery step={step}/>
       </div>
@@ -37,11 +39,12 @@ const Cart = ({ setPromoApplied, promoApplied, total, setTotal, setMenuOpened, i
   )
 }
 
-const CartList = ({ step, setStep, setTotal, cart, promoApplied, setPromoApplied, total, setMenuOpened, items, displayImages, setCartOpened, incQuantity, decQuantity }) => {
+const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPromoApplied, total, setMenuOpened, items, displayImages, setCartOpened, incQuantity, decQuantity }) => {
   const [proceedMove, setProceedMove] = useState(false)
   const cartItems = cart.map(item => (
     <CartItem setProceedMove={setProceedMove} setMenuOpened={setMenuOpened} key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
   ))
+  const navigate = useNavigate()
 
   const [promoList, setPromoList] = useState(["promo"])
   const [promo, setPromo] = useState("")
@@ -68,6 +71,20 @@ const CartList = ({ step, setStep, setTotal, cart, promoApplied, setPromoApplied
       <div className='wrapper'>
         <div className='cart-items'> {/* add a wrapper to items to avoid animation failure and stick continue to it */}
           {cartItems}
+          <div className='shopping'>
+            <button 
+              onClick={() => {
+                navigate("/")
+                setTimeout(() => storeRef.current?.scrollIntoView({behavior: "smooth"}), 100)
+              }}
+            >
+              Go shopping
+              <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M13.5 21c-.276 0-.5-.224-.5-.5s.224-.5.5-.5.5.224.5.5-.224.5-.5.5m0-2c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5m-6 2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5.5.224.5.5-.224.5-.5.5m0-2c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5m16.5-16h-2.964l-3.642 15h-13.321l-4.073-13.003h19.522l.728-2.997h3.75v1zm-22.581 2.997l3.393 11.003h11.794l2.674-11.003h-17.861z"/></svg>
+            </button>
+            {/* <div className='shopping-wrapper'>
+              
+            </div> */}
+          </div>
         </div>
         <motion.div animate={{y: proceedMove ? 100 : 0}} transition={{duration: ".1"}} className='continue'>
           <div className='subtotal'>

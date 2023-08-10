@@ -22,6 +22,7 @@ class Item(models.Model):
     blockInfo = models.CharField(max_length=255, default="", null=True, blank=True)
     orderType = models.CharField(max_length=255, default="", null=True, blank=True)
     censor = models.BooleanField(default=None, null=True, blank=True)
+    blurred = models.BooleanField(default=None, null=True, blank=True)
     year = models.IntegerField(null=True, blank=True)
     month = models.IntegerField(null=True, blank=True)
     day = models.IntegerField(null=True, blank=True)

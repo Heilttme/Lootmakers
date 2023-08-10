@@ -85,6 +85,15 @@
                 margin-top: 2rem;
                 position: relative;
 
+                .block-field{
+                    position: relative;
+                    margin-top: 1.6rem;
+
+                    &:first-child{
+                        margin-top: .4rem;
+                    }
+                }
+
                 label, input[type=text], textarea{
                     display: block;
                     user-select: none;
@@ -307,8 +316,8 @@
                     }
 
                     label{
-                        font-size: 1em;
-                        top: .2rem;
+                        font-size: 1.05em;
+                        top: .1rem;
                         left: .3rem;
                     }
 
@@ -957,7 +966,7 @@
     }
 
     .CAP .panel .form, .CAP .panel .form-review {
-        width: 95%;
+        width: 100%;
     }
 
     .CAP .panel .form .field .text-label {
@@ -986,11 +995,15 @@
     }
 
     .CAP .panel .add {
-        font-size: .7em;
+        font-size: .85em;
+    }
+
+    .CAP .panel .form .field h2 {
+        font-size: 1.6em;
     }
 
     .CAP .panel .form .field .text-label {
-        top: .25rem;
+        top: .15rem;
     }
 }
 

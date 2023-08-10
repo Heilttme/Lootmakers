@@ -43,8 +43,18 @@ const MobileNav = ({ setBlock, menuOpened, setMenuOpened, allowScroll, blockScro
         <div className='block'>
           <a href='/' className='nav'>{t("STORE")}</a>
         </div>
-        <div className='block'>
-          <a className='nav'>{t("ABOUT")}</a>
+        <div className='about-wrapper'>
+          {/* <div className='slide-out'>
+            <a className='block'>{t("About us")}</a>
+            <a className='block'>{t("How it's made")}</a>
+            <a className='block'>{t("Public oferta")}</a>
+            <a className='block'>{t("Company Policy")}</a>
+            <a className='block'>{t("FAQ")}</a>
+          </div> */}
+          <a className='nav about'>
+            {t("ABOUT")}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z"/></svg>
+          </a>
         </div>
         <div className='block'>
           <a href='/contact' className='nav'>{t("CONTACT")}</a>

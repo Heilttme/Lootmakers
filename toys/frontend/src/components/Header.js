@@ -26,6 +26,7 @@ const Header = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened,
           </a>
           <div className='about-wrapper'>
             <div className='slide-out'>
+              <a href='/archive' className='block'>{t("Archive")}</a>
               <a className='block'>{t("About us")}</a>
               <a className='block'>{t("How it's made")}</a>
               <a className='block'>{t("Public oferta")}</a>

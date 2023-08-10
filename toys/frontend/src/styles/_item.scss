@@ -2,7 +2,7 @@
     width: 80%;
     margin: 0 auto;
     margin-top: 3rem;
-    margin-bottom: 5rem;
+    padding-bottom: 2rem;
     display: flex;
     justify-content: center;
     gap: 2.6rem;
@@ -220,6 +220,11 @@
                 display: flex;
                 justify-content: space-between;
                 gap: 1.8rem;
+
+                h2{
+                    font-size: 2em;
+                    margin-bottom: .2rem;
+                }
             }
             
             .digit{

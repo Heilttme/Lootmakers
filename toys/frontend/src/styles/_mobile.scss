@@ -121,6 +121,65 @@
             }
         }
 
+        .about{
+            position: relative;
+            z-index: 14000;
+            background-color: white;
+        }
+    
+        .about-wrapper{
+            position: relative;
+    
+            &:hover{
+                .slide-out{
+                    transform: translateY(165px);
+                }
+            }
+
+            .nav{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: .6rem;
+                font-size: 1.4em;
+                margin-top: 0;
+                cursor: pointer;
+                font-weight: 400;
+                transition: background-color .2s ease-in-out;
+
+                &:hover{
+                    background-color: white;
+                    outline: 1px solid black;
+                }
+            }
+        }
+        
+        .slide-out{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            top: -60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            height: 204px;
+            // gap: 1.2rem;
+            font-size: 1.2em;
+            font-weight: 500;
+            // padding-top: 1rem;
+            transition: all .3s ease-in-out;
+            transform: translateY(-50px);
+            background-color: transparent;
+            // background-color: white;
+            z-index: 123;
+            border: 1px solid #bebebe;
+        }
+
         .ad{
             margin-top: .2rem;
         }
@@ -130,7 +189,6 @@
             font-size: 1.4em;
             font-weight: 400;
 
-            transition: all .2s ease-in-out;
             cursor: pointer;
 
             display: flex;
@@ -138,8 +196,6 @@
             justify-content: center;
 
             &:hover{
-                background-color: white;
-                outline: 1px solid black;
     
                 svg{
                     transform: rotate(-90deg);
@@ -152,14 +208,17 @@
                 font-size: unset;
                 font-weight: unset;
                 position: relative;
-
-                display: unset;
+                padding: .6rem;
+                width: 100%;
+                display: flex;
+                justify-content: center;
                 height: unset;
                 align-items: unset;
+                transition: all .2s ease-in-out;
 
                 &:hover{
-                    background-color: unset;
-                    outline: unset;
+                    background-color: white;
+                    outline: 1px solid black;
                 }
             }
 

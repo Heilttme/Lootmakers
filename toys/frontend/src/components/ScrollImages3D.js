@@ -10,7 +10,7 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
   const handleDragStart = (e) => {
     e.preventDefault()
     setIsDragging(true)
-    setMouseXStart(e.clientX)
+    e.clientX ? setMouseXStart(e.clientX) : setMouseXStart(e.touches[0].clientX)
     setStartIndex(curIndex)
   }
 
@@ -22,7 +22,8 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
 
   const handleMouseMove = (e) => {
     if (isDragging) {
-      setMouseX(e.clientX)
+      e.clientX ? setMouseX(e.clientX) : setMouseX(e.touches[0].clientX)
+
       let index = 0
       // console.log(`CLIENT: ${e.clientX}`)
       // console.log(`mouse: ${mouseXStart}`)
@@ -36,12 +37,22 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
       //     index = Math.abs(Math.floor((e.clientX - mouseXStart) / 10))
       //   }
       // }
-      if ((startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length >= 0){
-        index = (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+      if (e.clientX) {
+        console.log(123123);
+        if ((startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length >= 0){
+          index = (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+        } else {
+          index = mapped3DImages.length + (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+        }
+        setCurIndex(index)
       } else {
-        index = mapped3DImages.length + (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+        if ((startIndex + Math.floor((e.touches[0].clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length >= 0){
+          index = (startIndex + Math.floor((e.touches[0].clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+        } else {
+          index = mapped3DImages.length + (startIndex + Math.floor((e.touches[0].clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
+        }
+        setCurIndex(index)
       }
-      setCurIndex(index)
     }
   };
 
@@ -59,6 +70,10 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
             onDragStart={handleDragStart}
             onMouseUp={handleDragEnd}
             onMouseMove={handleMouseMove}
+
+            onTouchStart={handleDragStart}
+            onTouchEnd={handleDragEnd}
+            onTouchMove={handleMouseMove}
             src={`http://127.0.0.1:8000${mapped3DImages[curIndex]}`}
           />
           <input type="range" min="0" max={mapped3DImages.length - 1} value={curIndex} onChange={(e) => setCurIndex(e.target.value)}/>
