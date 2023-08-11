@@ -13,6 +13,9 @@ def upload_path_item_display(instance, filename):
 def upload_path_item_all_images(instance, filename):
     return "media/item_content/item_{0}/images/{0}.png".format(instance.item.id, filename)
 
+def upload_path_item_blur(instance, filename):
+    return "media/item_content/item_{0}/blur/{0}.png".format(instance.item.id, filename)
+
 
 class Item(models.Model):
     name = models.CharField(max_length=255, default="", null=True, blank=True)
@@ -46,6 +49,11 @@ class Image3D(models.Model):
 
 class ImageList(models.Model):
     image = models.ImageField(upload_to=upload_path_item_all_images)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
+
+class BlurImage(models.Model):
+    image = models.ImageField(upload_to=upload_path_item_blur)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
 

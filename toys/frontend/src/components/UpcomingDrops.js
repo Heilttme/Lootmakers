@@ -5,13 +5,13 @@ import useWindowDimensions from "./useWindowDimensions"
 import { motion } from 'framer-motion'
 import { cloneDeep } from "lodash"
 
-const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages, censor, setCensor }) => {
+const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, displayImages, censor, setCensor }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
   const { height, width } = useWindowDimensions()
   const [shownItems, setShownItems] = useState(3)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
   const [filter, setFilter] = useState(false)
   const [appliedFilters, setAppliedFilters] = useState({
@@ -19,11 +19,27 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
     type: [],
     vendor: [],
   })
-  const [filteredItems, setFilteredItems] = useState(items)
-  
+  const [filteredItems, setFilteredItems] = useState([])
 
+  const checkItemTime = (curItem) => {
+    if (curItem){
+      const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
+  
+      const now = new Date().getTime()
+      const distance = countDownDate - now
+  
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0) || (curItem.year === 0 && curItem.month === 0 && curItem.day === 0 && curItem.hour === 0)
+    }
+  }
+  
   useEffect(() => {
-    setFilteredItems(items)
+    let newItems = items.filter((it) => it.orderType === "order" && checkItemTime(it))
+    console.log(newItems);
+    setFilteredItems(newItems)
   }, [items])
 
   useEffect(() => {
@@ -50,27 +66,12 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
     setFilteredItems(newItems)
   }, [appliedFilters])
 
-  const checkItemTime = (curItem) => {
-    if (curItem){
-      const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
-  
-      const now = new Date().getTime()
-      const distance = countDownDate - now
-  
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0)
-    }
-  }
-
   useEffect(() => {
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(items[i])){
-        newAr.push(items[i])
+      if (checkItemTime(filteredItems[i])){
+        newAr.push(filteredItems[i])
       }
       
       if (newAr.length === 3) {
@@ -86,8 +87,8 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(items[i])){
-        newAr.push(items[i])
+      if (checkItemTime(filteredItems[i])){
+        newAr.push(filteredItems[i])
       }
 
       if (newAr.length === 2) {
@@ -103,8 +104,8 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(items[i])){
-        newAr.push(items[i])
+      if (checkItemTime(filteredItems[i])){
+        newAr.push(filteredItems[i])
       }
 
       if (newAr.length === 1) {
@@ -119,7 +120,7 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
       {item.map(itemNew => 
-        <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+        <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   )) 
@@ -127,7 +128,7 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
     twoLineItems.slice(0, shownItems).map(item => (
       <div className='block block-2'>
         {item.map(itemNew => 
-          <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+          <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
         )} 
       </div>
     ))
@@ -135,14 +136,15 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
   oneLineItems.slice(0, shownItems).map(item => (
     <div className='block block-1'>
       {item.map(itemNew => 
-        <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+        <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   ))
+  console.log(items);
 
   return (
     <>
-      <div ref={storeRef} className='store'>
+      <div className='store'>
         <div className='store-head'>
           <h2>{t("UPCOMING DROPS")}</h2>
           <svg onClick={() => setFilter(prev => !prev)} fill='currentColor' clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m15.344 17.778c0-.414-.336-.75-.75-.75h-5.16c-.414 0-.75.336-.75.75s.336.75.75.75h5.16c.414 0 .75-.336.75-.75zm2.206-4c0-.414-.336-.75-.75-.75h-9.596c-.414 0-.75.336-.75.75s.336.75.75.75h9.596c.414 0 .75-.336.75-.75zm2.45-4c0-.414-.336-.75-.75-.75h-14.5c-.414 0-.75.336-.75.75s.336.75.75.75h14.5c.414 0 .75-.336.75-.75zm2-4c0-.414-.336-.75-.75-.75h-18.5c-.414 0-.75.336-.75.75s.336.75.75.75h18.5c.414 0 .75-.336.75-.75z" fill-rule="nonzero"/></svg>
@@ -256,7 +258,7 @@ const UpcomingDrops = ({ censored, setCensored, stockFilter, setStockFilter, typ
 
 export default UpcomingDrops
 
-const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored }) => {
+const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored, setCensored }) => {
   const navigate = useNavigate()
   const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
 
@@ -267,7 +269,7 @@ const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored
   //     navigate(`items/${itemNew.id}`)
   //   }
   // }
-  
+
   return (
     <div onClick={() => navigate(`items/${itemNew.id}`)} className='item'>
       {
@@ -290,7 +292,7 @@ const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored
           <div className='blocker censor-blocker blocker-2'/>
         </>
       }
-      <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+      <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? blurImages.length && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
       <div className='text-wrapper'>
         <div className='text'>
           <h2 className='col'>{itemNew.collection}</h2>

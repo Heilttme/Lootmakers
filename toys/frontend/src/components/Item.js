@@ -34,6 +34,8 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
     setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])
   }, [items, id])
 
+  console.log(time);
+  
   useEffect(() => {
     if (curItem) {
       const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
@@ -176,7 +178,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
                 </div>
               </div>  
             </>
-              :
+              : curItem.orderType === "order" && !isItemDisabled &&
             <>
               <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
                 {[...Array(100)].map(() => <p>EXPIRED</p>)}

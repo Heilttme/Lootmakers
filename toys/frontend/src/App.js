@@ -10,6 +10,7 @@ function App() {
   const [items, setItems] = useState([])
   const [reviews, setReviews] = useState([])
   const [displayImages, setDisplayImages] = useState([])
+  const [blurImages, setBlurImages] = useState([])
   const [quickShop, setQuickShop] = useState(false)
   const [cartOpened, setCartOpened] = useState(false)
   const [contactOpened, setContactOpened] = useState(false)
@@ -38,8 +39,8 @@ function App() {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
     const res3 = axios.get("http://127.0.0.1:8000/api/get_display_images/").then(item => setDisplayImages(item.data.data))
+    const res4 = axios.get("http://127.0.0.1:8000/api/get_blur_images/").then(item => setBlurImages(item.data.data))
   }, [])
-  
   const {t, i18n} = useTranslation()
   
   const changeLanguage = (lang) => {
@@ -103,12 +104,12 @@ function App() {
           <MobileNav setBlock={setBlockAdmin} menuOpened={menuOpened} setMenuOpened={setMenuOpened} blockScroll={blockScroll} allowScroll={allowScroll} cartCounterRef={cartCounterRef} cart={cart} changeLanguage={changeLanguage} setCartOpened={setCartOpened} storeRef={storeRef} />
           <main>
             <Routes>
-              <Route path="/" element={<Home censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
+              <Route path="/" element={<Home blurImages={blurImages} censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} quickShop={quickShop} setQuickShop={setQuickShop} reviews={reviews} storeRef={storeRef} items={items} displayImages={displayImages} />}/>
               <Route path="/items/:id" element={<Item ageRestriction={ageRestriction} setAgeRestriction={setAgeRestriction} buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin setAuthorized={setAuthorized} />}/>
               <Route path="/admin/cms" element={<CAP setStockFilter={setStockFilterPanel} stockFilter={stockFilterPanel} typeFilter={typeFilterPanel} setTypeFilter={setTypeFilterPanel} vendorFilter={vendorFilterPanel} setVendorFilter={setVendorFilterPanel} setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
-              <Route path="/archive" element={<Archive censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} setQuickShop={setQuickShop} items={items} storeRef={storeRef} displayImages={displayImages} />}/>
+              <Route path="/archive" element={<Archive censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} setQuickShop={setQuickShop} items={items} displayImages={displayImages} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </main>

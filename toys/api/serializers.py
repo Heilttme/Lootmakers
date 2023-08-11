@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Review, Item, DisplayImage, ImageList, Image3D
+from .models import Review, Item, DisplayImage, ImageList, Image3D, BlurImage
 from djoser.serializers import UserCreateSerializer
 from django.contrib.auth import get_user_model
 
@@ -37,4 +37,10 @@ class ImageListSerializer(serializers.ModelSerializer):
 class Image3DSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image3D
+        fields = "__all__"
+
+
+class BlurImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlurImage
         fields = "__all__"

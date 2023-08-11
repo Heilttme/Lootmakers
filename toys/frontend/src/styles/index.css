@@ -1477,10 +1477,10 @@
 .scroll3D input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 30px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   border: 2px solid black;
-  background: url("../assets/arrows.svg");
+  background: url("../assets/arrows.svg") no-repeat center center;
   background-size: contain;
   background-color: white;
 }
@@ -2607,7 +2607,7 @@
   -o-object-fit: cover;
      object-fit: cover;
   width: var(--item-width);
-  height: 500px;
+  height: 400px;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
@@ -2735,6 +2735,7 @@
 }
 .quickshop .slider-container {
   display: flex;
+  margin-top: 5rem;
 }
 .quickshop .im {
   border-radius: 10px;
@@ -2847,6 +2848,10 @@
 @media (max-width: 1070px) {
   .quickshop .item .f-col {
     width: 55%;
+  }
+  .quickshop .arrow svg {
+    width: 40px;
+    padding: 0.4rem;
   }
 }
 @media (max-width: 900px) {

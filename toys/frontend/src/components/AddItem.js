@@ -59,11 +59,12 @@ const AddItem = () => {
   const [orderTypeError, setOrderTypeError] = useState(false)
   const [censorError, setCensorError] = useState(false)
   const [blurredError, setBlurredError] = useState(false)
+  const [blurFileError, setBlurFileError] = useState(false)
   
   const [item3dFiles, setItem3dFiles] = useState({})
   const [itemFiles, setItemFiles] = useState({})
   const [displayFile, setDisplayFile] = useState({})
-  const [blurredFile, setBlurredFile] = useState({})
+  const [blurFile, setBlurFile] = useState({})
 
   const [d3Error, set3dError] = useState(false)
   const [displayError, setDisplayError] = useState(false)
@@ -72,6 +73,7 @@ const AddItem = () => {
   const d3InputRef = useRef(null)
   const itemFilesRef = useRef(null)
   const displayFilesRef = useRef(null)
+  const blurFileRef = useRef(null)
 
   useEffect(() => {
     !item3dFiles.length && d3InputRef.current && (() => d3InputRef.current.value = "")()
@@ -113,6 +115,7 @@ const AddItem = () => {
           uploadData.append(`images3D_${index}`, file)
         })
         uploadData.append("displayImage", displayFile[0])
+        uploadData.append("blurImage", blurFile[0])
         
         const itemFilesArray = Array.from(itemFiles)
         itemFilesArray.forEach((file, index) => {
@@ -193,6 +196,7 @@ const AddItem = () => {
           setItem3dFiles({})
           setItemFiles({})
           setDisplayFile({})
+          setBlurFile({})
           setBlockQuantity(1)
           setTextQuantity(1)
           setFormSubmitted(prev => prev + 1)
@@ -449,6 +453,54 @@ const AddItem = () => {
             <Input question="" label={"day"} onChange={(e) => changeItemFormData(e)} value={itemFormData.day} error={dateError} setError={setDateError} />
             <Input question="" label={"hour"} onChange={(e) => changeItemFormData(e)} value={itemFormData.hour} error={dateError} setError={setDateError} />
           </div>
+
+          <div className='field type'>
+            <ul className='types'>
+              <h2>{t("Blur")}</h2>
+              <li className='type-b'>
+                <input 
+                  name='input-blur'
+                  id='inp1-blur'
+                  type="radio"
+                  checked={itemFormData.blurred === "applied" && true}
+                  onClick={(e) => {
+                    if (e.target.checked) {
+                      setItemFormData(prev => ({...prev, blurred: "applied"}))
+                      setBlurredError(false)
+                    }
+                  }}
+                />
+                <motion.label animate={{color: blurredError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} for='inp1-blur'>{t("Applied")}</motion.label>
+              </li>
+              <li className='type-b'>
+                <input 
+                  name='input-blur'
+                  id='inp2-blur'
+                  type="radio"
+                  checked={itemFormData.blurred === "disabled" && true}
+                  onClick={(e) => {
+                    if (e.target.checked) {
+                      setItemFormData(prev => ({...prev, blurred: "disabled"}))
+                      setBlurredError(false)
+                    }
+                  }}
+                />
+                <motion.label animate={{color: blurredError ? "rgb(247, 61, 61)" : "rgb(0, 0, 0)"}} for='inp2-blur'>{t("Disabled")}</motion.label>
+              </li>
+            </ul>
+          </div>
+
+          <input ref={blurFileRef} type="file" onChange={(e) => setBlurFile(e.target.files)} accept='image/*' id="file-blur"/>
+          <label onClick={() => setBlurFileError(false)} style={{color: blurFileError ? "rgb(247, 61, 61)" : "white"}} className='file_label' for="file-blur">
+            {
+              blurFile.length ? 
+                `${blurFile.length} files selected`
+              :
+                <>
+                  <p>Choose blurred image for item</p><p>+</p>
+                </>
+            }
+          </label>
 
           <div className='field type'>
             <ul className='types'>

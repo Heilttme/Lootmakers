@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
 from rest_framework.response import Response
 from django.views.generic.edit import FormView
-from .models import Review, Item, Image3D, ImageList, DisplayImage
-from .serializers import ReviewSerializer, ItemSerializer, Image3DSerializer, ImageListSerializer, DisplayImageSerializer
+from .models import Review, Item, Image3D, ImageList, DisplayImage, BlurImage
+from .serializers import ReviewSerializer, ItemSerializer, Image3DSerializer, ImageListSerializer, DisplayImageSerializer, BlurImageSerializer
 from .forms import ItemForm, ReviewForm
 from django.urls import reverse_lazy
 
@@ -39,6 +39,13 @@ def get_list_images(request):
     images = ImageList.objects.all()
 
     return Response({"data": ImageListSerializer(images, many=True).data})
+
+@api_view(["GET"])
+def get_blur_images(request):
+    images = BlurImage.objects.all()
+    images = BlurImageSerializer(images, many=True).data
+
+    return Response({"data": images})
 
 @api_view(["POST"])
 def get_item_3d_images(request):
@@ -98,6 +105,9 @@ def toy_admin_panel_add_item(request):
             im.save()
         elif i.startswith("displayImage"):
             im = DisplayImage(image=request.FILES[i], item=item)
+            im.save()
+        elif i.startswith("blurImage"):
+            im = BlurImage(image=request.FILES[i], item=item)
             im.save()
 
     return Response(status=HTTP_200_OK)

@@ -61,7 +61,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
       const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0)
+      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0) || (curItem.year === 0 && curItem.month === 0 && curItem.day === 0 && curItem.hour === 0)
     }
   }
 

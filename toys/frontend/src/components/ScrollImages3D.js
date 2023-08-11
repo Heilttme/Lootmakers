@@ -38,7 +38,6 @@ const ScrollImages3D = ({ setStopped, mapped3DImages, item }) => {
       //   }
       // }
       if (e.clientX) {
-        console.log(123123);
         if ((startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length >= 0){
           index = (startIndex + Math.floor((e.clientX - mouseXStart) / 10) % mapped3DImages.length) % mapped3DImages.length
         } else {

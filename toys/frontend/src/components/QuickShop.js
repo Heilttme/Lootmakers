@@ -11,6 +11,7 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
   const [imageList, setImageList] = useState([])
   const [images3D, setImages3D] = useState([])
   const [mapped3DImages, setMapped3DImages] = useState([])
+  const [displayImage, setDisplayImage] = useState("")
   const addToStateCart = useStore(state => state.add)
   const [parentWidth, setParentWidth] = useState(0)
   const { height, width } = useWindowDimensions()
@@ -24,15 +25,19 @@ const QuickShop = ({ buttonRef, addToCart, cart, items, blockScroll, allowScroll
   }, [id])
 
   useEffect(() => {
-    const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id: id}).then(data => setImages3D(data.data.data))
-    const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id: id}).then(data => setImageList(data.data.data))
+    if (id) {
+      const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id}).then(data => setImages3D(data.data.data))
+      const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id}).then(data => setImageList(data.data.data))
+      const res3 = axios.post("http://127.0.0.1:8000/api/get_display_image/", {id: id}).then(data => setDisplayImage(data.data.data[0].image))
+    }
+    // const res3 = axios.post("http://127.0.0.1:8000/api/get_display_image/", {id}).then(data => setDisplayImage(data.data.data[0].image))
   }, [id])
 
   useEffect(() => {
     setMapped3DImages(images3D.map(item => item.image))
   }, [images3D])
 
-  const slides = [mapped3DImages, ...imageList.map(item => item.image)]
+  const slides = [displayImage, mapped3DImages, ...imageList.map(item => item.image)]
 
   useEffect(() => {
     let w = 380
