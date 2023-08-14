@@ -26,10 +26,17 @@ class Item(models.Model):
     orderType = models.CharField(max_length=255, default="", null=True, blank=True)
     censor = models.BooleanField(default=None, null=True, blank=True)
     blurred = models.BooleanField(default=None, null=True, blank=True)
+
     year = models.IntegerField(null=True, blank=True)
     month = models.IntegerField(null=True, blank=True)
     day = models.IntegerField(null=True, blank=True)
     hour = models.IntegerField(null=True, blank=True)
+
+    year1 = models.IntegerField(null=True, blank=True)
+    month1 = models.IntegerField(null=True, blank=True)
+    day1 = models.IntegerField(null=True, blank=True)
+    hour1 = models.IntegerField(null=True, blank=True)
+
     quote = models.CharField(max_length=255, default="", null=True, blank=True)
     author = models.CharField(max_length=255, default="", null=True, blank=True)
     mainText = models.CharField(max_length=4095, default="", null=True, blank=True)

@@ -1195,6 +1195,8 @@
   display: flex;
   border-left: 1px solid black;
   border-top: 1px solid black;
+  height: 680px;
+  border-bottom: 1px solid black;
 }
 .store .items .block .item {
   width: 33.33%;
@@ -1275,10 +1277,10 @@
 }
 .store .items .block .item img {
   padding: 1rem;
-  width: 90%;
+  width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .store .items .block .item .quick-btn {
   position: absolute;
@@ -1296,6 +1298,18 @@
   z-index: 0;
   cursor: pointer;
   background-color: var(--white-color);
+}
+.store .items .block .dis {
+  cursor: default;
+}
+.store .items .block .dis img {
+  transition: all 0.3s ease-in-out;
+}
+.store .items .block .dis:hover {
+  filter: grayscale(100%);
+}
+.store .items .block .dis:hover img {
+  scale: 1.02;
 }
 .store .items .block-3 .item .preorder {
   top: -100px;
@@ -1316,6 +1330,12 @@
 }
 .store .items .block-3 .item:hover .blocker {
   top: 0;
+}
+.store .items .fill {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 66.66%;
+  height: 100%;
 }
 .store .items .more {
   width: 100%;
@@ -1343,10 +1363,21 @@
     width: 98%;
     font-size: 0.9em;
   }
+  .store .items .block {
+    height: 620px;
+  }
 }
 @media (max-width: 1200px) {
   .store .items {
     font-size: 0.75em;
+  }
+  .store .items .block {
+    height: 530px;
+  }
+}
+@media (max-width: 1100px) {
+  .store .items .block {
+    height: 480px;
   }
 }
 @media (max-width: 1000px) {
@@ -1356,6 +1387,17 @@
   .store .items {
     width: 90%;
     font-size: 0.8em;
+  }
+  .store .items .block {
+    height: 560px;
+  }
+  .store .items .fill {
+    width: 50%;
+  }
+}
+@media (max-width: 850px) {
+  .store .items .block {
+    height: 520px;
   }
 }
 @media (max-width: 775px) {
@@ -1367,11 +1409,23 @@
     font-size: 0.8em;
     height: 54px;
   }
+  .store .items .block {
+    height: 490px;
+  }
+}
+@media (max-width: 700px) {
+  .store .items .block {
+    height: 460px;
+  }
 }
 @media (max-width: 650px) {
   .store .items .store .filter {
     width: 95%;
     font-size: 0.64em;
+  }
+  .store .items .block {
+    height: 430px;
+    font-size: 0.9em;
   }
 }
 @media (max-width: 600px) {
@@ -1381,6 +1435,9 @@
   .store .items {
     width: 85%;
     font-size: 0.95em;
+  }
+  .store .items .block {
+    height: 620px;
   }
 }
 @media (max-width: 520px) {
@@ -1409,6 +1466,14 @@
   }
   .store .filter .filter-item .pop-3 {
     left: 10%;
+  }
+  .store .items .block {
+    height: 550px;
+  }
+}
+@media (max-width: 400px) {
+  .store .items .block {
+    height: 540px;
   }
 }
 @media (max-width: 370px) {
@@ -1445,11 +1510,19 @@
   .store .store-head {
     font-size: 0.8em;
   }
+  .store .items .block {
+    height: 480px;
+  }
 }
 @media (max-width: 370px) {
   .store .items {
     font-size: 0.6em;
     width: 97%;
+  }
+}
+@media (max-width: 330px) {
+  .store .items .block {
+    height: 435px;
   }
 }
 .scroll3D {
@@ -3214,11 +3287,29 @@
 .CAP .panel .form .type {
   margin-top: 1rem;
 }
+.CAP .panel .form .date-wrapper {
+  width: 100%;
+  margin-top: 1rem;
+}
+.CAP .panel .form .date-wrapper h2 {
+  font-size: 1.3em;
+}
+.CAP .panel .form .date-wrapper .date-input {
+  margin-top: 0.8rem;
+}
+.CAP .panel .form .date-wrapper .date-input .field {
+  margin-top: 0.6rem;
+}
 .CAP .panel .form .date-input {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   width: 100%;
   gap: 0.5rem;
+}
+.CAP .panel .form .date-input input[type=number]::-webkit-outer-spin-button,
+.CAP .panel .form .date-input input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .CAP .panel .form .date-input .field {
   display: flex;
@@ -3231,7 +3322,7 @@
 .CAP .panel .form .date-input .field label {
   font-size: 1.05em;
   top: 0.1rem;
-  left: 0.3rem;
+  left: 0.5rem;
 }
 .CAP .panel .form input[type=file] {
   display: none;
@@ -3343,6 +3434,7 @@
 .CAP .panel .delete-store .filter .filter-item .pop label {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  font-size: 0.9em;
 }
 .CAP .panel .delete-store .filter .filter-item .pop label:hover {
   color: #bebebe;
@@ -3350,8 +3442,8 @@
 .CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span {
   display: inline-block;
   width: 16px;
-  height: 16px;
-  margin: 0 10px 2px 0; /*layout relationship between check and label*/
+  height: 14px;
+  margin: 0px 10px 2px 0; /*layout relationship between check and label*/
 }
 .CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span:before, .CAP .panel .delete-store .filter .filter-item .pop .checkbox-pop + label span:after {
   transition: all 0.3s ease-in-out;
@@ -3650,6 +3742,7 @@
   }
   .CAP .panel .form .date-input {
     grid-template-columns: 1fr 1fr;
+    margin-top: 1rem;
   }
   .CAP .panel .form .date-input .field {
     margin-top: 1rem;

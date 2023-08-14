@@ -4,6 +4,7 @@ import { t } from 'i18next'
 import useWindowDimensions from "./useWindowDimensions"
 import { motion } from 'framer-motion'
 import { cloneDeep } from "lodash"
+import fill from "../assets/IVAN.png"
 
 const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages, censor, setCensor }) => {
   const [oneLineItems, setOneLineItems] = useState([])
@@ -19,15 +20,59 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     type: [],
     vendor: [],
   })
-  const [filteredItems, setFilteredItems] = useState(items)
-  
 
+  const checkItemTime = (curItem) => {
+    if (curItem){
+      const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
+      const now = new Date().getTime()
+      const distance = countDownDate - now
+  
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0) || (curItem.year === 0 && curItem.month === 0 && curItem.day === 0 && curItem.hour === 0)
+    }
+  }
+
+  const checkUpcomingTime = (curItem) => {
+    if (curItem){
+      const countDownDate1 = curItem && new Date(curItem.year1, curItem.month1 - 1, curItem.day1, curItem.hour1)
+      const countDownDate0 = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
+
+      const now = new Date().getTime()
+      const distance1 = countDownDate1 - now
+      const distance0 = countDownDate0 - now
+  
+      const days1 = Math.floor(distance1 / (1000 * 60 * 60 * 24))
+      const hours1 = Math.floor((distance1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes1 = Math.floor((distance1 % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000)
+
+      const days0 = Math.floor(distance0 / (1000 * 60 * 60 * 24))
+      const hours0 = Math.floor((distance0 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes0 = Math.floor((distance0 % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds0 = Math.floor((distance0 % (1000 * 60)) / 1000)
+
+      if (curItem.id === 120) {
+        console.log((days1 > 0 && hours1 > 0 && minutes1 > 0 && seconds1 > 0));
+        console.log((days0 <= 0 && hours0 <= 0 && minutes0 <= 0 && seconds0 <= 0));
+      }
+
+      return (days1 > 0 && hours1 > 0 && minutes1 > 0 && seconds1 > 0) && (days0 <= 0 && hours0 <= 0 && minutes0 <= 0 && seconds0 <= 0)
+    }
+  }
+
+  
+  const [filteredItems, setFilteredItems] = useState(items.filter(it => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))))
+  console.log(filteredItems);
+  
   useEffect(() => {
-    setFilteredItems(items)
+    setFilteredItems(items.filter(it => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))))
   }, [items])
 
   useEffect(() => {
-    let newItems = cloneDeep(items)
+    let newItems = cloneDeep(items.filter(it => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))))
     const stock = appliedFilters.stock
     const type = appliedFilters.type
     const vendor = appliedFilters.vendor
@@ -50,28 +95,11 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     setFilteredItems(newItems)
   }, [appliedFilters])
 
-  const checkItemTime = (curItem) => {
-    if (curItem){
-      const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
-  
-      const now = new Date().getTime()
-      const distance = countDownDate - now
-  
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0) || (curItem.year === 0 && curItem.month === 0 && curItem.day === 0 && curItem.hour === 0)
-    }
-  }
-
   useEffect(() => {
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(items[i])){
-        newAr.push(items[i])
-      }
+      newAr.push(filteredItems[i])
       
       if (newAr.length === 3) {
         newItems.push(newAr)
@@ -80,15 +108,13 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     }
     newItems.push(newAr)
     setThreeLineItems(newItems)
-  }, [filteredItems])
+  }, [filteredItems, width])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(items[i])){
-        newAr.push(items[i])
-      }
+      newAr.push(filteredItems[i])
 
       if (newAr.length === 2) {
         newItems.push(newAr)
@@ -97,15 +123,13 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     }
     newItems.push(newAr)
     setTwoLineItems(newItems)
-  }, [filteredItems])
+  }, [filteredItems, width])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(items[i])){
-        newAr.push(items[i])
-      }
+      newAr.push(filteredItems[i])
 
       if (newAr.length === 1) {
         newItems.push(newAr)
@@ -114,21 +138,32 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     }
     newItems.push(newAr)
     setOneLineItems(newItems)
-  }, [filteredItems])
+  }, [filteredItems, width])
 
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
-      {item.map(itemNew => 
-        <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
-      )}
+      {
+        <>
+          {item.map(itemNew => 
+            <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+          )}
+          {item.length === 1 && <img className='fill' src={fill}></img>}
+          {item.length === 2 && <img className='fill' src={fill}></img>}
+        </>
+      }
     </div>
   )) 
   : width > 600 ?
     twoLineItems.slice(0, shownItems).map(item => (
       <div className='block block-2'>
-        {item.map(itemNew => 
-          <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
-        )} 
+        {
+          <>
+            {item.map(itemNew => 
+              <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+            )}
+            {item.length === 1 && <img className='fill' src={fill}></img>}
+          </>
+        }
       </div>
     ))
   : 
@@ -140,6 +175,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     </div>
   ))
 
+  
   return (
     <>
       <div ref={storeRef} className='store'>
@@ -243,7 +279,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
         <motion.div animate={{marginTop: filter ? "60px": "0"}} transition={{type: "keyframes", ease: "linear", duration: .2}} className='items'>
           {threeItemsDisplay}
             {
-              shownItems < (width > 1000 ? items.length / 3 : width > 600 ? items.length / 2 : items.length) &&
+              shownItems < (width > 1000 ? filteredItems.length / 3 : width > 600 ? filteredItems.length / 2 : filteredItems.length) &&
               <div className='more'>
                 <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
               </div>
@@ -284,7 +320,7 @@ const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored
       {
         itemNew.censor === true && 
         <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 100, repeatType: "reverse"}} className='preorder censor'>
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder censor'>
           {[...Array(100)].map(() => <p>CENSORED</p>)}
           </motion.div>
           <div className='blocker censor-blocker blocker-1'/>
@@ -294,7 +330,7 @@ const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored
       <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
       <div className='text-wrapper'>
         <div className='text'>
-          <h2 className='col'>{itemNew.collection}</h2>
+          <h2 className='col'>{itemNew.collection} {itemNew.orderType}</h2>
           <h2 className='name'>{itemNew.name}</h2>
         </div>
         {

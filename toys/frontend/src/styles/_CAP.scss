@@ -300,11 +300,34 @@
                 margin-top: 1rem;
             }
 
+            .date-wrapper{
+                width: 100%;
+                margin-top: 1rem;
+
+                h2{
+                    font-size: 1.3em;
+                }
+
+                .date-input{
+                    margin-top: .8rem;
+
+                    .field{
+                        margin-top: .6rem;
+                    }
+                }
+            }
+
             .date-input{
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr;
                 width: 100%;
                 gap: .5rem;
+
+                input[type="number"]::-webkit-outer-spin-button, 
+                input[type="number"]::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
 
                 .field{
                     display: flex;
@@ -318,7 +341,7 @@
                     label{
                         font-size: 1.05em;
                         top: .1rem;
-                        left: .3rem;
+                        left: .5rem;
                     }
 
                     .block-info-block{
@@ -496,6 +519,7 @@
                         label{
                             cursor: pointer;
                             transition: all .2s ease-in-out;
+                            font-size: .9em;
         
                             &:hover{
                                 color: #bebebe;
@@ -505,8 +529,8 @@
                         .checkbox-pop + label span{
                             display: inline-block;
                             width: 16px;
-                            height: 16px;
-                            margin: 0 10px 2px 0; /*layout relationship between check and label*/
+                            height: 14px;
+                            margin: 0px 10px 2px 0; /*layout relationship between check and label*/
                             
                             &:before,
                             &:after {
@@ -872,6 +896,7 @@
 
     .CAP .panel .form .date-input {
         grid-template-columns: 1fr 1fr;
+        margin-top: 1rem;
 
         .field{
             margin-top: 1rem;

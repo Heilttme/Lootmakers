@@ -31,7 +31,7 @@ function App() {
   /// filters states
   
   const [[stockFilter, setStockFilter], [typeFilter, setTypeFilter], [vendorFilter, setVendorFilter]] = [useState(false), useState(false), useState(false)]
-  const [[stockFilterPanel, setStockFilterPanel], [typeFilterPanel, setTypeFilterPanel], [vendorFilterPanel, setVendorFilterPanel]] = [useState(false), useState(false), useState(false)]
+  const [[stockFilterPanel, setStockFilterPanel], [typeFilterPanel, setTypeFilterPanel], [vendorFilterPanel, setVendorFilterPanel], [orderFilterPanel, setOrderFilterPanel]] = [useState(false), useState(false), useState(false), useState(false)]
 
   ///
 
@@ -108,7 +108,7 @@ function App() {
               <Route path="/items/:id" element={<Item ageRestriction={ageRestriction} setAgeRestriction={setAgeRestriction} buttonRef={buttonRef} addToCart={addToCart} cart={cart} items={items} />}/>
               <Route path="/contact" element={<Contact setContactOpened={setContactOpened} />}/>
               <Route path="/admin/login" element={<ALogin setAuthorized={setAuthorized} />}/>
-              <Route path="/admin/cms" element={<CAP setStockFilter={setStockFilterPanel} stockFilter={stockFilterPanel} typeFilter={typeFilterPanel} setTypeFilter={setTypeFilterPanel} vendorFilter={vendorFilterPanel} setVendorFilter={setVendorFilterPanel} setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
+              <Route path="/admin/cms" element={<CAP setStockFilter={setStockFilterPanel} orderFilter={orderFilterPanel} setOrderFilter={setOrderFilterPanel} stockFilter={stockFilterPanel} typeFilter={typeFilterPanel} setTypeFilter={setTypeFilterPanel} vendorFilter={vendorFilterPanel} setVendorFilter={setVendorFilterPanel} setBlock={setBlockAdmin} block={blockAdmin} reviews={reviews} displayImages={displayImages} items={items} />}/>
               <Route path="/archive" element={<Archive censored={censored} setCensored={setCensored} stockFilter={stockFilter} setStockFilter={setStockFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} vendorFilter={vendorFilter} setVendorFilter={setVendorFilter} setQuickShop={setQuickShop} items={items} displayImages={displayImages} />}/>
               <Route path="*" element={<PageNotFound />} />
             </Routes>

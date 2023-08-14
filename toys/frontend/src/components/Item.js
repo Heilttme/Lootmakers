@@ -20,6 +20,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
   const [inCart, setInCart] = useState(false)
   const [time, setTime] = useState([])
   const [isItemDisabled, setIsItemDisabled] = useState(false)
+  const [upComingDropEnabled, setUpComingDropEnabled] = useState(false)
 
   const slides = [displayImage, mapped3DImages, ...imageList.map(item => item.image)]
 
@@ -34,10 +35,8 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
     setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])
   }, [items, id])
 
-  console.log(time);
-  
   useEffect(() => {
-    if (curItem) {
+    if (curItem && curItem.orderType !== "upcomingDrop") {
       const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
 
       const now = new Date().getTime()
@@ -49,22 +48,51 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
       const seconds = Math.floor((distance % (1000 * 60)) / 1000)
       setTime([days, hours, minutes, seconds])
       
-        const x = setInterval(() => {
-          const now = new Date().getTime()
-          const distance = countDownDate - now
-  
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-          setTime([days, hours, minutes, seconds])
-        }, 1000)
+      const x = setInterval(() => {
+        const now = new Date().getTime()
+        const distance = countDownDate - now
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+        setTime([days, hours, minutes, seconds])
+      }, 1000)
+
+    } else if (curItem && curItem.orderType === "upcomingDrop") {
+      const countDownDate0 = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
+      const countDownDate1 = curItem && new Date(curItem.year1, curItem.month1 - 1, curItem.day1, curItem.hour1)
+
+      const now = new Date().getTime()
+      const distance0 = countDownDate0 - now
+      const distance1 = countDownDate1 - now
+
+      const days0 = Math.floor(distance0 / (1000 * 60 * 60 * 24))
+      const hours0 = Math.floor((distance0 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes0 = Math.floor((distance0 % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds0 = Math.floor((distance0 % (1000 * 60)) / 1000)
+
+      const days1 = Math.floor(distance1 / (1000 * 60 * 60 * 24))
+      const hours1 = Math.floor((distance1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes1 = Math.floor((distance1 % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000)
+      setUpComingDropEnabled((days1 > 0 && hours1 > 0 && minutes1 > 0 && seconds1 > 0) && (days0 <= 0 && hours0 <= 0 && minutes0 <= 0 && seconds0 <= 0))
+      setTime([days1, hours1, minutes1, seconds1])
+      const x = setInterval(() => {
+        const now = new Date().getTime()
+        const distance = countDownDate1 - now
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+        setTime([days, hours, minutes, seconds])
+      }, 1000)
     }
   }, [curItem])
 
   useEffect(() => {
     if (curItem) {
-
       setIsItemDisabled(time[0] <= 0 && time[1] <= 0 && time[2] <= 0 && time[3] <= 0)
     }
   }, [curItem, time])
@@ -136,6 +164,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
     11: "December",
   }
 
+  console.log(curItem);
 
   return curItem && (
     <div className='item-page'>
@@ -149,12 +178,10 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
       </div>
       <div className='s-col'>
           {
-            curItem.orderType === "preorder" && !isItemDisabled ? 
+            ((curItem.orderType === "preorder" && !isItemDisabled) || (curItem.orderType === "upcomingDrop" && upComingDropEnabled)) ? 
             <>
               <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
                 {[...Array(100)].map(() => <p>PREORDER</p>)}
-                {/* <div className='blocker blocker-1'/>
-                <div className='blocker blocker-2'/> */}
               </motion.div>
               <div className='timer'>
                 <h2>PREORDER IS AVAILABLE FOR:</h2>
@@ -178,15 +205,25 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
                 </div>
               </div>  
             </>
-              : curItem.orderType === "order" && !isItemDisabled &&
+              : ((curItem.orderType === "order" && isItemDisabled) || (curItem.orderType === "preorder" && isItemDisabled)) ?
             <>
               <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
                 {[...Array(100)].map(() => <p>EXPIRED</p>)}
-                {/* <div className='blocker blocker-1'/>
-                <div className='blocker blocker-2'/> */}
               </motion.div>
               <div className='timer'>
-                <h2>PREORDER WAS AVAILABLE UNTIL:</h2>
+                <h2>{curItem.orderType === "preorder" ? "PREORDER" : "ORDER"} WAS AVAILABLE UNTIL:</h2>
+                <div className='wrapper-timer'>
+                  <h2>{curItem.day} {monthes[curItem.month - 1]} {curItem.year}</h2>
+                </div>
+              </div>  
+            </>
+              : (curItem.orderType === "upcomingDrop" && !isItemDisabled) &&
+            <>
+              <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
+                {[...Array(100)].map(() => <p>SOON</p>)}
+              </motion.div>
+              <div className='timer'>
+                <h2>{curItem.orderType === "preorder" ? "PREORDER" : "ORDER"} WILL BE AVAILABLE ON:</h2>
                 <div className='wrapper-timer'>
                   <h2>{curItem.day} {monthes[curItem.month - 1]} {curItem.year}</h2>
                 </div>

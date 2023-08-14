@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { t } from 'i18next'
 
-const Input = ({ label, onChange, value, error, setError, question }) => {
+const Input = ({ label, onChange, value, error, setError, question, type=""}) => {
   const [inputFocus, setInputFocus] = useState(false)
 
   return (
@@ -12,7 +12,7 @@ const Input = ({ label, onChange, value, error, setError, question }) => {
         onChange={onChange}
         id={label}
         value={value}
-        type={(label === "price" || label === "quantityAvailable" || label === "password") ? label === "password" ? "password" : "number" : "text"}
+        type={type}
         onFocus={() => {setInputFocus(true);setError(false)}}
         onBlur={() => setInputFocus(false)}
 

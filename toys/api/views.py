@@ -85,15 +85,21 @@ def toy_admin_panel_add_item(request):
     orderType = request.data.get('orderType')
     censor = True if request.data.get('censor') == "applied" else False
     blurred = True if request.data.get('blurred') == "applied" else False
+
     year = request.data.get('year') if request.data.get('year') != "undefined" else 0
     month = request.data.get('month') if request.data.get('month') != "undefined" else 0
     day = request.data.get('day') if request.data.get('day') != "undefined" else 0
     hour = request.data.get('hour') if request.data.get('hour') != "undefined" else 0
+
+    year1 = request.data.get('year1') if request.data.get('year1') != "undefined" else 0
+    month1 = request.data.get('month1') if request.data.get('month1') != "undefined" else 0
+    day1 = request.data.get('day1') if request.data.get('day1') != "undefined" else 0
+    hour1 = request.data.get('hour1') if request.data.get('hour1') != "undefined" else 0
     
     price = request.data.get('price')
     quantityAvailable = request.data.get('quantityAvailable')
 
-    item = Item(name=name, collection=collection, type=type, madeBy=madeBy, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, orderType=orderType, censor=censor, blurred=blurred, year=year, month=month, day=day, hour=hour, price=price, quantityAvailable=quantityAvailable)
+    item = Item(name=name, collection=collection, type=type, madeBy=madeBy, mainText=mainText, quote=quote, author=author, blockInfo=blockInfo, orderType=orderType, censor=censor, blurred=blurred, year=year, month=month, day=day, hour=hour, year1=year1, month1=month1, day1=day1, hour1=hour1, price=price, quantityAvailable=quantityAvailable)
     item.save()
 
     for i in request.FILES:

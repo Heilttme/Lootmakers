@@ -8,7 +8,7 @@ import ScrollImages3D from "./ScrollImages3D";
 import useBlockScroll from "./useBlockScroll";
 import Contact from "./Contact";
 import ContactForm from "./ContactForm";
-import CAP from "./CAP";
+import CAP from "./admin/CAP";
 import ALogin from "./ALogin";
 import PageNotFound from "./PageNotFound";
 import Input from "./Input";
