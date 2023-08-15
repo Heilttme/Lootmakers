@@ -229,7 +229,8 @@
 
                 .text-wrapper{
                     width: 100%;
-                    position: relative;
+                    position: absolute;
+                    bottom: 0;
                 }
 
                 .text{
@@ -255,8 +256,12 @@
                     font-size: 1.2em;
                 }
 
+                .img-wrapper{
+                    min-height: calc(100% - 3rem);
+                }
+
                 img{
-                    padding: 1rem;
+                    padding: .6rem;
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
@@ -334,7 +339,7 @@
 
         .fill{
             object-fit: cover;
-            width: 66.66%;
+            width: 33.33%;
             height: 100%;
         }
 
@@ -403,7 +408,7 @@
     }
 
     .store .items .block {
-        height: 560px;
+        min-height: 560px;
     }
 
     .store .items .fill {

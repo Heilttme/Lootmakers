@@ -106,7 +106,9 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
         newAr = []
       }
     }
-    newItems.push(newAr)
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
     setThreeLineItems(newItems)
   }, [filteredItems, width])
 
@@ -121,7 +123,9 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
         newAr = []
       }
     }
-    newItems.push(newAr)
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
     setTwoLineItems(newItems)
   }, [filteredItems, width])
 
@@ -136,9 +140,13 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
         newAr = []
       }
     }
-    newItems.push(newAr)
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
     setOneLineItems(newItems)
   }, [filteredItems, width])
+
+  console.log(twoLineItems);
 
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
@@ -320,17 +328,21 @@ const StoreItem = ({ displayImages, setQuickShop, itemNew, censored, setCensored
       {
         itemNew.censor === true && 
         <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder censor'>
+          {/* <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder censor'> */}
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
           {[...Array(100)].map(() => <p>CENSORED</p>)}
           </motion.div>
-          <div className='blocker censor-blocker blocker-1'/>
-          <div className='blocker censor-blocker blocker-2'/>
+          <div className='blocker blocker-1'/>
+          <div className='blocker blocker-2'/>
+          {/* <div className='blocker censor-blocker blocker-2'/> */}
         </>
       }
-      <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+      <div className='img-wrapper'>
+        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+      </div>
       <div className='text-wrapper'>
         <div className='text'>
-          <h2 className='col'>{itemNew.collection} {itemNew.orderType}</h2>
+          <h2 className='col'>{itemNew.collection}</h2>
           <h2 className='name'>{itemNew.name}</h2>
         </div>
         {

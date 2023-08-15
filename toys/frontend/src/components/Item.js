@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { t } from 'i18next'
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useStore from '../store'
 import ItemPageSlider from "./ItemPageSlider"
 import ItemsSlider from "./ItemsSlider"
@@ -21,18 +21,28 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
   const [time, setTime] = useState([])
   const [isItemDisabled, setIsItemDisabled] = useState(false)
   const [upComingDropEnabled, setUpComingDropEnabled] = useState(false)
+  const navigate = useNavigate()
 
   const slides = [displayImage, mapped3DImages, ...imageList.map(item => item.image)]
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    curItem && curItem.censor === true && setAgeRestriction(true)
+    if (curItem){
+      if (curItem.blurred) {
+        navigate("/")
+      }
+      curItem.censor === true && setAgeRestriction(true)
+    }
 
     return () => setAgeRestriction(false)
   }, [curItem])
 
   useEffect(() => {
-    setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])
+    if (items.filter(i => parseInt(i.id) === parseInt(id)).length) {
+      setCurItem(items.filter(i => parseInt(i.id) === parseInt(id))[0])
+    } else {
+      navigate("/")
+    }
   }, [items, id])
 
   useEffect(() => {
@@ -102,10 +112,12 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
   }, [images3D])
 
   useEffect(() => {
-    const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id}).then(data => setImages3D(data.data.data))
-    const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id}).then(data => setImageList(data.data.data))
-    const res3 = axios.post("http://127.0.0.1:8000/api/get_display_image/", {id}).then(data => setDisplayImage(data.data.data[0].image))
-  }, [id])
+    if (curItem) {
+      const res1 = axios.post("http://127.0.0.1:8000/api/get_item_3d_images/", {id: curItem.id}).then(data => setImages3D(data.data.data))
+      const res2 = axios.post("http://127.0.0.1:8000/api/get_item_images/", {id: curItem.id}).then(data => setImageList(data.data.data))
+      const res3 = axios.post("http://127.0.0.1:8000/api/get_display_image/", {id: curItem.id}).then(data => setDisplayImage(data.data.data[0].image))
+    }
+  }, [curItem])
 
   useEffect(() => {
     let w = 600

@@ -4,6 +4,7 @@ import { t } from 'i18next'
 import useWindowDimensions from "./useWindowDimensions"
 import { motion } from 'framer-motion'
 import { cloneDeep } from "lodash"
+import fill from "../assets/IVAN.png"
 
 const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, displayImages, censor, setCensor }) => {
   const [oneLineItems, setOneLineItems] = useState([])
@@ -70,66 +71,77 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(filteredItems[i])){
-        newAr.push(filteredItems[i])
-      }
+      newAr.push(filteredItems[i])
       
       if (newAr.length === 3) {
         newItems.push(newAr)
         newAr = []
       }
     }
-    newItems.push(newAr)
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
     setThreeLineItems(newItems)
-  }, [filteredItems])
+  }, [filteredItems, width])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(filteredItems[i])){
-        newAr.push(filteredItems[i])
-      }
+      newAr.push(filteredItems[i])
 
       if (newAr.length === 2) {
         newItems.push(newAr)
         newAr = []
       }
     }
-    newItems.push(newAr)
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
     setTwoLineItems(newItems)
-  }, [filteredItems])
+  }, [filteredItems, width])
 
   useEffect(() => {
     const newItems = []
     let newAr = [] 
     for (let i = 0; i < filteredItems.length; i++) {
-      if (checkItemTime(filteredItems[i])){
-        newAr.push(filteredItems[i])
-      }
+      newAr.push(filteredItems[i])
 
       if (newAr.length === 1) {
         newItems.push(newAr)
         newAr = []
       }
     }
-    newItems.push(newAr)
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
     setOneLineItems(newItems)
-  }, [filteredItems])
+  }, [filteredItems, width])
 
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
-      {item.map(itemNew => 
-        <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
-      )}
+      {
+        <>
+          {item.map(itemNew => 
+            <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+          )}
+          {item.length === 1 && <img className='fill' src={fill}></img>}
+          {item.length === 2 && <img className='fill' src={fill}></img>}
+        </>
+      }
     </div>
   )) 
   : width > 600 ?
     twoLineItems.slice(0, shownItems).map(item => (
       <div className='block block-2'>
-        {item.map(itemNew => 
-          <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
-        )} 
+        {
+          <>
+            {item.map(itemNew => 
+              <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+            )}
+            {item.length === 1 && <img className='fill' src={fill}></img>}
+          </>
+        }
       </div>
     ))
   : 
@@ -284,17 +296,40 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       {
         itemNew.censor === true && 
         <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder censor'>
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
           {[...Array(100)].map(() => <p>CENSORED</p>)}
           </motion.div>
-          <div className='blocker censor-blocker blocker-1'/>
-          <div className='blocker censor-blocker blocker-2'/>
+          <div className='blocker blocker-1'/>
+          <div className='blocker blocker-2'/>
         </>
       }
-      <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? blurImages.length && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+      {
+        itemNew.blurred === true && 
+        <>
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
+          {[...Array(100)].map(() => <p>RESTRICTED</p>)}
+          </motion.div>
+          <div className='blocker blocker-1'/>
+          <div className='blocker blocker-2'/>
+        </>
+      }
+      {
+        (itemNew.blurred === true && itemNew.censor === true) && 
+        <>
+          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
+          {[...Array(100)].map(() => <><p>RESTRICTED</p><p>CENSORED</p></>)}
+          </motion.div>
+          <div className='blocker blocker-1'/>
+          <div className='blocker blocker-2'/>
+        </>
+      }
+
+      <div className='img-wrapper'>
+        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? blurImages.length && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+      </div>
       <div className='text-wrapper'>
         <div className='text'>
-          <h2 className='col'>{itemNew.collection} {itemNew.orderType}</h2>
+          <h2 className='col'>{itemNew.collection}</h2>
           <h2 className='name'>{itemNew.name}</h2>
         </div>
         {/* {

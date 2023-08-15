@@ -35,6 +35,7 @@ function App() {
 
   ///
 
+
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
@@ -97,6 +98,7 @@ function App() {
         setStockFilterPanel(false)
         setTypeFilterPanel(false)
         setVendorFilterPanel(false)
+        setOrderFilterPanel(false)
         !ageRestriction && allowScroll()
       }} className="wrapper">
         <div className="a" style={{filter: (contactOpened || quickShop || cartOpened || ageRestriction) ? "brightness(35%)" : "unset", pointerEvents: (contactOpened || quickShop || cartOpened || ageRestriction) ? "none" : "unset"}}>
@@ -124,7 +126,7 @@ function App() {
       <div className="contact-form-wrapper">
         <ContactForm allowScroll={allowScroll} blockScroll={blockScroll} setContactOpened={setContactOpened} contactOpened={contactOpened} />
       </div>
-      { ageRestriction && 
+      {ageRestriction && 
         <AgeRestriction blockScroll={blockScroll} allowScroll={allowScroll} ageRestriction={ageRestriction} setAgeRestriction={setAgeRestriction}/>
       }
     </Router>

@@ -153,7 +153,7 @@ const DeleteStore = ({ orderFilter, setOrderFilter, stockFilter, setStockFilter,
           
         </div>
         <motion.div initial={{y: -60}} animate={{y: filter ? 0 : -60}} transition={{type: "keyframes", ease: "linear", duration: .2}} className='filter-wrapper'>
-          <motion.div className='filter'>
+          <motion.div className='filter column'>
             <svg onClick={() => setAppliedFilters({stock: [], type: [], vendor: []})} className='bin' fill='currentColor' clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m20.015 6.506h-16v14.423c0 .591.448 1.071 1 1.071h14c.552 0 1-.48 1-1.071 0-3.905 0-14.423 0-14.423zm-5.75 2.494c.414 0 .75.336.75.75v8.5c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-8.5c0-.414.336-.75.75-.75zm-4.5 0c.414 0 .75.336.75.75v8.5c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-8.5c0-.414.336-.75.75-.75zm-.75-5v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-16.507c-.413 0-.747-.335-.747-.747s.334-.747.747-.747zm4.5 0v-.5h-3v.5z" fill-rule="nonzero"/></svg>
             <div onClick={(e) => {e.stopPropagation();setStockFilter(prev => !prev);setTypeFilter(false);setVendorFilter(false);setOrderFilter(false)}} className='filter-item'>
               <p>{t("Stock")}</p>
@@ -276,25 +276,47 @@ const DeleteStore = ({ orderFilter, setOrderFilter, stockFilter, setStockFilter,
 const ItemStore = ({ displayImages, item }) => {
   const navigate = useNavigate()
   const [collapse, setCollapse] = useState()
+  const [confirmRemove, setComfirmRemove] = useState(false)
+  const [confirmArchive, setComfirmArchive] = useState(false)
 
   const removeItem = (id) => {
-    const res = axios.post("http://127.0.0.1:8000/api/remove_item/", {id})
+    if (confirmRemove) {
+      const res = axios.post("http://127.0.0.1:8000/api/remove_item/", {id})
+      
+      setTimeout(() => {
+        setCollapse(true)
+      }, 300)
+    }
+  }
 
-    setTimeout(() => {
-      setCollapse(true)
-    }, 300)
+  const archiveItem = (id) => {
+    if (confirmArchive) {
+      // const res = axios.post("http://127.0.0.1:8000/api/archive/", {id})
+
+    // setTimeout(() => {
+    //   setCollapse(true)
+    // }, 300)
+    }
   }
 
   return (
     <div className='wrapper-item'>
-      <motion.div initial={{height: "auto"}} animate={{height: collapse ? 0 : "auto"}} transition={{duration: '.5'}} onClick={() => navigate(`/items/${item.id}`)} className='item'>
+      <motion.div initial={{height: "auto"}} animate={{height: collapse ? 0 : "auto"}} transition={{duration: '.5'}} onClick={() => {
+        if (confirmRemove || confirmArchive) {
+          setComfirmRemove(false)
+          setComfirmArchive(false)
+        } else {
+          navigate(`/items/${item.id}`)
+        }
+      }} className='item'>
         <img src={`http://127.0.0.1:8000${displayImages.length && displayImages.filter(image => image.item === item.id)[0].image}`}/>
         <div className='text-wrapper'>
           <div className='text'>
             <h2 className='col'>{item.collection}</h2>
             <h2 className='name'>{item.name}</h2>
           </div>
-          <button onClick={(e) => {e.stopPropagation();removeItem(item.id)}} className='quick-btn1 quick-btn'>REMOVE {item.id}</button>
+          <button onClick={(e) => {e.stopPropagation();removeItem(item.id);setComfirmRemove(true)}} className={`quick-btn1 quick-btn${confirmRemove ? " confirm" : ""}`}>REMOVE {item.id}</button>
+          <button onClick={(e) => {e.stopPropagation();archiveItem(item.id);setComfirmArchive(true)}} className={`quick-btn1 quick-btn archive${confirmArchive ? " confirm" : ""}`}>ARCHIVE {item.id}</button>
         </div>
       </motion.div>
       <div className='removed'>
