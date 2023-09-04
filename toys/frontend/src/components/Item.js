@@ -217,7 +217,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
                 </div>
               </div>  
             </>
-              : ((curItem.orderType === "order" && isItemDisabled) || (curItem.orderType === "preorder" && isItemDisabled)) ?
+              : (curItem.orderType === "preorder" && isItemDisabled) ?
             <>
               <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
                 {[...Array(100)].map(() => <p>EXPIRED</p>)}
@@ -229,7 +229,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
                 </div>
               </div>  
             </>
-              : (curItem.orderType === "upcomingDrop" && !isItemDisabled) &&
+              : (curItem.orderType === "upcomingDrop" && !isItemDisabled) ?
             <>
               <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
                 {[...Array(100)].map(() => <p>SOON</p>)}
@@ -241,6 +241,18 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
                 </div>
               </div>  
             </>
+              : (curItem.orderType === "order" && curItem.year === null && curItem.month === null && curItem.day === null && curItem.hour === null) &&
+            <>
+              {/* <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
+                {[...Array(100)].map(() => <p>SOON</p>)}
+              </motion.div>
+              <div className='timer'>
+                <h2>{curItem.orderType === "preorder" ? "PREORDER" : "ORDER"} WILL BE AVAILABLE ON:</h2>
+                <div className='wrapper-timer'>
+                  <h2>{curItem.day} {monthes[curItem.month - 1]} {curItem.year}</h2>
+                </div>
+              </div>   */}
+            </>
           }
         <div className='bottom'>
           <h3>{curItem.collection}</h3>
@@ -249,14 +261,18 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
             <h1>${curItem.price}</h1>
             <button ref={buttonRef} onClick={() => !isItemDisabled && addToCart(curItem)}>
               {
-                !isItemDisabled ? 
+                (!isItemDisabled || curItem.orderType === "order") ? 
                 <>
                   <motion.p initial={{x: 0}} animate={{x: inCart ? -200 : 0}}>{t("ADD TO CART")}</motion.p>
                   <motion.p initial={{x: 150}} animate={{x: inCart ? 0 : 150}} className='added'>{t("ADDED")}</motion.p>
                 </>
-                  :
+                  : (curItem.orderType === "upcomingDrop" && !isItemDisabled) ? 
                 <>
                   <p>SOLD OUT</p>
+                </>
+                  :
+                <>
+                  <p>COMING SOON</p>
                 </>
               }
             </button>

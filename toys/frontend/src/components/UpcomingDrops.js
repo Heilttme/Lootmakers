@@ -5,6 +5,7 @@ import useWindowDimensions from "./useWindowDimensions"
 import { motion } from 'framer-motion'
 import { cloneDeep } from "lodash"
 import fill from "../assets/IVAN.png"
+import StoreItem from "./StoreItem"
 
 const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, displayImages, censor, setCensor }) => {
   const [oneLineItems, setOneLineItems] = useState([])
@@ -39,7 +40,6 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
   
   useEffect(() => {
     let newItems = items.filter((it) => it.orderType === "upcomingDrop" && checkItemTime(it))
-    console.log(newItems);
     setFilteredItems(newItems)
   }, [items])
 
@@ -81,6 +81,7 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
     if (newAr.length !== 0){
       newItems.push(newAr)
     }
+    console.log(newAr);
     setThreeLineItems(newItems)
   }, [filteredItems, width])
 
@@ -125,7 +126,7 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
           {item.map(itemNew => 
             <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
           )}
-          {item.length === 1 && <img className='fill' src={fill}></img>}
+          {/* {item.length === 1 && <img className='fill' src={fill}></img>} */}
           {item.length === 2 && <img className='fill' src={fill}></img>}
         </>
       }
@@ -152,7 +153,7 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
       )}
     </div>
   ))
-
+  
   return (
     <>
       <div className='store'>
@@ -268,75 +269,3 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
 }
 
 export default UpcomingDrops
-
-const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored, setCensored }) => {
-  const navigate = useNavigate()
-  const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
-
-  // const itemClick = () => {
-  //   if (censored && itemNew.censored === true) {
-
-  //   } else {
-  //     navigate(`items/${itemNew.id}`)
-  //   }
-  // }
-
-  return (
-    <motion.div onHover={{filter: "unset"}} onClick={() => !itemNew.blurred && navigate(`items/${itemNew.id}`)} className={`${itemNew.blurred ? "dis item" : "item"}`}>
-      {
-        itemNew.orderType === "preorder" && 
-        <>
-          <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
-          {[...Array(100)].map(() => <p>PREORDER</p>)}
-          </motion.div>
-          <div className='blocker blocker-1'/>
-          <div className='blocker blocker-2'/>
-        </>
-      }
-      {
-        itemNew.censor === true && 
-        <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
-          {[...Array(100)].map(() => <p>CENSORED</p>)}
-          </motion.div>
-          <div className='blocker blocker-1'/>
-          <div className='blocker blocker-2'/>
-        </>
-      }
-      {
-        itemNew.blurred === true && 
-        <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
-          {[...Array(100)].map(() => <p>RESTRICTED</p>)}
-          </motion.div>
-          <div className='blocker blocker-1'/>
-          <div className='blocker blocker-2'/>
-        </>
-      }
-      {
-        (itemNew.blurred === true && itemNew.censor === true) && 
-        <>
-          <motion.div initial={{x: 0}} animate={{x: -1000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
-          {[...Array(100)].map(() => <><p>RESTRICTED</p><p>CENSORED</p></>)}
-          </motion.div>
-          <div className='blocker blocker-1'/>
-          <div className='blocker blocker-2'/>
-        </>
-      }
-
-      <div className='img-wrapper'>
-        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? blurImages.length && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
-      </div>
-      <div className='text-wrapper'>
-        <div className='text'>
-          <h2 className='col'>{itemNew.collection}</h2>
-          <h2 className='name'>{itemNew.name}</h2>
-        </div>
-        {/* {
-          !mobile && 
-          <button onClick={(e) => {e.stopPropagation();setQuickShop(itemNew.id)}} className='quick-btn1 quick-btn'>QUICK SHOP</button>
-        } */}
-      </div>
-    </motion.div>
-  )
-}
