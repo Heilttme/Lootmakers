@@ -144,7 +144,8 @@ const ContactForm = ({ contactOpened, allowScroll, blockScroll, setContactOpened
                 <ContentCreatorForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData} />
               : person === "Fan" ?
                 <FanForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
-              : <OtherPersonForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
+              :
+                <OtherPersonForm checkFormSubmit={checkFormSubmit} setCurStep={setCurStep} setFormData={setFormData} formData={formData} changeFormData={changeFormData}/>
 
             :
             <div className='submitted-form'>
@@ -399,12 +400,11 @@ const FanForm = ({ checkFormSubmit, formData, setFormData, changeFormData, setCu
     if ((formData.social || (social && social !== "Other")) && formData.channel && formData.subscribers) {
       setCurStep(2)
     } else if (checkFormSubmit !== "BEMS") {
-      !(formData.social || (social && social !== "Other")) && setSocialError(true)
-      !formData.channel && setChannelError(true)
-      !formData.subscribers && setNumberError(true)
     }
+    !(formData.social || (social && social !== "Other")) && setSocialError(true)
+    !formData.channel && setChannelError(true)
+    !formData.subscribers && setNumberError(true)
   }, [checkFormSubmit])
-  
   
   return (
     <div className='block'>

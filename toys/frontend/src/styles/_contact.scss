@@ -65,6 +65,7 @@
     overflow: auto;
     overflow-x: hidden;
     display: flex;
+    border-radius: 12px;
     justify-content: space-between;
 
     .contact-header{
@@ -76,6 +77,8 @@
         padding-top: .4rem;
         padding-left: 1rem;
         border-bottom: 1px solid black;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
         display: flex;
         position: fixed;
         align-items: center;
@@ -206,6 +209,10 @@
                         border-right: 1px solid black;
                         background-color: var(--white-color);
                     }
+                }
+
+                .error{
+                    color: rgb(247, 61, 61);
                 }
                 
             }

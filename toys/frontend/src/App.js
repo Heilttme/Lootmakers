@@ -28,14 +28,14 @@ function App() {
   const [promoApplied, setPromoApplied] = useState(0)
   const [total, setTotal] = useState(0)
 
-  /// filters states
+  // filters states
   
   const [[stockFilter, setStockFilter], [typeFilter, setTypeFilter], [vendorFilter, setVendorFilter]] = [useState(false), useState(false), useState(false)]
   const [[stockFilterPanel, setStockFilterPanel], [typeFilterPanel, setTypeFilterPanel], [vendorFilterPanel, setVendorFilterPanel], [orderFilterPanel, setOrderFilterPanel]] = [useState(false), useState(false), useState(false), useState(false)]
 
-  ///
+  //
 
-
+  // Setting all items images to a state
   useEffect(() => {
     const res1 = axios.get("http://127.0.0.1:8000/api/get_items/").then(item => setItems(item.data.data))
     const res2 = axios.get("http://127.0.0.1:8000/api/get_reviews/").then(item => setReviews(item.data.data))
@@ -48,6 +48,7 @@ function App() {
     i18n.changeLanguage(lang)
   }
   
+  // Getting cart items
   useEffect(() => {
     if (!localStorage.getItem("i")){
       localStorage.setItem("i", JSON.stringify([]))
@@ -55,14 +56,16 @@ function App() {
       let Citems = localStorage.getItem("i")
       if (Citems) {
         Citems = JSON.parse(Citems)
-        Citems.map(item => (!cart.map(cartItem => cartItem.id).includes(item.id) && items.map(it => it.id).includes(item.id)) && addToStateCart(item))
+        Citems.forEach(item => {
+          const checkIfItemInCart = cart.map(cartItem => cartItem.id).includes(item.id)
+          const checkIfItemInStore = items.map(it => it.id).includes(item.id)
+          console.log(checkIfItemInCart, checkIfItemInStore);
+          if (!checkIfItemInCart && checkIfItemInStore) addToStateCart(item)
+        })
+        console.log(Citems);
       }
     }
-  }, [])
-
-  useEffect(() => {
-    
-  })
+  }, [items])
   
   const buttonRef = useRef(null)
   const cartCounterRef = useRef(null)

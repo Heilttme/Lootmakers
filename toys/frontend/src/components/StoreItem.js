@@ -10,6 +10,7 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
   const [upComingDropEnabled, setUpComingDropEnabled] = useState(false)
 
   useEffect(() => {
+    // TIMER IS MADE OF 2 CASES (TYPES OF ITEM, EITHER UPCOMING DROP OR OTHER ONES)
     if (itemNew && itemNew.orderType !== "upcomingDrop") {
       const countDownDate = itemNew && new Date(itemNew.year, itemNew.month - 1, itemNew.day, itemNew.hour)
 
@@ -22,16 +23,16 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       const seconds = Math.floor((distance % (1000 * 60)) / 1000)
       setTime([days, hours, minutes, seconds])
       
-      const x = setInterval(() => {
-        const now = new Date().getTime()
-        const distance = countDownDate - now
+      // const x = setInterval(() => {
+      //   const now = new Date().getTime()
+      //   const distance = countDownDate - now
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-        setTime([days, hours, minutes, seconds])
-      }, 1000)
+      //   const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+      //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      //   const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+      //   setTime([days, hours, minutes, seconds])
+      // }, 1000)
 
     } else if (itemNew && itemNew.orderType === "upcomingDrop") {
       const countDownDate0 = itemNew && new Date(itemNew.year, itemNew.month - 1, itemNew.day, itemNew.hour)
@@ -41,6 +42,7 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       const distance0 = countDownDate0 - now
       const distance1 = countDownDate1 - now
 
+      //
       const days0 = Math.floor(distance0 / (1000 * 60 * 60 * 24))
       const hours0 = Math.floor((distance0 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       const minutes0 = Math.floor((distance0 % (1000 * 60 * 60)) / (1000 * 60))
@@ -52,16 +54,16 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000)
       setUpComingDropEnabled((days1 > 0 && hours1 > 0 && minutes1 > 0 && seconds1 > 0) && (days0 <= 0 && hours0 <= 0 && minutes0 <= 0 && seconds0 <= 0))
       setTime([days1, hours1, minutes1, seconds1])
-      const x = setInterval(() => {
-        const now = new Date().getTime()
-        const distance = countDownDate1 - now
+      // const x = setInterval(() => {
+      //   const now = new Date().getTime()
+      //   const distance = countDownDate1 - now
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-        setTime([days, hours, minutes, seconds])
-      }, 1000)
+      //   const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+      //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      //   const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+      //   setTime([days, hours, minutes, seconds])
+      // }, 1000)
     }
   }, [itemNew])
 
@@ -70,7 +72,6 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       setIsItemDisabled(time[0] <= 0 && time[1] <= 0 && time[2] <= 0 && time[3] <= 0)
     }
   }, [itemNew, time])
-  
 
   return (
     <motion.div onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${itemNew.orderType === "upcomingDrop" ? "dis item" : "item"}`}>
@@ -117,7 +118,7 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       }
 
       <div className='img-wrapper'>
-        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? blurImages.length && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? (blurImages ? blurImages.length : 0) && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
       </div>
       <div className='text-wrapper'>
         <div className='text'>

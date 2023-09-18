@@ -81,7 +81,6 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
     if (newAr.length !== 0){
       newItems.push(newAr)
     }
-    console.log(newAr);
     setThreeLineItems(newItems)
   }, [filteredItems, width])
 

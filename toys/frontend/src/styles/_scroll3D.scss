@@ -21,16 +21,16 @@
         outline: none;
 
         &::-webkit-slider-thumb{
-            -webkit-appearance: none;
-            appearance: none;
+            // -webkit-appearance: none;
+            // appearance: none;
             // height: 32px;
             // width: 28px;
             // border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 2px solid black;
-            background: url('../assets/arrows.svg') no-repeat center center;
-            background-size: contain;
+            // background: url('../assets/arrows.svg') no-repeat center center;
+            // background-size: contain;
             background-color: white;
         }
     }

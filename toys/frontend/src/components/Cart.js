@@ -76,6 +76,7 @@ const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPr
               onClick={() => {
                 navigate("/")
                 setTimeout(() => storeRef.current?.scrollIntoView({behavior: "smooth"}), 100)
+                setCartOpened(false)
               }}
             >
               Go shopping

@@ -59,14 +59,24 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     }
   }
   
-  const [filteredItems, setFilteredItems] = useState(items.filter(it => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))))
+  /* Base case for store items : 
+
+  1. order ||
+  2. upcoming drop && its time to appear in store expired && its time to be removed from store is not expired ||
+  3. preorder && its time to be removed from store is not expired
+
+  */
+
+  const checkBaseCase = (it) => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))
+  
+  const [filteredItems, setFilteredItems] = useState(items.filter(it => checkBaseCase(it)))
   
   useEffect(() => {
-    setFilteredItems(items.filter(it => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))))
+    setFilteredItems(items.filter(it => checkBaseCase(it)))
   }, [items])
 
   useEffect(() => {
-    let newItems = cloneDeep(items.filter(it => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))))
+    let newItems = cloneDeep(filteredItems)
     const stock = appliedFilters.stock
     const type = appliedFilters.type
     const vendor = appliedFilters.vendor
@@ -80,12 +90,13 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     }
 
     if (stock.includes("all")) {
-      newItems = items.filter(it => ((it.quantityAvailable === 0) || (it.quantityAvailable >= 1)))
+      newItems = items.filter(it => ((it.quantityAvailable === 0) || (it.quantityAvailable >= 1)) && checkBaseCase(it))
     }
 
     newItems = newItems.filter(it => type.map(t => t === it.type).every(el => el === true))
     newItems = newItems.filter(it => vendor.map(v => v === it.madeBy).every(el => el === true))
     
+    console.log(newItems);
     setFilteredItems(newItems)
   }, [appliedFilters])
 
@@ -139,8 +150,6 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
     }
     setOneLineItems(newItems)
   }, [filteredItems, width])
-
-  console.log(twoLineItems);
 
   const threeItemsDisplay = width > 1000 ? threeLineItems.slice(0, shownItems).map(item => (
     <div className='block block-3'>
@@ -277,15 +286,25 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
             </div>
           </motion.div>
         </motion.div>
-        <motion.div animate={{marginTop: filter ? "60px": "0"}} transition={{type: "keyframes", ease: "linear", duration: .2}} className='items'>
-          {threeItemsDisplay}
-            {
-              shownItems < (width > 1000 ? filteredItems.length / 3 : width > 600 ? filteredItems.length / 2 : filteredItems.length) &&
-              <div className='more'>
-                <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
+        {
+          threeItemsDisplay.length ?
+            <motion.div animate={{marginTop: filter ? "60px": "0"}} transition={{type: "keyframes", ease: "linear", duration: .2}} className='items'>
+              {threeItemsDisplay}
+                {
+                  shownItems < (width > 1000 ? filteredItems.length / 3 : width > 600 ? filteredItems.length / 2 : filteredItems.length) &&
+                  <div className='more'>
+                    <button onClick={() => setShownItems(prev => prev + 3)}>MORE</button>
+                  </div>
+                }
+            </motion.div>
+          :
+            <motion.div className='empty-store' animate={{marginTop: filter ? "60px": "0"}} transition={{type: "keyframes", ease: "linear", duration: .2}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12.5 22h-9.5v-14h3v1.5c0 .276.224.5.5.5s.5-.224.5-.5v-1.5h6v1.5c0 .276.224.5.5.5s.5-.224.5-.5v-1.5h3v5.181c.482-.114.982-.181 1.5-.181l.5.025v-7.025h-5v-2c0-2.209-1.791-4-4-4s-4 1.791-4 4v2h-5v18h12.816c-.553-.576-1.004-1.251-1.316-2zm-5.5-18c0-1.654 1.346-3 3-3s3 1.346 3 3v2h-6v-2zm16 15.5c0 2.485-2.017 4.5-4.5 4.5s-4.5-2.015-4.5-4.5 2.017-4.5 4.5-4.5 4.5 2.015 4.5 4.5zm-3.086-2.122l-1.414 1.414-1.414-1.414-.707.708 1.414 1.414-1.414 1.414.707.708 1.414-1.414 1.414 1.414.708-.708-1.414-1.414 1.414-1.414-.708-.708z"/></svg>
+              <div className='text'>
+                <p>No items found in store for applied filters</p>
               </div>
-            }
-        </motion.div>
+            </motion.div>
+        }
       </div>
     </>
   )

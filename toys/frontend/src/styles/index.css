@@ -1357,6 +1357,24 @@
   background-color: #333;
   color: white;
 }
+.store .empty-store {
+  min-height: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.store .empty-store svg {
+  width: 60px;
+  height: 60px;
+}
+.store .empty-store .text {
+  font-size: 1.2em;
+  font-weight: 600;
+}
 
 @media (max-width: 1680px) {
   .store .items {
@@ -1553,13 +1571,9 @@
   outline: none;
 }
 .scroll3D input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: 2px solid black;
-  background: url("../assets/arrows.svg") no-repeat center center;
-  background-size: contain;
   background-color: white;
 }
 
@@ -2103,6 +2117,7 @@
   overflow: auto;
   overflow-x: hidden;
   display: flex;
+  border-radius: 12px;
   justify-content: space-between;
 }
 .contact-form::-webkit-scrollbar {
@@ -2122,6 +2137,8 @@
   padding-top: 0.4rem;
   padding-left: 1rem;
   border-bottom: 1px solid black;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   display: flex;
   position: fixed;
   align-items: center;
@@ -2235,6 +2252,9 @@
   border-left: 1px solid black;
   border-right: 1px solid black;
   background-color: var(--white-color);
+}
+.contact-form .blocks .block .field .error {
+  color: rgb(247, 61, 61);
 }
 .contact-form .blocks .block .radio-field {
   margin-top: 1rem;
