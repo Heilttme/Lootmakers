@@ -3,13 +3,19 @@ import { t } from 'i18next'
 import tg from "../../../src/assets/b-tg.png"
 import axios from "axios"
 import { motion } from 'framer-motion'
+import useWindowDimensions from '../useWindowDimensions'
 
 const DeleteReview = ({ reviews }) => {
+  const [oneLineItems, setOneLineItems] = useState([])
+  const [twoLineItems, setTwoLineItems] = useState([])
+  const [threeLineItems, setThreeLineItems] = useState([])
+  const [filterFocus, setFilterFocus] = useState(false)
 
   let reviewsDisplay = reviews.map(item => <ReviewDeleteItem item={item}/>)
 
   const [filter, setFilter] = useState(-1)
   const [filteredItems, setFilteredItems] = useState([])
+  const { height, width } = useWindowDimensions()
 
   useEffect(() => {
     if (filter !== -1) {
@@ -18,8 +24,87 @@ const DeleteReview = ({ reviews }) => {
     setFilteredItems(reviewsDisplay)
   }, [filter])
 
-  const [filterFocus, setFilterFocus] = useState(false)
-  
+  useEffect(() => {
+    const newItems = []
+    let newAr = [] 
+    for (let i = 0; i < filteredItems.length; i++) {
+      newAr.push(filteredItems[i])
+      
+      if (newAr.length === 3) {
+        newItems.push(newAr)
+        newAr = []
+      }
+    }
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
+    setThreeLineItems(newItems)
+  }, [filteredItems, width])
+
+  useEffect(() => {
+    const newItems = []
+    let newAr = [] 
+    for (let i = 0; i < filteredItems.length; i++) {
+      newAr.push(filteredItems[i])
+
+      if (newAr.length === 2) {
+        newItems.push(newAr)
+        newAr = []
+      }
+    }
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
+    setTwoLineItems(newItems)
+  }, [filteredItems, width])
+
+  useEffect(() => {
+    const newItems = []
+    let newAr = [] 
+    for (let i = 0; i < filteredItems.length; i++) {
+      newAr.push(filteredItems[i])
+
+      if (newAr.length === 1) {
+        newItems.push(newAr)
+        newAr = []
+      }
+    }
+    if (newAr.length !== 0){
+      newItems.push(newAr)
+    }
+    setOneLineItems(newItems)
+  }, [filteredItems, width])
+
+  const threeItemsDisplay =
+  width > 1500 ? 
+    threeLineItems.map(item => 
+      <div className='block-3 block'>
+        {item.map(review => <div className='block-item'>
+          {review}
+        </div>)}
+      </div>
+    )
+  : 
+    width > 1000 ?
+
+    twoLineItems.map(item => 
+      <div className='block-2 block'>
+        {item.map(review => <div className='block-item'>
+          {review}
+        </div>)}
+      </div>
+    )
+  : 
+    oneLineItems.map(item => 
+      <div className='block-1 block'>
+        {item.map(review => <div className='block-item'>
+          {review}
+        </div>)}
+      </div>
+    )
+
+  console.log(threeLineItems);
+
   return (
     <div className='delete-review'>
       <div className='filter'>
@@ -34,7 +119,7 @@ const DeleteReview = ({ reviews }) => {
         <motion.label animate={((filter && filter !== -1) || filterFocus) ? {y: -30, x: -15, fontSize: "16px", color: "rgb(0, 0, 0)"} : {color: "rgb(255, 255, 255)"}} transition={{color: {stiffness: 100}}} className={`text-label`} htmlFor={`filter`}>{t("Filter")}</motion.label>
       </div>
       <div className='items'>
-        {filteredItems}
+        {threeItemsDisplay}
       </div>
     </div>
   )

@@ -59,10 +59,8 @@ function App() {
         Citems.forEach(item => {
           const checkIfItemInCart = cart.map(cartItem => cartItem.id).includes(item.id)
           const checkIfItemInStore = items.map(it => it.id).includes(item.id)
-          console.log(checkIfItemInCart, checkIfItemInStore);
           if (!checkIfItemInCart && checkIfItemInStore) addToStateCart(item)
         })
-        console.log(Citems);
       }
     }
   }, [items])
