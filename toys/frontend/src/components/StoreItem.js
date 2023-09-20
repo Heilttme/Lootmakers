@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 
-const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored, setCensored }) => {
+const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored, setCensored, disabled }) => {
   const navigate = useNavigate()
   const [mobile] = useState((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
   const [isItemDisabled, setIsItemDisabled] = useState(false)
@@ -54,27 +54,56 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
       const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000)
       setUpComingDropEnabled((days1 > 0 && hours1 > 0 && minutes1 > 0 && seconds1 > 0) && (days0 <= 0 && hours0 <= 0 && minutes0 <= 0 && seconds0 <= 0))
       setTime([days1, hours1, minutes1, seconds1])
-      // const x = setInterval(() => {
-      //   const now = new Date().getTime()
-      //   const distance = countDownDate1 - now
-
-      //   const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-      //   const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      //   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-      //   const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-      //   setTime([days, hours, minutes, seconds])
-      // }, 1000)
     }
   }, [itemNew])
 
   useEffect(() => {
     if (itemNew) {
-      setIsItemDisabled(time[0] <= 0 && time[1] <= 0 && time[2] <= 0 && time[3] <= 0)
+      if (itemNew.orderType === "upcomingDrop" && time[0] <= 0 && time[1] <= 0 && time[2] <= 0 && time[3] <= 0)
+      setIsItemDisabled(false)
     }
   }, [itemNew, time])
 
+  const checkItemTime = (curItem) => {
+    // used to check if preorder or upcoming date time is either expired or not
+    // checks if starting date (countDownDate) is less than now 
+    if (curItem){
+      const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
+      const now = new Date().getTime()
+      const distance = countDownDate - now
+  
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+      return (days >= 0 && hours >= 0 && minutes >= 0 && seconds >= 0) || (curItem.year === 0 && curItem.month === 0 && curItem.day === 0 && curItem.hour === 0)
+    }
+  }
+
+  const checkUpcomingTime = (curItem) => {
+    // used to check if upcoming date time is either started or not and expired
+    // checks if starting date (countDownDate1) is greater than now 
+    if (curItem){
+      const countDownDate1 = curItem && new Date(curItem.year1, curItem.month1 - 1, curItem.day1, curItem.hour1)
+
+      const now = new Date().getTime()
+      const distance1 = countDownDate1 - now
+  
+      const days1 = Math.floor(distance1 / (1000 * 60 * 60 * 24))
+      const hours1 = Math.floor((distance1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes1 = Math.floor((distance1 % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000)
+
+      return (days1 <= 0 && hours1 <= 0 && minutes1 <= 0 && seconds1 <= 0)
+    }
+  }
+
+  useEffect(() => {
+    if (itemNew.blurred && !checkItemTime(itemNew)) navigate("/")
+  }, [itemNew])
+
   return (
-    <motion.div onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${itemNew.orderType === "upcomingDrop" ? "dis item" : "item"}`}>
+    <motion.div onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${disabled ? "dis item" : "item"}`}>
     {/* <motion.div style={{filter: itemNew.orderType === "upcomingDrop" && "grayscale(100%)"}} onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${itemNew.blurred ? "dis item" : "item"}`}> */}
       {
         itemNew.orderType === "preorder" && 

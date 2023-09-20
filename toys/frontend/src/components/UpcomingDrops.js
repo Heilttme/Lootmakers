@@ -123,10 +123,10 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
       {
         <>
           {item.map(itemNew => 
-            <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+            <StoreItem disabled={true} blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
           )}
           {/* {item.length === 1 && <img className='fill' src={fill}></img>} */}
-          {item.length === 2 && <img className='fill' src={fill}></img>}
+          {(item.length === 1 || item.length === 2) && <img style={{width: item.length === 1 ? "66.66%" : item.length === 2 && "33.33%"}} className='fill' src={fill}></img>}
         </>
       }
     </div>
@@ -137,7 +137,7 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
         {
           <>
             {item.map(itemNew => 
-              <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+              <StoreItem disabled={true} blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
             )}
             {item.length === 1 && <img className='fill' src={fill}></img>}
           </>
@@ -148,7 +148,7 @@ const UpcomingDrops = ({ blurImages, censored, setCensored, stockFilter, setStoc
   oneLineItems.slice(0, shownItems).map(item => (
     <div className='block block-1'>
       {item.map(itemNew => 
-        <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+        <StoreItem disabled={true} blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   ))

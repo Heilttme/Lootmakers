@@ -3,7 +3,7 @@
     top: 0;
     margin: 0 auto;
     width: 100%;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #bebebe;
     z-index: 12000;
     font-size: .9em;
 }
@@ -38,9 +38,7 @@
         align-items: center;
 
         &:hover{
-            background-color: white;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
+            background-color: #e6e6e6;
 
             svg{
                 transform: rotate(-90deg);
@@ -74,7 +72,7 @@
 
         &:hover{
             .slide-out{
-                transform: translateY(165px);
+                transform: translateY(195px);
             }
         }
     }
@@ -85,13 +83,13 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        top: -60px;
+        top: -80px;
         left: 0;
         right: 0;
         bottom: 0;
         margin: auto;
         width: 100%;
-        height: 204px;
+        height: 244px;
         // gap: 1.2rem;
         font-size: 1.2em;
         font-weight: 500;
@@ -160,10 +158,9 @@
             justify-content: center;
 
             &:hover{
-                background-color: white;
-                border-left: 1px solid black;
-                border-right: 1px solid black;
-    
+                background-color: #e6e6e6;
+                // border-left: 1px solid black;
+                
                 svg{
                     transform: rotate(-90deg);
                 }
@@ -189,14 +186,14 @@
 
             .count{
                 position: absolute;
-                width: 20px;
-                height: 20px;
+                width: 22px;
+                height: 22px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 right: -20px;
                 top: -5px;
-                font-size: .55em;
+                font-size: .45em;
                 background-color: #333;
                 padding: .2rem;
                 border-radius: 50%;
@@ -288,6 +285,11 @@
         height: 168px;
         top: -108px;
     }
+
+    .header .right-lane .cart-container .count {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -307,6 +309,12 @@
         font-size: .65em;
         height: 150px;
         top: -126px;
+    }
+
+    .header .right-lane .cart-container .count {
+        width: 16px;
+        height: 16px;
+        right: -16px;
     }
 }
 

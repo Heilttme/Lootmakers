@@ -3,7 +3,7 @@
     z-index: 1000;
     width: 50vw;
     background-color: white;
-    border: 1px solid black;
+    // border: 1px solid black;
     top: 2rem;
     left: 0;
     right: 0;
@@ -37,22 +37,38 @@
         height: 65px;
         width: calc(50vw - 2px);
         z-index: 123123;
-        font-size: 2em;
+        font-size: 1.8em;
         font-weight: 500;
         padding-left: 1rem;
-        border-bottom: 2px solid black;
+        border-bottom: 1px solid #bebebe;
         display: flex;
         align-items: center;
         justify-content: space-between;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
+
+        .remove-btn-cross{
+            position: absolute;
+            right: .6rem;
+            top: .8rem;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all .1s ease-in-out;
+    
+            &:hover{
+                background-color: #cacaca;
+            }
+    
+            svg{
+                position: relative;
+                top: 2px;
+                width: 30px;
+                height: 24px;
+                opacity: .9;
+            }
+        }
     }
 
-    .leave{
-        width: 50px;
-        margin-right: .6rem;
-        cursor: pointer;
-    }
     
     .empty{
         padding-top: 40px;
@@ -187,8 +203,8 @@
 
                 svg{
                     position: relative;
-                    top: 1px;
-                    width: 24px;
+                    top: 2px;
+                    width: 26px;
                     height: 24px;
                     opacity: .45;
                 }
@@ -363,7 +379,7 @@
             s{
                 position: absolute;
                 right: -2rem;
-                top: -.4rem;
+                top: .4rem;
             }
         }
 

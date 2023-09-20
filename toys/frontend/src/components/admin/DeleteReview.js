@@ -85,8 +85,7 @@ const DeleteReview = ({ reviews }) => {
       </div>
     )
   : 
-    width > 1000 ?
-
+    width > 1000 ? 
     twoLineItems.map(item => 
       <div className='block-2 block'>
         {item.map(review => <div className='block-item'>

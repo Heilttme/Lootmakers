@@ -163,7 +163,7 @@
             .item{
                 width: 33.33%;
                 // height: 650px;
-                filter: grayscale(100%);
+                // filter: grayscale(100%);
                 transition: all .2s ease-in-out;
                 cursor: pointer;
                 font-size: 1.6em;
@@ -177,7 +177,7 @@
                 overflow: hidden;
 
                 &:hover{
-                    filter: unset;
+                    // filter: unset;
 
                     .quick-btn{
                         transform: translateY(calc(var(--quick-height) * -1));
@@ -265,6 +265,13 @@
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
+                    transition: all .2s ease-in-out;
+                }
+
+                &:hover{
+                    img {
+                        scale: 1.025;
+                    }
                 }
 
                 .quick-btn{
@@ -290,13 +297,13 @@
 
             .dis{
                 cursor: default;
+                filter: grayscale(100%);
 
                 img{
                     transition: all .3s ease-in-out;
                 }
                 
                 &:hover{
-                    filter: grayscale(100%);
                     
                     img{
                         scale: 1.02;

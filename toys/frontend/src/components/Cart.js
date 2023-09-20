@@ -28,7 +28,9 @@ const Cart = ({ storeRef, setPromoApplied, promoApplied, total, setTotal, setMen
       <div className='cart-blocks-wrapper'>
         <div className='cart-header'>
           <p>{t("CART")}</p>
-          <svg className='leave' onClick={() => {setCartOpened(false);allowScroll()}} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 3.998c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-8.991 6.932 2.717-2.718c.146-.146.338-.219.53-.219.405 0 .751.325.751.75 0 .193-.073.384-.219.531l-2.718 2.717 2.728 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.531-.219l-2.728-2.728-2.728 2.728c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .384.073.53.219z" fill-rule="nonzero"/></svg>
+          <div className='remove-btn-cross'>
+            <svg onClick={() => setCartOpened(false)} clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"/></svg>
+          </div>
         </div>
 
         <CartList storeRef={storeRef} step={step} setStep={setStep} total={total} setTotal={setTotal} setPromoApplied={setPromoApplied} promoApplied={promoApplied} setMenuOpened={setMenuOpened} items={items} cart={cart} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
@@ -90,8 +92,8 @@ const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPr
         <motion.div animate={{y: proceedMove ? 100 : 0}} transition={{duration: ".1"}} className='continue'>
           <div className='subtotal'>
             <p>Subtotal:</p>
-            <h2>${promoApplied === 1 ? (total * 0.9).toFixed(2) : total}</h2>
-            {promoApplied === 1 && <s>${total.toFixed(2)}</s>}
+            <h2>${promoApplied === 1 ? (parseFloat(total) * 0.9).toFixed(2) : total}</h2>
+            {promoApplied === 1 && <s>${parseFloat(total).toFixed(2)}</s>}
           </div>
           <div className='checkout'>
             <div className='promocode-block'>
@@ -136,7 +138,6 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
         newAr.push(it)
       }
     })
-    console.log(newAr);
     localStorage.setItem("i", JSON.stringify(newAr))
   }
 

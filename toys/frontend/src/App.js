@@ -27,6 +27,7 @@ function App() {
 
   const [promoApplied, setPromoApplied] = useState(0)
   const [total, setTotal] = useState(0)
+  console.log(items);
 
   // filters states
   
@@ -74,7 +75,9 @@ function App() {
     if (!cart.filter(i => i.id === item.id).length) {
       addToStateCart(items.filter(i => i.id === item.id)[0])
       const Citems = JSON.parse(localStorage.getItem("i"))
-      localStorage.setItem("i", JSON.stringify([...Citems, items.filter(i => parseInt(i.id) === parseInt(item.id))[0]]))
+      let queryItem = items.filter(i => parseInt(i.id) === parseInt(item.id))[0]
+      queryItem.quantity = 1
+      localStorage.setItem("i", JSON.stringify([...Citems, queryItem]))
       if (cartCounterRef.current !== null) cartCounterRef.current.className = "count scaled"
       setTimeout(() => {
         if (cartCounterRef.current !== null) cartCounterRef.current.className = "count"

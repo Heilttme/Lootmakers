@@ -23,6 +23,8 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
   })
 
   const checkItemTime = (curItem) => {
+    // used to check if preorder or upcoming date time is either expired or not
+    // checks if starting date (countDownDate) is less than now 
     if (curItem){
       const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
       const now = new Date().getTime()
@@ -37,37 +39,32 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
   }
 
   const checkUpcomingTime = (curItem) => {
+    // used to check if upcoming date time is either started or not and expired
+    // checks if starting date (countDownDate1) is greater than now 
     if (curItem){
       const countDownDate1 = curItem && new Date(curItem.year1, curItem.month1 - 1, curItem.day1, curItem.hour1)
-      const countDownDate0 = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
 
       const now = new Date().getTime()
       const distance1 = countDownDate1 - now
-      const distance0 = countDownDate0 - now
   
       const days1 = Math.floor(distance1 / (1000 * 60 * 60 * 24))
       const hours1 = Math.floor((distance1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       const minutes1 = Math.floor((distance1 % (1000 * 60 * 60)) / (1000 * 60))
       const seconds1 = Math.floor((distance1 % (1000 * 60)) / 1000)
 
-      const days0 = Math.floor(distance0 / (1000 * 60 * 60 * 24))
-      const hours0 = Math.floor((distance0 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes0 = Math.floor((distance0 % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds0 = Math.floor((distance0 % (1000 * 60)) / 1000)
-
-      return (days1 > 0 && hours1 > 0 && minutes1 > 0 && seconds1 > 0) && (days0 <= 0 && hours0 <= 0 && minutes0 <= 0 && seconds0 <= 0)
+      return (days1 <= 0 && hours1 <= 0 && minutes1 <= 0 && seconds1 <= 0)
     }
   }
   
   /* Base case for store items : 
 
-  1. order ||
-  2. upcoming drop && its time to appear in store expired && its time to be removed from store is not expired ||
-  3. preorder && its time to be removed from store is not expired
+    1. order ||
+    2. upcoming drop && its time to appear in store expired && its time to be removed from store is not expired ||
+    3. preorder && its time to be removed from store is not expired
 
   */
 
-  const checkBaseCase = (it) => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it)) || (it.orderType === "preorder" && checkItemTime(it))
+  const checkBaseCase = (it) => it.orderType === "order" || (it.orderType === "upcomingDrop" && checkUpcomingTime(it) && checkItemTime(it)) || (it.orderType === "preorder" && checkItemTime(it))
   
   const [filteredItems, setFilteredItems] = useState(items.filter(it => checkBaseCase(it)))
   
@@ -76,7 +73,8 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
   }, [items])
 
   useEffect(() => {
-    let newItems = cloneDeep(filteredItems)
+    let newItems = cloneDeep(items)
+    newItems = newItems.filter(el => checkBaseCase(el))
     const stock = appliedFilters.stock
     const type = appliedFilters.type
     const vendor = appliedFilters.vendor
@@ -93,10 +91,10 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
       newItems = items.filter(it => ((it.quantityAvailable === 0) || (it.quantityAvailable >= 1)) && checkBaseCase(it))
     }
 
-    newItems = newItems.filter(it => type.map(t => t === it.type).every(el => el === true))
-    newItems = newItems.filter(it => vendor.map(v => v === it.madeBy).every(el => el === true))
+    // console.log(newItems)
+    newItems = newItems.filter(it => !type.length || it.type === type[0])
+    newItems = newItems.filter(it => !vendor.length || it.madeBy === vendor[0])
     
-    console.log(newItems);
     setFilteredItems(newItems)
   }, [appliedFilters])
 

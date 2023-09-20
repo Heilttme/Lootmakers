@@ -46,7 +46,7 @@ const Header = ({ allowScroll, blockScroll, cart, changeLanguage, setCartOpened,
               {t("CART")}
               {
                 cart.length !== 0 &&
-                <p ref={cartCounterRef} className='count'>{cart.reduce((c, i) => c + i.quantity, 0)}</p>
+                <p ref={cartCounterRef} className='count'>{cart.reduce((c, i) => c + i.quantity, 0) >= 99 ? "99+" : cart.reduce((c, i) => c + i.quantity, 0)}</p>
               }
             </a>
           </div>

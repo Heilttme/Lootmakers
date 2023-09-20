@@ -167,6 +167,7 @@
                 }
         
                 .text-label{
+                    color: white;
                     position: absolute;
                     top: 0rem;
                     left: .5rem;
@@ -197,7 +198,6 @@
                 textarea{
                     height: 6rem;
                     padding: .6rem 1rem;
-
                     
                     &::-webkit-scrollbar-track{
                         background-color: black;

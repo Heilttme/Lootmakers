@@ -266,7 +266,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
                   <motion.p initial={{x: 0}} animate={{x: inCart ? -200 : 0}}>{t("ADD TO CART")}</motion.p>
                   <motion.p initial={{x: 150}} animate={{x: inCart ? 0 : 150}} className='added'>{t("ADDED")}</motion.p>
                 </>
-                  : (curItem.orderType === "upcomingDrop" && !isItemDisabled) ? 
+                  : (curItem.orderType === "preorder" && isItemDisabled) ? 
                 <>
                   <p>SOLD OUT</p>
                 </>

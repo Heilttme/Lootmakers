@@ -10,36 +10,36 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-right: 1px solid #000;
+        border-right: 1px solid #e6e6e6;
 
         .block{
             width: 100%;
             
             a{
                 cursor: pointer;
-                transition: background-color .2s ease-in-out;
+                transition: background-color .2s ease-in-out, border-bottom .1s ease-in-out;
                 user-select: none;
                 width: 100%;
                 font-size: 1.5em;
                 font-weight: 500;
                 position: relative;
-                border: 1px solid #e6e6e6;
+                // border: 1px solid #bebebe;
 
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 padding-top: .8rem;
                 padding-bottom: .8rem;
+                border-bottom: 1px solid white;
 
                 &:hover{
-                    background-color: white;
-                    border-bottom: 1px solid black;
+                    background-color: #e6e6e6;
                 }
             }
 
             .current{
                 // border-top: 1px solid black;
-                border-bottom: 1px solid black;
+                border-color: #bebebe;
             }
         }
 
@@ -588,11 +588,15 @@
                 position: relative;
                 z-index: 123;
                 border-left: 1px solid black;
-                border-top: 1px solid black;
                 border-bottom: 1px solid black;
-                border-right: 1px solid black;
+                // border-right: 1px solid black;
                 overflow: hidden;
                 width: 33.33%;
+
+                &:last-child{
+                    border-right: 1px solid black;
+
+                }
 
                 .removed{
                     position: absolute;
@@ -615,7 +619,7 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-between;
-                border-right: 1px solid black;
+                // border-right: 1px solid black;
                 --quick-height: 40px;
                 overflow: hidden;
                 z-index: 12312;
@@ -752,6 +756,17 @@
             .block{
                 width: 100%;
                 display: flex;
+
+                &:first-child{
+                    border-top: 1px solid black;
+                }
+                
+                .block-item{
+                    &:last-child {
+                        border-right: 1px solid black;
+                    }
+                }
+    
             }
 
             .block-3{
@@ -777,10 +792,9 @@
             position: relative;
             z-index: 123;
             border-left: 1px solid black;
-            border-top: 1px solid black;
             border-bottom: 1px solid black;
-            border-right: 1px solid black;
             overflow: hidden;
+            height: 100%;
 
             .removed{
                 position: absolute;
