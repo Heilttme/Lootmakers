@@ -8,6 +8,11 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
   const [isItemDisabled, setIsItemDisabled] = useState(false)
   const [time, setTime] = useState([])
   const [upComingDropEnabled, setUpComingDropEnabled] = useState(false)
+  const [archiveDisabled, setArchiveDisabled] = useState(false)
+
+  useEffect(() => {
+    (itemNew && itemNew.blurred && checkUpcomingTime(itemNew)) && setArchiveDisabled(true)
+  }, [itemNew])
 
   useEffect(() => {
     // TIMER IS MADE OF 2 CASES (TYPES OF ITEM, EITHER UPCOMING DROP OR OTHER ONES)
@@ -57,12 +62,12 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
     }
   }, [itemNew])
 
-  useEffect(() => {
-    if (itemNew) {
-      if (itemNew.orderType === "upcomingDrop" && time[0] <= 0 && time[1] <= 0 && time[2] <= 0 && time[3] <= 0)
-      setIsItemDisabled(false)
-    }
-  }, [itemNew, time])
+  // useEffect(() => {
+  //   if (itemNew) {
+  //     if (itemNew.orderType === "upcomingDrop" && time[0] <= 0 && time[1] <= 0 && time[2] <= 0 && time[3] <= 0)
+  //     setIsItemDisabled(false)
+  //   }
+  // }, [itemNew, time])
 
   const checkItemTime = (curItem) => {
     // used to check if preorder or upcoming date time is either expired or not
@@ -99,11 +104,13 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
   }
 
   useEffect(() => {
-    if (itemNew.blurred && !checkItemTime(itemNew)) navigate("/")
+    // if (itemNew.blurred && !checkItemTime(itemNew)) navigate("/")
   }, [itemNew])
 
+  console.log(blurImages);
+  
   return (
-    <motion.div onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${disabled ? "dis item" : "item"}`}>
+    <motion.div onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${(disabled || archiveDisabled) ? "dis item" : "item"}`}>
     {/* <motion.div style={{filter: itemNew.orderType === "upcomingDrop" && "grayscale(100%)"}} onClick={() => !itemNew.blurred && navigate(`/items/${itemNew.id}`)} className={`${itemNew.blurred ? "dis item" : "item"}`}> */}
       {
         itemNew.orderType === "preorder" && 
@@ -145,9 +152,19 @@ const StoreItem = ({ blurImages, displayImages, setQuickShop, itemNew, censored,
           <div className='blocker blocker-2'/>
         </>
       }
+      {
+        (!checkItemTime(itemNew) && itemNew.orderType !== "order") && 
+        <>
+          <motion.div initial={{x: 0}} animate={{x: -2000}} transition={{duration: 50, repeat: Infinity, repeatType: "reverse", ease: "linear"}} className='preorder'>
+          {[...Array(100)].map(() => <p>EXPIRED</p>)}
+          </motion.div>
+          <div className='blocker blocker-1'/>
+          <div className='blocker blocker-2'/>
+        </>
+      }
 
       <div className='img-wrapper'>
-        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? (blurImages ? blurImages.length : 0) && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
+        <img style={{filter: (censored && itemNew.censor === true) ? "blur(2rem)" : "unset"}} src={`http://127.0.0.1:8000${itemNew.blurred ? blurImages && blurImages.filter(image => image.item === itemNew.id)[0].image : displayImages.length && displayImages.filter(image => image.item === itemNew.id)[0].image}`}/>
       </div>
       <div className='text-wrapper'>
         <div className='text'>

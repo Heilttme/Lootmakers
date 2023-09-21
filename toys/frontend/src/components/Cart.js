@@ -11,6 +11,7 @@ const Cart = ({ storeRef, setPromoApplied, promoApplied, total, setTotal, setMen
   const decQuantity = useStore(state => state.decrement)
   const cart = useStore(state => state.cart)
   const [step, setStep] = useState(0)
+  const [proceedMove, setProceedMove] = useState(false)
   
   useEffect(() => {
     setTimeout(() => cartOpened && blockScroll(), 220)
@@ -21,7 +22,7 @@ const Cart = ({ storeRef, setPromoApplied, promoApplied, total, setTotal, setMen
   return (
     <motion.div 
       initial={{x: 3000}}
-      animate={{x: cartOpened ? 0 : 3000}}
+      animate={{x: cartOpened ? 0 : 3000, overflow: proceedMove && "hidden"}}
       transition={{x: {type: "tween"}}}
       className='cart'
     >
@@ -33,7 +34,7 @@ const Cart = ({ storeRef, setPromoApplied, promoApplied, total, setTotal, setMen
           </div>
         </div>
 
-        <CartList storeRef={storeRef} step={step} setStep={setStep} total={total} setTotal={setTotal} setPromoApplied={setPromoApplied} promoApplied={promoApplied} setMenuOpened={setMenuOpened} items={items} cart={cart} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
+        <CartList proceedMove={proceedMove} setProceedMove={setProceedMove} storeRef={storeRef} step={step} setStep={setStep} total={total} setTotal={setTotal} setPromoApplied={setPromoApplied} promoApplied={promoApplied} setMenuOpened={setMenuOpened} items={items} cart={cart} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
         
         <Delivery step={step}/>
       </div>
@@ -41,10 +42,9 @@ const Cart = ({ storeRef, setPromoApplied, promoApplied, total, setTotal, setMen
   )
 }
 
-const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPromoApplied, total, setMenuOpened, items, displayImages, setCartOpened, incQuantity, decQuantity }) => {
-  const [proceedMove, setProceedMove] = useState(false)
+const CartList = ({ setProceedMove, proceedMove, storeRef, step, setStep, setTotal, cart, promoApplied, setPromoApplied, total, setMenuOpened, items, displayImages, setCartOpened, incQuantity, decQuantity }) => {
   const cartItems = cart.map(item => (
-    <CartItem setProceedMove={setProceedMove} setMenuOpened={setMenuOpened} key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
+    <CartItem proceedMove={proceedMove} setProceedMove={setProceedMove} setMenuOpened={setMenuOpened} key={item.id} items={items} cart={cart} item={item} displayImages={displayImages} setCartOpened={setCartOpened} incQuantity={incQuantity} decQuantity={decQuantity}/>
   ))
   const navigate = useNavigate()
 
@@ -73,7 +73,7 @@ const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPr
       <div className='wrapper'>
         <div className='cart-items'> {/* add a wrapper to items to avoid animation failure and stick continue to it */}
           {cartItems}
-          <div className='shopping'>
+          <motion.div animate={{y: proceedMove ? -100 : 0}} transition={{duration: ".1"}} className='shopping'>
             <button 
               onClick={() => {
                 navigate("/")
@@ -87,7 +87,7 @@ const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPr
             {/* <div className='shopping-wrapper'>
               
             </div> */}
-          </div>
+          </motion.div>
         </div>
         <motion.div animate={{y: proceedMove ? 100 : 0}} transition={{duration: ".1"}} className='continue'>
           <div className='subtotal'>
@@ -120,13 +120,14 @@ const CartList = ({ storeRef, step, setStep, setTotal, cart, promoApplied, setPr
 }
 
 
-const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, setCartOpened, incQuantity, decQuantity }) => {
+const CartItem = ({ setProceedMove, proceedMove, setMenuOpened, items, item, displayImages, setCartOpened, incQuantity, decQuantity }) => {
   const navigate = useNavigate()
   const [removedShadow, setRemovedShadow] = useState(false)
   const [removedItem, setRemovedItem] = useState(false)
   const removeFromCart = useStore(state => state.remove)
   const [timeout, addTimeout] = useState("")
   const cart = useStore(state => state.cart)
+
 
   const clickInc = () => {
     incQuantity(item)
@@ -174,15 +175,10 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
           localStorage.setItem("i", JSON.stringify([...Citems]))
           removeFromCart(items.filter(i => i.id === item.id)[0])
         }, 450)
-      }, 5000)
+      }, 0) // 5000 for 5 sec delay
     )
   }
 
-  // useEffect(() => {
-  //   if (cartItems.length === 0) {
-  //     setProceedMove(true)
-  //   }
-  // }, [cartItems])
 
   const cancelRemove = () => {
     setRemovedShadow(false)
@@ -191,7 +187,8 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
 
   return (
     <motion.div
-      animate={{height: removedItem ? "0" : "auto"}}
+      animate={{height: removedItem ? "0" : "auto", y: proceedMove ? -600: 0}}
+      transition={{y: {duration: .1}}}
       className='item-wrapper'
     >
       <motion.div
@@ -232,7 +229,7 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
           <p className='price'>${item.price} USD</p>
         </div>
       </motion.div>
-      {
+      {/* { remove confirmation
         removedShadow && 
           <div className='remove-warn'>
             <div></div>
@@ -241,8 +238,8 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
               <button onClick={cancelRemove}>{t("Undo")}</button>
             </div>
           </div>
-      }
-      {
+      } */}
+      {/* {
         removedShadow && 
           <motion.div
             initial={{width: "100%"}}
@@ -250,7 +247,7 @@ const CartItem = ({ setProceedMove, setMenuOpened, items, item, displayImages, s
             transition={{duration: "5", stiffness: 100}}
             className='line'
           />
-      }
+      } */}
     </motion.div>
   )
 }

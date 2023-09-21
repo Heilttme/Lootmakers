@@ -46,7 +46,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
   }, [items, id])
 
   useEffect(() => {
-    if (curItem && curItem.orderType !== "upcomingDrop") {
+    if (curItem && curItem.orderType !== "upcomingDrop" && curItem.orderType !== "order") {
       const countDownDate = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
 
       const now = new Date().getTime()
@@ -69,7 +69,7 @@ const Item = ({ buttonRef, addToCart, cart, items, setAgeRestriction, ageRestric
         setTime([days, hours, minutes, seconds])
       }, 1000)
 
-    } else if (curItem && curItem.orderType === "upcomingDrop") {
+    } else if (curItem && curItem.orderType === "upcomingDrop" && curItem.orderType !== "order") {
       const countDownDate0 = curItem && new Date(curItem.year, curItem.month - 1, curItem.day, curItem.hour)
       const countDownDate1 = curItem && new Date(curItem.year1, curItem.month1 - 1, curItem.day1, curItem.hour1)
 

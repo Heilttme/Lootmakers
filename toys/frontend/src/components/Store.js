@@ -7,7 +7,7 @@ import { cloneDeep } from "lodash"
 import fill from "../assets/IVAN.png"
 import StoreItem from "./StoreItem"
 
-const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages, censor, setCensor }) => {
+const Store = ({ blurImages, censored, setCensored, stockFilter, setStockFilter, typeFilter, setTypeFilter, vendorFilter, setVendorFilter, setQuickShop, items, storeRef, displayImages, censor, setCensor }) => {
   const [oneLineItems, setOneLineItems] = useState([])
   const [twoLineItems, setTwoLineItems] = useState([])
   const [threeLineItems, setThreeLineItems] = useState([])
@@ -154,7 +154,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
       {
         <>
           {item.map(itemNew => 
-            <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+            <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
           )}
           {(item.length === 1 || item.length === 2) && <img style={{width: item.length === 1 ? "66.66%" : item.length === 2 && "33.33%"}} className='fill' src={fill}></img>}
         </>
@@ -167,7 +167,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
         {
           <>
             {item.map(itemNew => 
-              <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+              <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
             )}
             {item.length === 1 && <img className='fill' src={fill}></img>}
           </>
@@ -178,7 +178,7 @@ const Store = ({ censored, setCensored, stockFilter, setStockFilter, typeFilter,
   oneLineItems.slice(0, shownItems).map(item => (
     <div className='block block-1'>
       {item.map(itemNew => 
-        <StoreItem censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
+        <StoreItem blurImages={blurImages} censored={censored} setCensored={setCensored} displayImages={displayImages} setQuickShop={setQuickShop} itemNew={itemNew}/>
       )}
     </div>
   ))
