@@ -2,4 +2,6 @@ Lootmakers
 
 in dev
 
-Eccomerce web site made with React + Django Rest Api
+Eccomerce website made with React + Django Rest Api
+
+to be filled after launching in prod
